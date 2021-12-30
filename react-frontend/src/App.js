@@ -1,6 +1,9 @@
 import './App.css';
 import {React, useEffect, useState} from 'react';
 import axios from 'axios';
+import {Meme} from './Meme/Meme';
+import {MemeGenerated} from './MemeGenerated/MemeGenerated';
+import {Route, Routes} from 'react-router-dom';
 
 function App() {
   const [meme, setMeme] = useState('');
@@ -37,8 +40,12 @@ function App() {
           <button type="submit">Send Meme</button>
         </form>
       <div>
-        <h1>Memes</h1>
+        <h1>Meme Generator</h1>
         {home}
+        <Routes>
+          <Route exact path='/' element={<Meme/>}/>    
+          <Route exact path='/generated' element={<MemeGenerated/>}/>
+        </Routes>
       </div>
     </div>
   );
