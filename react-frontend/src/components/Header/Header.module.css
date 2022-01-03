@@ -1,0 +1,28 @@
+.navBar {
+    overflow: hidden;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+}
+
+.navElementRight {
+    float: right;
+    border-left: 1px solid #ccc;
+}
+
+.navElementLeft {
+    float: left;
+    border-right: 1px solid #ccc;
+}
+
+.navElementRight, .navElementLeft {
+    padding: 16px;
+    border-radius: 4px;
+}
+
+.navLink {
+    text-decoration: none;
+    display: block;
+}
