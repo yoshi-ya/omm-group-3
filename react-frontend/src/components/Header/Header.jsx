@@ -1,8 +1,9 @@
 import React from 'react';
 import {Route, Routes, BrowserRouter as Router, Link} from "react-router-dom";
-import Home from "../Home/Home";
+import Gallery from "../Gallery/Gallery";
 import styles from "./Header.module.css"
 import AuthenticationButton from "../AuthenticationButton/AuthenticationButton";
+import Editor from "../Editor/Editor";
 
 
 const Header = () => {
@@ -10,7 +11,10 @@ const Header = () => {
             <div>
                 <ul className={styles.navBar}>
                     <li className={styles.navElementLeft}>
-                        <Link className={styles.navLink} to="/">Home</Link>
+                        <Link className={styles.navLink} to="/">Gallery</Link>
+                    </li>
+                    <li className={styles.navElementLeft}>
+                        <Link className={styles.navLink} to="/editor">Editor</Link>
                     </li>
                     <li className={styles.navElementRight}>
                         <Link className={styles.navLink} to="/login">
@@ -19,7 +23,10 @@ const Header = () => {
                     </li>
                 </ul>
                 <Routes>
-                    <Route path="/" element={<Home/>}/>
+                    <Route path="/" element={<Gallery/>}/>
+                </Routes>
+                <Routes>
+                    <Route path="/editor" element={<Editor/>}/>
                 </Routes>
             </div>
         </Router>);

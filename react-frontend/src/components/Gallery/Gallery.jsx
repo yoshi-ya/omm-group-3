@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Home = () => {
+const Gallery = () => {
     return (<div>
         Some Home-View!
         </div>);
 };
 
-export default Home;
+export default Gallery;
