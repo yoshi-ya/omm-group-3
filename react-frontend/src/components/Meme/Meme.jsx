@@ -84,10 +84,10 @@ export const Meme = () => {
                     <input onChange={(e) => updateTexts(e,index)} key={index}/>
                 ))
             }
-        <div>
+        <div className={styles.meme}>
             <img alt='meme' src={memes[memeIndex].url}/>
-            <h2 className="top">{texts[0]}</h2>
-            <h2 className="bottom">{texts[1]}</h2>
+            <h2 className={styles.top}>{texts[0]}</h2>
+            <h2 className={styles.bottom}>{texts[1]}</h2>
         </div>
         </div>
         
