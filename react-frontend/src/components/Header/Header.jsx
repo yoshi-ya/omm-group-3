@@ -5,6 +5,8 @@ import styles from "./Header.module.css"
 import AuthenticationButton from "../AuthenticationButton/AuthenticationButton";
 import Editor from "../Editor/Editor";
 import Profile from "../Profile/Profile";
+import {Meme} from '../Meme/Meme';
+import { MemeGenerated } from '../MemeGenerated/MemeGenerated'
 
 
 const Header = () => {
@@ -28,11 +30,9 @@ const Header = () => {
                 </ul>
                 <Routes>
                     <Route path="/" element={<Gallery/>}/>
-                </Routes>
-                <Routes>
-                    <Route path="/editor" element={<Editor/>}/>
-                </Routes>
-                <Routes>
+                    <Route path="editor" element={<Editor/>}>
+                        <Route path="generated" element={<MemeGenerated/>}/>
+                    </Route>
                     <Route path="/profile" element={<Profile/>}/>
                 </Routes>
             </div>

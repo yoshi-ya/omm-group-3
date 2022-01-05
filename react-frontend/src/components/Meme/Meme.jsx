@@ -38,7 +38,7 @@ export const Meme = () => {
             body: formData
         }).then(res => {
             res.json().then(res =>{
-                navigate(`/generated?url=${res.data.url}`);
+                navigate(`/editor/generated?url=${res.data.url}`);
             })
         })
     }
