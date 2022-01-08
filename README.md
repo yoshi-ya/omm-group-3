@@ -19,7 +19,7 @@ npm start
 #### Damit man nicht immer bei jeder Änderung am Server restarten muss, kann man auch folgendes ausführen:
 
 ````shell
-npm start-dev
+npm run start-dev
 ````
 
 #### Das führt das dann einfach `nodemon server.js` aus.
