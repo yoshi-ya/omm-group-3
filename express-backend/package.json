@@ -11,7 +11,8 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
-    "moment": "^2.29.1"
+    "moment": "^2.29.1",
+    "mongoose": "^6.1.5"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
