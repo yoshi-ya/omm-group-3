@@ -5,7 +5,7 @@ const logger = require('./logger.js');
 const connectToDB = require('./db')
 
 const app = express();
-const port = 5001 || process.env.PORT
+const port = process.env.PORT || 5001
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
