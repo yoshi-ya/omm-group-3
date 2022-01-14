@@ -63,4 +63,33 @@ module.exports = app => {
                 res.send(memes)
             }, err => console.error(err))
     })
+
+    /**
+     * deletes a Meme from the database
+     * URL-parameter meme: the id of the meme to be deleted
+     */
+    app.delete("/deleteMeme", (req, res) => {
+        Meme
+            .findOne({_id: req.query.meme})
+            .deleteOne()
+            .then(result => {
+                res.send(result)
+            })
+            .catch(err => console.log(err))
+    })
+
+    /**
+     * deletes a Comment from the database
+     * URL-parameter comment: the id of the comment to be deleted
+     */
+    app.delete("/deleteComment", (req, res) => {
+        Comment
+            .findOne({comment: req.query.comment})
+            .deleteOne()
+            .then(result => {
+                res.send(result)
+            })
+            .catch(err => console.log(err))
+    })
+
 }
