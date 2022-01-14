@@ -5,7 +5,7 @@ const Meme = require("./schemas/memeSchema");
 module.exports = app => {
 
     /**
-     * adds a Meme
+     * adds a Meme to the database
      */
     app.post("/addMeme", cors(), (req, res) => {
         let meme = new Meme({
@@ -25,7 +25,7 @@ module.exports = app => {
     })
 
     /**
-     * adds a comment
+     * adds a comment to the database
      */
     app.post("/addComment", cors(), (req, res) => {
         let comment = new Comment({
@@ -35,13 +35,13 @@ module.exports = app => {
             date: req.body.date
         })
         comment.save()
-            .then(() => res.send("Saved meme!"))
+            .then(() => res.send("Saved comment!"))
             .catch(err => console.error(err))
     })
 
     /**
-     * fetches all comments for a meme
-     * URL-parameter: meme
+     * fetches all comments for a meme from the database
+     * URL-parameter meme: the ID of the Meme associated with the comment
      */
     app.get("/allComments", cors(), (req, res) => {
         Comment.find({meme: req.query.meme}).then(comments => {
@@ -50,14 +50,17 @@ module.exports = app => {
     })
 
     /**
-     * fetches all Memes
-     * call with URL-parameter author to get user-specific memes
-     * call without URL-parameter to get all memes
+     * fetches Memes from the database
+     * optional URL-parameter author: the respective author of the memes to fetch
+     * provide an author to get user-specific memes,
+     * otherwise retrieve all memes from the database
      */
     app.get("/allMemes", cors(), (req, res) => {
         let dbFilter = req.query.author ? {author: req.query.author} : {}
-        Meme.find(dbFilter).then(memes => {
-            res.send(memes)
-        }, err => console.error(err))
+        Meme
+            .find(dbFilter)
+            .then(memes => {
+                res.send(memes)
+            }, err => console.error(err))
     })
 }
