@@ -9,7 +9,7 @@ let meme = new schema({
     text2: String,
     text3: String,
     text4: String,
-    upVotes: Number,
+    votes: Number,
     private: Boolean,
     color: String,
     size: Number,
