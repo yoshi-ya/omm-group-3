@@ -6,6 +6,7 @@ import {Route, Routes, BrowserRouter as Router, Link} from "react-router-dom";
 import styles from '../Meme/styles.module.css';
 import {Outlet} from 'react-router-dom'
 import { MemeGenerated } from '../MemeGenerated/MemeGenerated'
+import DrawingCanvas from './DrawingCanvas';
 
 
 const Editor = () => {
@@ -13,6 +14,7 @@ const Editor = () => {
 
     const [imagePicked, setImagePicked] = useState();
     const [imageURL, setImageURL] = useState("");
+    const [showCanvas, setShowCanvas] = useState(false);
 
     if (!isAuthenticated) {
         return (
@@ -51,8 +53,14 @@ const Editor = () => {
         setImageURL(e.target.value);
     }
 
+    const openCanvas = () =>{
+        setShowCanvas(true);
+    }
+
     return (<div>
         <div>
+            <button className={styles.upload} onClick={openCanvas}>Open drawing canvas</button>
+            {showCanvas ? <DrawingCanvas/> : null}
             <p>Upload template file from your desktop:</p>
             <form onSubmit={handleImageUpload}>
                 <input type="file" name="photo" onChange={handleImagePicked}/>
