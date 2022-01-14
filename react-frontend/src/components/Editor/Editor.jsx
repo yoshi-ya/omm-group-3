@@ -1,11 +1,18 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react'
+import axios from 'axios';
 import {useAuth0} from "@auth0/auth0-react";
 import {Meme} from '../Meme/Meme';
+import {Route, Routes, BrowserRouter as Router, Link} from "react-router-dom";
+import styles from '../Meme/styles.module.css';
+import {Outlet} from 'react-router-dom'
 import { MemeGenerated } from '../MemeGenerated/MemeGenerated'
-import {Routes, Route, Outlet} from 'react-router-dom'
+
 
 const Editor = () => {
     const {isAuthenticated} = useAuth0();
+
+    const [imagePicked, setImagePicked] = useState();
+    const [imageURL, setImageURL] = useState("");
 
     if (!isAuthenticated) {
         return (
@@ -15,12 +22,53 @@ const Editor = () => {
         )
     }
 
+    const handleImagePicked = (event) =>{
+        setImagePicked(event.target.files[0]);
+    }
+
+    const handleImageUpload = (event) =>{
+        console.log(imagePicked);
+        event.preventDefault();
+
+        const formData = new FormData();
+        formData.append('photo', imagePicked);
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        }
+
+        axios.post('http://localhost:5001/user/upload', formData, config)
+            .then((res) =>{
+                alert('Image uploaded successfully');
+        })
+            .catch((err) =>{
+            console.log('err',err);
+        });
+    }
+
+    const updateURL = (e) =>{ 
+        setImageURL(e.target.value);
+    }
+
     return (<div>
-        This is the Editor-View.
+        <div>
+            <p>Upload template file from your desktop:</p>
+            <form onSubmit={handleImageUpload}>
+                <input type="file" name="photo" onChange={handleImagePicked}/>
+                <button type="submit" className={styles.upload} >Upload</button>
+            </form>
+        </div>
+        <div>
+            <input type="url" onChange={(e) => updateURL(e)} placeholder="https://i.insider.com/5485631e69bedda63303ed51"/>
+            <button className={styles.upload} >Use image URL as template</button>
+            <img src={imageURL} />
+        </div>
         <Routes>
-        <Route exact path='/' element={<Meme/>}/>
+            <Route exact path='/' element={<Meme/>}/>
         </Routes>
         <Outlet/>
+        
     </div>);
 };
 

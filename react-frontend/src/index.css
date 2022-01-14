@@ -16,8 +16,8 @@ code {
 
 button {
   cursor: pointer;
-  display: block;
-  width: 350px;
+  display: flex;
+  width: 200px;
   padding: 10px;
   margin: auto;
   margin-bottom: 15px;
@@ -30,13 +30,13 @@ img {
   max-height: 500px;
   margin: auto;
   margin-top: 50px;
-  display: block;
+  display: flex;
   box-shadow: 0px 0px 10px black;
 }
 
 input {
   box-sizing: border-box;
-  display: block;
+  display: flex;
   padding: 10px;
   width: 350px;
   margin: auto;

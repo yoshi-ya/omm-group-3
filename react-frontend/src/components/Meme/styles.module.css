@@ -7,10 +7,19 @@
 .generate {
   background-color: #8a40eb;
 }
+
+.upload {
+  position: relative;
+  background-color: #8a40eb;
+}
 .meme {
   position: relative;
   width: 59%;
   margin: auto;
+}
+
+p {
+  text-align: center;
 }
 
 .meme > img {
