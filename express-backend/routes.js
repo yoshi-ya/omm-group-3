@@ -10,8 +10,7 @@ module.exports = app => {
     app.post("/addMeme", cors(), (req, res) => {
         let meme = new Meme({
             author: req.body.author,
-            date: req.body.date,
-            name: req.body.name,
+            date: new Date().toISOString(),
             template: req.body.template,
             text1: req.body.text1,
             text2: req.body.text2,
@@ -32,7 +31,7 @@ module.exports = app => {
             meme: req.body.meme,
             author: req.body.author,
             content: req.body.content,
-            date: req.body.date
+            date: new Date().toISOString()
         })
         comment.save()
             .then(() => res.send("Saved comment!"))
@@ -53,10 +52,10 @@ module.exports = app => {
      * fetches Memes from the database
      * optional URL-parameter author: the respective author of the memes to fetch
      * provide an author to get user-specific memes,
-     * otherwise retrieve all memes from the database
+     * otherwise retrieve all memes from the database, that are not created via API call
      */
     app.get("/allMemes", cors(), (req, res) => {
-        let dbFilter = req.query.author ? {author: req.query.author} : {}
+        let dbFilter = req.query.author ? {author: req.query.author} : {author: {$not: /^api$/}}
         Meme
             .find(dbFilter)
             .then(memes => {
