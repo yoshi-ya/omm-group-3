@@ -1,2 +1,5 @@
 node_modules
-
+.idea/
+express-backend/package-lock.json
+react-frontend/build/
+react-frontend/package-lock.json
