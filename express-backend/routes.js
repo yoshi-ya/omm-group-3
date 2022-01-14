@@ -91,4 +91,36 @@ module.exports = app => {
             .catch(err => console.log(err))
     })
 
+    /**
+     * ISSUE #6: API-Meme Creation
+     * given a JSON payload with a list of meme-data, a list of URLs to respective SingleViews
+     * is returned
+     */
+    app.post("/createMeme", async (req, res) => {
+        let listOfURLs = []
+        for (let memeData of req.body.data) {
+            let meme = new Meme({
+                author: "api",
+                date: new Date().toISOString(),
+                template: memeData.template,
+                text1: memeData.text1,
+                text2: memeData.text2,
+                text3: memeData.text3,
+                text4: memeData.text4,
+                color: memeData.color,
+                size: memeData.size,
+                transparency: memeData.transparency,
+                font: memeData.font
+            })
+
+            await meme
+                .save()
+                .catch(err => console.error(err))
+
+            // replace path to singleView
+            listOfURLs.push(`${req.protocol}://${req.get('host')}${req.originalUrl}/singleView/${meme._id}`)
+        }
+
+        res.send({data: listOfURLs})
+    })
 }
