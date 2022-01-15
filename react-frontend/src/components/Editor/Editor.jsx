@@ -7,14 +7,18 @@ import styles from '../Meme/styles.module.css';
 import {Outlet} from 'react-router-dom'
 import { MemeGenerated } from '../MemeGenerated/MemeGenerated'
 import DrawingCanvas from './DrawingCanvas';
+import PickFromDesktop from './PickFromDesktop';
+import PickFromURL from './PickFromURL';
 
 
 const Editor = () => {
     const {isAuthenticated} = useAuth0();
 
-    const [imagePicked, setImagePicked] = useState();
-    const [imageURL, setImageURL] = useState("");
     const [showCanvas, setShowCanvas] = useState(false);
+    const [showPickFromDesktop, setShowPickFromDesktop] = useState(false);
+    const [showPickFromURL, setShowPickFromURL] = useState(false);
+    const [showRandomImg, setShowRandomImg] = useState(false);
+
 
     if (!isAuthenticated) {
         return (
@@ -23,59 +27,42 @@ const Editor = () => {
             </div>
         )
     }
-
-    const handleImagePicked = (event) =>{
-        setImagePicked(event.target.files[0]);
-    }
-
-    const handleImageUpload = (event) =>{
-        console.log(imagePicked);
-        event.preventDefault();
-
-        const formData = new FormData();
-        formData.append('photo', imagePicked);
-        const config = {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            }
-        }
-
-        axios.post('http://localhost:5001/user/upload', formData, config)
-            .then((res) =>{
-                alert('Image uploaded successfully');
-        })
-            .catch((err) =>{
-            console.log('err',err);
-        });
-    }
-
-    const updateURL = (e) =>{ 
-        setImageURL(e.target.value);
-    }
+   
 
     const openCanvas = () =>{
         setShowCanvas(true);
+    }
+
+    const openPickFromDesktop = () =>{
+        setShowPickFromDesktop(true);
+    }
+
+    const openPickFromURL = () =>{
+        setShowPickFromURL(true);
+    }
+
+    const openRandomIMG = () =>{
+        setShowRandomImg(true);
     }
 
     return (<div>
         <div>
             <button className={styles.upload} onClick={openCanvas}>Open drawing canvas</button>
             {showCanvas ? <DrawingCanvas/> : null}
-            <p>Upload template file from your desktop:</p>
-            <form onSubmit={handleImageUpload}>
-                <input type="file" name="photo" onChange={handleImagePicked}/>
-                <button type="submit" className={styles.upload} >Upload</button>
-            </form>
-        </div>
-        <div>
-            <input type="url" onChange={(e) => updateURL(e)} placeholder="https://i.insider.com/5485631e69bedda63303ed51"/>
-            <button className={styles.upload} >Use image URL as template</button>
-            <img src={imageURL} />
-        </div>
-        <Routes>
+            <button className={styles.upload} onClick={openPickFromDesktop}>Pick image from Desktop</button>
+            {showPickFromDesktop ? <PickFromDesktop/> : null}
+            <button className={styles.upload} onClick={openPickFromURL}>Pick image from URL</button>
+            {showPickFromURL ? <PickFromURL/> : null}
+            <button className={styles.upload} onClick={openRandomIMG}>See random images</button>
+            {showRandomImg ? 
+            <Routes>
             <Route exact path='/' element={<Meme/>}/>
-        </Routes>
-        <Outlet/>
+             </Routes>
+            : null}
+            <Outlet/>
+        </div>
+        
+        
         
     </div>);
 };

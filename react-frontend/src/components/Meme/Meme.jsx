@@ -1,12 +1,17 @@
 import React, {useEffect, useState} from 'react'
 import styles from './styles.module.css';
 import { useNavigate } from 'react-router-dom';
+import Movable from '../Editor/TextBoxes/movable';
 
 export const Meme = () => {
 
     const [memes, setMemes] = useState([]);
     const [memeIndex, setMemeIndex] = useState(0);
     const [texts, setTexts] = useState([]);
+
+    const moveRef = React.useRef(null);
+    const [style, setStyle] = React.useState("");
+
 
     const navigate = useNavigate();
 
@@ -86,7 +91,13 @@ export const Meme = () => {
             }
         <div className={styles.meme}>
             <img alt='meme' src={memes[memeIndex].url}/>
-            <h2 className={styles.top}>{texts[0]}</h2>
+            <h2
+            ref={moveRef}
+            style={{transform:style}}
+            className={styles.top}
+            >{texts[0]}
+            </h2>
+            <Movable moveRef={moveRef} setStyle={setStyle}/>
             <h2 className={styles.bottom}>{texts[1]}</h2>
         </div>
         </div>

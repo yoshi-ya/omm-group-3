@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react'
+import styles from '../Meme/styles.module.css';
 
 function DrawingCanvas() {
     const canvasRef = useRef(null);
@@ -44,13 +45,24 @@ function DrawingCanvas() {
 
     }
 
+    const useDrawingAsMeme = () =>{
+        var canvas = document.getElementById("currentCanvas");
+        var image = new Image();
+        image.src = canvas.toDataURL();
+        console.log(image.src);
+    }
+
     return(
+        <div>
         <canvas
+            id="currentCanvas"
             onMouseDown={startDrawing}
             onMouseUp={finishDrawing}
             onMouseMove={draw}
             ref={canvasRef}
         />
+        <button onClick={useDrawingAsMeme} className={styles.use}>Use Drawing as Meme</button>
+        </div>
     
         );
 }
