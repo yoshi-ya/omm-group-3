@@ -4,8 +4,14 @@ const schema = mongoose.Schema
 let meme = new schema({
     author: String,
     date: Date,
-    template: String,
-    text1: String,
+    template: {
+        type: Buffer,
+        required: true
+    },
+    text1: {
+        type: String,
+        required: true
+    },
     text2: String,
     text3: String,
     text4: String,
