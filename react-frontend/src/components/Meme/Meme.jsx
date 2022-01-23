@@ -98,10 +98,13 @@ export const Meme = () => {
             >{texts[0]}
             </h2>
             <Movable moveRef={moveRef} setStyle={setStyle}/>
-            <h2 className={styles.bottom}>{texts[1]}</h2>
+            <h2 
+            ref={moveRef}
+            style={{transform:style}}
+            className={styles.bottom}>{texts[1]}</h2>
+            <Movable moveRef={moveRef} setStyle={setStyle}/>
         </div>
         </div>
-        
          : <></>
     );
 }
