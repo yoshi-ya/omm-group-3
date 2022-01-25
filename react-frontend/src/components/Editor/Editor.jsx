@@ -46,19 +46,19 @@ const Editor = () => {
     }
 
     return (<div>
-        <div>
+        <div>            
+            <Link to="drawing">
             <button className={styles.upload} onClick={openCanvas}>Open drawing canvas</button>
-            {showCanvas ? <DrawingCanvas/> : null}
+            </Link>
+            <Link to="pickfromDesktop">
             <button className={styles.upload} onClick={openPickFromDesktop}>Pick image from Desktop</button>
-            {showPickFromDesktop ? <PickFromDesktop/> : null}
-            <button className={styles.upload} onClick={openPickFromURL}>Pick image from URL</button>
-            {showPickFromURL ? <PickFromURL/> : null}
+            </Link>
+            <Link to="pickfromURL">
+                <button className={styles.upload} onClick={openPickFromURL}>Pick image from URL</button>
+            </Link> 
+            <Link to="random">
             <button className={styles.upload} onClick={openRandomIMG}>See random images</button>
-            {showRandomImg ? 
-            <Routes>
-            <Route exact path='/' element={<Meme/>}/>
-             </Routes>
-            : null}
+            </Link>
             <Outlet/>
         </div>
         

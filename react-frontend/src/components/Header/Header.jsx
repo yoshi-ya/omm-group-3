@@ -7,6 +7,9 @@ import Editor from "../Editor/Editor";
 import Profile from "../Profile/Profile";
 import {Meme} from '../Meme/Meme';
 import { MemeGenerated } from '../MemeGenerated/MemeGenerated'
+import PickFromURL from '../Editor/PickFromURL';
+import PickFromDesktop from '../Editor/PickFromDesktop';
+import DrawingCanvas from '../Editor/DrawingCanvas';
 
 
 const Header = () => {
@@ -30,8 +33,13 @@ const Header = () => {
                 </ul>
                 <Routes>
                     <Route path="/" element={<Gallery/>}/>
-                    <Route path="editor" element={<Editor/>}>
-                        <Route path="generated" element={<MemeGenerated/>}/>
+                    <Route exact path="editor" element={<Editor/>}>
+                        <Route exact path="generated" element={<MemeGenerated/>}/>
+                        <Route exact path="drawing" element={<DrawingCanvas/>}/>
+                        <Route exact path="pickfromURL" element={<PickFromURL/>}/>
+                        <Route exact path="pickfromDesktop" element={<PickFromDesktop/>}/>
+                        <Route exact path="random" element={<Meme/>}/>
+                        
                     </Route>
                     <Route path="/profile" element={<Profile/>}/>
                 </Routes>

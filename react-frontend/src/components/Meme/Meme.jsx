@@ -8,6 +8,7 @@ export const Meme = () => {
     const [memes, setMemes] = useState([]);
     const [memeIndex, setMemeIndex] = useState(0);
     const [texts, setTexts] = useState([]);
+      
 
     const moveRef = React.useRef(null);
     const [style, setStyle] = React.useState("");
@@ -30,13 +31,23 @@ export const Meme = () => {
     }
 
     const generateMeme = () => {
+        const posText1 = document.getElementById("text1");
+        const xpos = posText1.getBoundingClientRect().x;
+        const ypos = posText1.getBoundingClientRect().y;
+        console.log(posText1.getBoundingClientRect())
         const currMeme = memes[memeIndex];
         const formData = new FormData();
         //ogw95766@boofx.com (10min mail)
         formData.append('username','ommwise');
         formData.append('password','omm123456');
         formData.append('template_id', currMeme.id);
-        texts.forEach((c,index) => formData.append(`boxes[${index}][text]`, c))
+        
+        texts.forEach((c,index) =>{ formData.append(`boxes[${index}][text]`, c);
+        })
+         formData.append(`boxes[0][x],`, currMeme.width/3);
+         formData.append(`boxes[0][y]`, 10);
+         formData.append(`boxes[0][width],`, 100);
+         formData.append(`boxes[0][height]`, 50);
 
         fetch('https://api.imgflip.com/caption_image', {
             method: 'POST',
@@ -90,19 +101,22 @@ export const Meme = () => {
                 ))
             }
         <div className={styles.meme}>
-            <img alt='meme' src={memes[memeIndex].url}/>
+            <img alt={memes[memeIndex].name} src={memes[memeIndex].url}/>
             <h2
             ref={moveRef}
             style={{transform:style}}
             className={styles.top}
+            id="text1"
             >{texts[0]}
             </h2>
             <Movable moveRef={moveRef} setStyle={setStyle}/>
             <h2 
             ref={moveRef}
             style={{transform:style}}
-            className={styles.bottom}>{texts[1]}</h2>
-            <Movable moveRef={moveRef} setStyle={setStyle}/>
+            className={styles.bottom}
+            id="text2"
+            >{texts[1]}</h2>
+            
         </div>
         </div>
          : <></>

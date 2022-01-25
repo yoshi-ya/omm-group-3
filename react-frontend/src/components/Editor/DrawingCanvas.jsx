@@ -6,6 +6,9 @@ function DrawingCanvas() {
     const contextRef = useRef(null);
 
     const [isDrawing, setIsDrawing] = useState(false);
+    const [showInputFields, setShowInputFields] = useState(false);
+    const [texts, setTexts] = useState([]);
+    const [template, setTemplate] = useState([]);
 
     useEffect(() =>{
         const canvas = canvasRef.current;
@@ -47,9 +50,14 @@ function DrawingCanvas() {
 
     const useDrawingAsMeme = () =>{
         var canvas = document.getElementById("currentCanvas");
-        var image = new Image();
-        image.src = canvas.toDataURL();
-        console.log(image.src);
+        var img = canvas.toDataURL("image/png");
+        document.write('<img style="width:600px" src="'+img+'"/>');
+        if(img!= null){
+            setShowInputFields(true);
+        }
+       // var image = new Image();
+       // image.src = canvas.toDataURL();
+        //console.log(image.src);
     }
 
     return(
@@ -61,7 +69,10 @@ function DrawingCanvas() {
             onMouseMove={draw}
             ref={canvasRef}
         />
+        <input></input>
+        <input></input>
         <button onClick={useDrawingAsMeme} className={styles.use}>Use Drawing as Meme</button>
+
         </div>
     
         );
