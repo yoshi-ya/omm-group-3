@@ -2,12 +2,14 @@ import React, {useEffect, useState} from 'react'
 import styles from './styles.module.css';
 import { useNavigate } from 'react-router-dom';
 import Movable from '../Editor/TextBoxes/movable';
+import axios from 'axios';
 
 export const Meme = () => {
 
     const [memes, setMemes] = useState([]);
     const [memeIndex, setMemeIndex] = useState(0);
     const [texts, setTexts] = useState([]);
+    const [template, setTemplate] = useState("");
       
 
     const moveRef = React.useRef(null);
@@ -54,10 +56,28 @@ export const Meme = () => {
             body: formData
         }).then(res => {
             res.json().then(res =>{
+                const url = JSON.stringify(res.data.url);
+                localStorage.setItem( 'MemeURL', res.data.url ); 
+                handleNewMeme();
                 navigate(`/editor/generated?url=${res.data.url}`);
             })
         })
     }
+
+    /**
+     * sends the canvas meme to the backend
+     * @param {event} param0 
+     */
+     const handleNewMeme = () =>{
+       // event.preventDefault();
+       const memeURL = localStorage.getItem('MemeURL');
+        const meme = {
+            template: memeURL,
+            texts: texts
+        }
+        axios.post('http://localhost:5001/newMeme',meme).then(res=>{ //send POST-request to /newMeme
+            console.log(res.data)
+    })}
 
     const shuffleMemes = (array) => {
         for (let i = array.length - 1; i > 0; i--) {
