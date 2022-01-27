@@ -10,6 +10,7 @@ import { MemeGenerated } from '../MemeGenerated/MemeGenerated'
 import PickFromURL from '../Editor/PickFromURL';
 import PickFromDesktop from '../Editor/PickFromDesktop';
 import DrawingCanvas from '../Editor/DrawingCanvas';
+import TestMemes from "../TestMemes/TestMemes";
 
 
 const Header = () => {
@@ -39,7 +40,7 @@ const Header = () => {
                         <Route exact path="pickfromURL" element={<PickFromURL/>}/>
                         <Route exact path="pickfromDesktop" element={<PickFromDesktop/>}/>
                         <Route exact path="random" element={<Meme/>}/>
-                        
+
                     </Route>
                     <Route path="/profile" element={<Profile/>}/>
                 </Routes>

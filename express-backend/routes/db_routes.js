@@ -1,6 +1,6 @@
 const cors = require("cors");
-const Comment = require("./schemas/commentSchema");
-const Meme = require("./schemas/memeSchema");
+const Comment = require("../schemas/commentSchema");
+const Meme = require("../schemas/memeSchema");
 
 
 

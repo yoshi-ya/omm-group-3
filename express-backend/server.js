@@ -20,7 +20,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger)
-require('./routes.js')(app)
+require('./routes/db_routes.js')(app)
+require('./routes/upload_routes.js')(app)
 connectToDB()
 
 app.listen(port, () => console.log(`Server is running on ${port}`))
