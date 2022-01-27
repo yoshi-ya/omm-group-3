@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react'
-import styles from '../Meme/styles.module.css';
+import styles from '../Editor/Editor.module.css';
 import axios from 'axios';
 
 function DrawingCanvas() {
@@ -99,6 +99,13 @@ function DrawingCanvas() {
 
     return(
         <div>
+            {
+                texts.map((c, index) => (
+                    <input onChange={(e) => updateTexts(e,index)} key={index}/>
+                ))
+            }
+        <button onClick={useDrawingAsMeme} className={styles.use}>Use Drawing as Meme</button>
+
         <canvas
             id="currentCanvas"
             onMouseDown={startDrawing}
@@ -106,13 +113,7 @@ function DrawingCanvas() {
             onMouseMove={draw}
             ref={canvasRef}
         />
-        {
-                texts.map((c, index) => (
-                    <input onChange={(e) => updateTexts(e,index)} key={index}/>
-                ))
-            }
-        <button onClick={useDrawingAsMeme} className={styles.use}>Use Drawing as Meme</button>
-
+        
         </div>
     
         );

@@ -3,7 +3,7 @@ import axios from 'axios';
 import {useAuth0} from "@auth0/auth0-react";
 import {Meme} from '../Meme/Meme';
 import {Route, Routes, BrowserRouter as Router, Link} from "react-router-dom";
-import styles from '../Meme/styles.module.css';
+import styles from '../Editor/Editor.module.css';
 import {Outlet} from 'react-router-dom'
 import { MemeGenerated } from '../MemeGenerated/MemeGenerated'
 import DrawingCanvas from './DrawingCanvas';
@@ -46,7 +46,7 @@ const Editor = () => {
     }
 
     return (<div>
-        <div>            
+        <div className={styles.container}>            
             <Link to="drawing">
             <button className={styles.upload} onClick={openCanvas}>Open drawing canvas</button>
             </Link>

@@ -1,4 +1,7 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   margin-top: 50px;
 }
 .skip {
@@ -20,6 +23,11 @@
   position: relative;
   width: 59%;
   margin: auto;
+}
+.midcontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 p {

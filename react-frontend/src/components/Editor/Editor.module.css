@@ -1,0 +1,61 @@
+button {
+  cursor: pointer;
+  display: flex;
+  width: 200px;
+  padding: 10px;
+  margin: auto;
+  margin-bottom: 15px;
+  color: white;
+  border: none;
+  border-radius: 3px;
+}
+img {
+  max-width: 500px;
+  max-height: 500px;
+  margin: auto;
+  margin-top: 50px;
+  display: flex;
+  box-shadow: 0px 0px 10px black;
+}
+
+input {
+  box-sizing: border-box;
+  display: flex;
+  padding: 10px;
+  width: 350px;
+  margin: auto;
+  margin-bottom: 15px;
+}
+h1 {
+  text-align: center;
+  font-size: 50px;
+  text-shadow: 0px 0px 5px black;
+}
+
+canvas {
+  border: 2px solid black;
+}
+
+.container {
+  margin-top: 50px;
+  padding: 40px;
+}
+
+.midcontainercanv {
+  float: inline-start;
+}
+
+.skip {
+  background-color: #d2f04e;
+}
+.generate {
+  background-color: #8a40eb;
+}
+
+.use {
+  background-color: #40eb4e;
+}
+
+.upload {
+  background-color: #8a40eb;
+}

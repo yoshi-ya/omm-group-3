@@ -4,9 +4,24 @@ import styles from '../Meme/styles.module.css';
 
 const PickFromDesktop = () =>{
     const [imagePicked, setImagePicked] = useState();
+    const [texts, setTexts] = useState(['','']);
+
 
     const handleImagePicked = (event) =>{
         setImagePicked(event.target.files[0]);
+    }
+
+    const updateTexts = (e, index) =>{
+        const text = e.target.value || '';
+        setTexts(
+            texts.map((c, i) =>{
+                if(index === i){
+                    return text
+                }else{
+                    return c;
+                }
+            })
+        )
     }
 
     const handleImageUpload = (event) =>{
@@ -32,10 +47,16 @@ const PickFromDesktop = () =>{
 
     return(
         <div>
+            {
+                texts.map((c, index) => (
+                    <input onChange={(e) => updateTexts(e,index)} key={index}/>
+                ))
+            }
             <form onSubmit={handleImageUpload}>
                 <input type="file" name="photo" onChange={handleImagePicked}/>
                 <button type="submit" className={styles.use} >Upload</button>
             </form>
+            
         </div>
         )
 }

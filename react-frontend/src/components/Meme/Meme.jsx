@@ -8,7 +8,11 @@ export const Meme = () => {
 
     const [memes, setMemes] = useState([]);
     const [memeIndex, setMemeIndex] = useState(0);
-    const [texts, setTexts] = useState([]);
+    const [texts, setTexts] = useState(() =>{
+        const saved = localStorage.getItem('Captions');
+        const iniVal = JSON.parse(saved);
+        return iniVal || [];
+    });
     const [template, setTemplate] = useState("");
       
 
@@ -18,6 +22,10 @@ export const Meme = () => {
 
     const navigate = useNavigate();
 
+    useEffect (() =>{
+         localStorage.setItem('Captions',JSON.stringify(texts)); 
+       }
+    ,[texts])
 
     const updateTexts = (e, index) =>{
         const text = e.target.value || '';
@@ -112,7 +120,7 @@ export const Meme = () => {
 
     return(
         memes.length ? 
-        <div className={styles.container}>
+        <div>
             <button onClick={generateMeme} className={styles.generate}>Generate</button>
             <button onClick={() => setMemeIndex(memeIndex + 1)} className={styles.skip}>Skip</button>
             {
