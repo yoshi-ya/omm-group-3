@@ -154,4 +154,13 @@ module.exports = app => {
                 res.send(result)
             }, err => console.error(err))
     })
+
+    app.get("/fetchMeme", cors(), (req, res) => {
+        Meme
+            .findOne({_id: req.query.id})
+            .then(result => {
+                res.send(result)
+            })
+            .catch(error => console.log(error))
+    })
 }
