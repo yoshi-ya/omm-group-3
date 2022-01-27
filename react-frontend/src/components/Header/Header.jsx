@@ -7,6 +7,7 @@ import Editor from "../Editor/Editor";
 import Profile from "../Profile/Profile";
 import {MemeGenerated} from '../MemeGenerated/MemeGenerated'
 import TestMemes from "../TestMemes/TestMemes";
+import SingleView from "../SingleView/SingleView";
 
 
 const Header = () => {
@@ -33,6 +34,7 @@ const Header = () => {
                 <Route path="/editor" element={<Editor/>}/>
                 <Route path="/generated" element={<MemeGenerated/>}/>
                 <Route path="/profile" element={<Profile/>}/>
+                <Route path="/view/:id" element={<SingleView/>}/>
                 <Route path="/test" element={<TestMemes/>}/>
             </Routes>
         </div>
