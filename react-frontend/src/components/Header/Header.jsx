@@ -33,7 +33,7 @@ const Header = () => {
                     <Route path="editor" element={<Editor/>}>
                         <Route path="generated" element={<MemeGenerated/>}/>
                     </Route>
-                    <Route path="/profile" element={<Profile/>}/>
+                    <Route path="/profile/*" element={<Profile/>}/> 
                 </Routes>
             </div>
         </Router>);

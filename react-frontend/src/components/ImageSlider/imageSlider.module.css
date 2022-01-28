@@ -1,0 +1,130 @@
+.slider {
+    position: relative; 
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    margin: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+/* Vertical inner container with images and dots */
+.sliderInner {
+    position: relative;
+    display: flex;
+    flex-direction: column;    
+}
+
+/* Horizontal container with one slide for each image */
+.slides {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Contains image */
+.slide {
+    opacity: 0;
+    transition-duration: 0.5s ease;
+    position: absolute; 
+    margin: 0px 10px; 
+}
+
+.slideActive {
+    opacity: 1;
+    transition-duration: 0.5s;
+    margin: 0px 10px; 
+}
+
+/* Images of the slider - different classes for different screensizes */
+.imageSmall {
+    height: 210px; /* without fix height pictures and arrows of the slider jump up and down */
+    background-size: cover;
+    border-radius: 5px;
+    margin-bottom: 40px;  
+}
+.imageMedium {
+    height: 160px;
+    background-size: cover;
+    border-radius: 5px;
+    margin-bottom: 40px;  
+}
+.imageLarge {
+    height: 210px;
+    background-size: cover;
+    border-radius: 5px;
+    margin-bottom: 40px;  
+}
+
+/* Image in the middle with border */
+.imageMiddleMedium {
+    height: 180px;
+    background-size: cover;
+    border-radius: 5px;
+    outline-style: solid;
+    outline-width: 6px;
+    outline-color: #565656;
+    margin-bottom: 40px;
+}
+.imageMiddleLarge {
+    height: 230px;
+    background-size: cover;
+    border-radius: 5px;
+    outline-style: solid;
+    outline-width: 6px;
+    outline-color: #565656;
+    margin-bottom: 40px;
+}
+
+.rightArrow {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    font-size: 2.6rem;
+    color: #343434;
+    z-index: 10;
+    cursor: pointer;
+    user-select: none;
+}
+
+.leftArrow {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    font-size: 2.6rem;
+    color: #343434;
+    z-index: 10;
+    cursor: pointer;
+    user-select: none;
+}
+
+
+
+/* --- Dots ----------------------------------- */
+
+.containerDots {
+    bottom: 0px;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+    display: flex;
+  }
+
+  .dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 3px solid #343434;
+    margin: 0 5px;
+    background: #343434;
+  }
+ 
+  .dotActive {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 3px solid #343434;
+    margin: 0 5px;
+    background: whitesmoke;
+  }
