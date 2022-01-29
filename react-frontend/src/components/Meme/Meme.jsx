@@ -1,15 +1,31 @@
 import React, {useEffect, useState} from 'react'
 import styles from './styles.module.css';
 import { useNavigate } from 'react-router-dom';
+import Movable from '../Editor/TextBoxes/movable';
+import axios from 'axios';
 
 export const Meme = () => {
 
     const [memes, setMemes] = useState([]);
     const [memeIndex, setMemeIndex] = useState(0);
-    const [texts, setTexts] = useState([]);
+    const [texts, setTexts] = useState(() =>{
+        const saved = localStorage.getItem('Captions');
+        const iniVal = JSON.parse(saved);
+        return iniVal || [];
+    });
+    const [template, setTemplate] = useState("");
+      
+
+    const moveRef = React.useRef(null);
+    const [style, setStyle] = React.useState("");
+
 
     const navigate = useNavigate();
 
+    useEffect (() =>{
+         localStorage.setItem('Captions',JSON.stringify(texts)); 
+       }
+    ,[texts])
 
     const updateTexts = (e, index) =>{
         const text = e.target.value || '';
@@ -25,23 +41,51 @@ export const Meme = () => {
     }
 
     const generateMeme = () => {
+        const posText1 = document.getElementById("text1");
+        const xpos = posText1.getBoundingClientRect().x;
+        const ypos = posText1.getBoundingClientRect().y;
+        console.log(posText1.getBoundingClientRect())
         const currMeme = memes[memeIndex];
         const formData = new FormData();
         //ogw95766@boofx.com (10min mail)
         formData.append('username','ommwise');
         formData.append('password','omm123456');
         formData.append('template_id', currMeme.id);
-        texts.forEach((c,index) => formData.append(`boxes[${index}][text]`, c))
+        
+        texts.forEach((c,index) =>{ formData.append(`boxes[${index}][text]`, c);
+        })
+         formData.append(`boxes[0][x],`, currMeme.width/3);
+         formData.append(`boxes[0][y]`, 10);
+         formData.append(`boxes[0][width],`, 100);
+         formData.append(`boxes[0][height]`, 50);
 
         fetch('https://api.imgflip.com/caption_image', {
             method: 'POST',
             body: formData
         }).then(res => {
             res.json().then(res =>{
+                const url = JSON.stringify(res.data.url);
+                localStorage.setItem( 'MemeURL', res.data.url ); 
+                handleNewMeme();
                 navigate(`/editor/generated?url=${res.data.url}`);
             })
         })
     }
+
+    /**
+     * sends the canvas meme to the backend
+     * @param {event} param0 
+     */
+     const handleNewMeme = () =>{
+       // event.preventDefault();
+       const memeURL = localStorage.getItem('MemeURL');
+        const meme = {
+            template: memeURL,
+            texts: texts
+        }
+        axios.post('http://localhost:5001/newMeme',meme).then(res=>{ //send POST-request to /newMeme
+            console.log(res.data)
+    })}
 
     const shuffleMemes = (array) => {
         for (let i = array.length - 1; i > 0; i--) {
@@ -76,7 +120,7 @@ export const Meme = () => {
 
     return(
         memes.length ? 
-        <div className={styles.container}>
+        <div>
             <button onClick={generateMeme} className={styles.generate}>Generate</button>
             <button onClick={() => setMemeIndex(memeIndex + 1)} className={styles.skip}>Skip</button>
             {
@@ -85,12 +129,24 @@ export const Meme = () => {
                 ))
             }
         <div className={styles.meme}>
-            <img alt='meme' src={memes[memeIndex].url}/>
-            <h2 className={styles.top}>{texts[0]}</h2>
-            <h2 className={styles.bottom}>{texts[1]}</h2>
+            <img alt={memes[memeIndex].name} src={memes[memeIndex].url}/>
+            <h2
+            ref={moveRef}
+            style={{transform:style}}
+            className={styles.top}
+            id="text1"
+            >{texts[0]}
+            </h2>
+            <Movable moveRef={moveRef} setStyle={setStyle}/>
+            <h2 
+            ref={moveRef}
+            style={{transform:style}}
+            className={styles.bottom}
+            id="text2"
+            >{texts[1]}</h2>
+            
         </div>
         </div>
-        
          : <></>
     );
 }

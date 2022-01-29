@@ -1,4 +1,7 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   margin-top: 50px;
 }
 .skip {
@@ -7,10 +10,28 @@
 .generate {
   background-color: #8a40eb;
 }
+
+.use {
+  background-color: #40eb4e;
+}
+
+.upload {
+  position: relative;
+  background-color: #8a40eb;
+}
 .meme {
   position: relative;
   width: 59%;
   margin: auto;
+}
+.midcontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+p {
+  text-align: center;
 }
 
 .meme > img {
