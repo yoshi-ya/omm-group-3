@@ -182,4 +182,17 @@ module.exports = app => {
                 res.send(result)
             }, err => console.error(err))
     })
+
+    /**
+     * fetches a single meme from the database
+     * URL-parameter meme: the id of the meme to fetch
+     */
+    app.get("/fetchMeme", cors(), (req, res) => {
+        Meme
+            .findOne({_id: req.query.id})
+            .then(result => {
+                res.send(result)
+            })
+            .catch(error => console.log(error))
+    })
 }
