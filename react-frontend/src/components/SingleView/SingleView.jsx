@@ -20,7 +20,7 @@ const SingleView = () => {
 
 
     return (<div>
-        <img src={`data:image/png;base64,${encode(memeData)}`} alt="meme"/>
+        <img src={(memeData.length > 0) ? `data:image/png;base64,${encode(memeData)}` : "https://via.placeholder.com/256?text=no%20meme%20found"} alt="meme"/>
     </div>);
 };
 

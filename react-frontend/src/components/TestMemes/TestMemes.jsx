@@ -12,9 +12,10 @@ const TestMemes = () => {
 
     const [memes, setMemes] = useState([]);
 
-    useEffect(async () => {
-        let data = await axios.get("http://localhost:5001/allMemes")
-        setMemes(data.data)
+    useEffect(() => {
+        axios
+            .get("http://localhost:5001/allMemes")
+            .then(data => setMemes(data.data))
     }, []);
 
     return (<>
