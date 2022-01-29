@@ -193,6 +193,6 @@ module.exports = app => {
             .then(result => {
                 res.send(result)
             })
-            .catch(error => console.log(error))
+            .catch(() => console.log(`ERROR in /fetchMeme: could not find meme with ID ${req.query.id}`))
     })
 }
