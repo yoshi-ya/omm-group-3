@@ -42,7 +42,7 @@ const Header = () => {
                         <Route exact path="random" element={<Meme/>}/>
 
                     </Route>
-                    <Route path="/profile" element={<Profile/>}/>
+                    <Route path="/profile/*" element={<Profile/>}/> 
                 </Routes>
             </div>
         </Router>);
