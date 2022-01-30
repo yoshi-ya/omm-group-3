@@ -11,6 +11,7 @@ import {encode} from "base64-arraybuffer";
 const TestMemes = () => {
 
     const [memes, setMemes] = useState([]);
+    const [isPrivate, setIsPrivate] = useState(false)
 
     useEffect(() => {
         axios
@@ -31,9 +32,17 @@ const TestMemes = () => {
         <form name="memeForm" action="http://localhost:5001/upload" method="POST"
               encType="multipart/form-data">
             <input type="file" name="meme" id="meme" accept="image/png, image/jpg, image/jpeg"/>
-            <input type="submit" value="upload meme"/>
+            <input type="text" name="author" id="author" placeholder="author"/>
+            <input type="text" name="text1" id="text1" placeholder="text1"/>
+            <input type="number" name="votes" id="votes" placeholder="votes"/>
+            <label>
+                <input type="radio" value="yes" onClick={() => setIsPrivate(!isPrivate)} checked={isPrivate}/>
+                Set private?
+            </label>
+            <input type="submit" value="upload"/>
         </form>
-    </>);
+    </>
+);
 };
 
 export default TestMemes;

@@ -12,6 +12,7 @@ import PickFromDesktop from '../Editor/PickFromDesktop';
 import DrawingCanvas from '../Editor/DrawingCanvas';
 import SingleView from "../SingleView/SingleView";
 import GallerySingleView from "../GallerySingleView/GallerySingleView";
+import TestMemes from "../TestMemes/TestMemes";
 
 
 const Header = () => {
@@ -46,6 +47,7 @@ const Header = () => {
                 <Route exact path="/random" element={<Meme/>}/>
                 <Route path="/profile/*" element={<Profile/>}/>
                 <Route path="/test" element={<GallerySingleView memesList={[{template: "https://via.placeholder.com/256?text=1"}, {template: "https://via.placeholder.com/256?text=2"}, {template: "https://via.placeholder.com/256?text=3"}, {template: "https://via.placeholder.com/256?text=4"}]} />}/>
+                <Route path="/memes" element={<TestMemes/>} />
             </Routes>
         </div>
     </Router>);
