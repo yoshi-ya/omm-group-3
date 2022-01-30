@@ -58,7 +58,8 @@
     margin-right: 20px;
 }
 
-/* ------------------------------------ */
+/* ----------- Share Buttons ------------------------------------ */
+
 .shareButtons {
     position: absolute;
     top: 0px;
@@ -94,6 +95,30 @@
     position: absolute;
     top: 80%;
     right: 10px;
+}
+
+/*---- Button ------------------------------------------*/
+
+.button {
+    background-color: #232323;
+    width: 50%;
+    overflow: hidden;
+    color: white;
+    padding: 5px 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+    outline: 0;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0px 2px 2px grey;
+    transition: ease background-color 250ms;
+}
+.button:hover {
+    background-color: #232323;
+}
+.button.disabled {
+    cursor: default;
+    opacity: 0.7;
 }
 
 
