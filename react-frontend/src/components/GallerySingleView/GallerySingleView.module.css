@@ -2,6 +2,10 @@
 
 }
 
+.memeWrapper img {
+    cursor: pointer;
+}
+
 .sliderButtonsWrapper {
     width: 100%;
     text-align: center;

@@ -2,7 +2,8 @@
  background-color: gray;
 }
 
-.item {
+.item img {
+    cursor: pointer;
 }
 
 .container {
@@ -16,15 +17,15 @@
 
 .icons {
     box-shadow: none;
-    width: 20x;
+    width: 20px;
     height: 20px;
-    margin: 0px;
+    margin: 0;
     cursor: pointer;
-    align-items: right;
+    /*align-items: right;*/
     display:flex;
 }
 
-.iconbox {
+.iconBox {
     margin: 10px;
     display: flex;
     gap: 10px;
@@ -55,6 +56,6 @@
     width: 20px;
     cursor: pointer;
     border-radius: 50%;
-    margin: 15px 7px 0px;
+    margin: 15px 7px 0;
     background-color: gray;
 }
