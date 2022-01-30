@@ -58,7 +58,10 @@ const Editor = () => {
         }
     }
 
-    return (<div className={styles.editorContainer}>
+    return (
+    <div className={styles.outerContainer}>
+    <div className={styles.editorContainer}>
+        <div className={styles.images}>
         <div className={styles.container}>   
              {memes.map(meme => {
                 return (<div className={styles.templates} key={meme._id}>
@@ -70,11 +73,13 @@ const Editor = () => {
         {currTemplate !== null
          ?
         <div className={styles.singleIMG} key={currTemplate._id}>
-                    <img width='100px'  height='100px' src={`data:image/png;base64,${encode(currTemplate.template.data)}`}
+                    <img width='400px'  height='400px' src={`data:image/png;base64,${encode(currTemplate.template.data)}`}
                          alt={`meme_${currTemplate._id}`}/>
-        </div> : 
+        </div>
+         : 
         <></>}
-        <div className={styles.containerCOL}>       
+        </div>
+        <div className={styles.buttonContainer}>       
             <Link to="drawing">
             <button className={styles.upload} onClick={openCanvas}>Open drawing canvas</button>
             </Link>
@@ -88,6 +93,7 @@ const Editor = () => {
             <button className={styles.upload} onClick={openRandomIMG}>See random images</button>
             </Link>
             <Outlet/>
+        </div>
         </div>
     </div>);
 };
