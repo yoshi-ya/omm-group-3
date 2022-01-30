@@ -36,14 +36,14 @@ const Header = () => {
             </ul>
             <Routes>
                 <Route path="/" element={<Gallery/>}/>
-                <Route path="/generated" element={<MemeGenerated/>}/>
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/view/:id" element={<SingleView/>}/>
                 <Route path="/test" element={<TestMemes/>}/>
                 <Route path="editor" element={<Editor/>}/>
+                    <Route path="generated" element={<MemeGenerated/>}/>
                     <Route exact path="drawing" element={<DrawingCanvas/>}/>
-                    <Route exact path="pickFromUrl" element={<PickFromURL/>}/>
-                    <Route exact path="pickFromDesktop" element={<PickFromDesktop/>}/>
+                    <Route exact path="pickfromUrl" element={<PickFromURL/>}/>
+                    <Route exact path="pickfromDesktop" element={<PickFromDesktop/>}/>
                     <Route exact path="random" element={<Meme/>}/>
                 <Route path="/profile/*" element={<Profile/>}/>
             </Routes>
