@@ -2,11 +2,12 @@ import styles from "./GallerySingleView.module.css"
 import React, {useEffect, useState} from 'react';
 import playImg from "./play.png"
 import shuffleImg from "./shuffle.png"
+import {encode} from "base64-arraybuffer";
 
-const GallerySingleView = ({memesList}) => {
+const GallerySingleView = (props) => {
     const defaultMeme = "https://via.placeholder.com/256?text=no%20meme%20found"
-    const [currentMeme, setCurrentMeme] = useState(0);
-    const [autoPlay, setAutoPlay] = useState(false)
+    const [currentMeme, setCurrentMeme] = useState(props.memeNumber);
+    const [autoPlay, setAutoPlay] = useState(false);
 
     useEffect(() => {
         toggleVisibility()
@@ -32,22 +33,22 @@ const GallerySingleView = ({memesList}) => {
     }
 
     const randomIndex = () => {
-        if (memesList.length > 1 && !autoPlay) {
-            let memeIndex = Math.floor(Math.random() * memesList.length)
+        if (props.memesList.length > 1 && !autoPlay) {
+            let memeIndex = Math.floor(Math.random() * props.memesList.length)
             return currentMeme !== memeIndex ? memeIndex : randomIndex()
         }
         return 1
     }
 
     const previousIndex = () => {
-        return currentMeme === 0 ? memesList.length - 1 : currentMeme - 1
+        return currentMeme === 0 ? props.memesList.length - 1 : currentMeme - 1
     }
 
     const nextIndex = () => {
-        return currentMeme === memesList.length - 1 ? 0 : currentMeme + 1
+        return currentMeme === props.memesList.length - 1 ? 0 : currentMeme + 1
     }
 
-    if (memesList.length < 1) {
+    if (props.memesList.length < 1) {
         return (<div>
             <img src={defaultMeme} alt="meme"/>
         </div>)
@@ -55,7 +56,7 @@ const GallerySingleView = ({memesList}) => {
 
     return (<>
         <div className={styles.memeWrapper}>
-            <img src={memesList[currentMeme].template} alt="meme"/>
+            <img src={`data:image/png;base64,${encode(props.memesList[currentMeme].template.data)}`} alt="meme"/>
         </div>
         <div className={styles.sliderButtonsWrapper}>
             <div className={styles.sliderButtons}>
