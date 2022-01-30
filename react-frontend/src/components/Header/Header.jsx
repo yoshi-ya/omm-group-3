@@ -12,6 +12,7 @@ import PickFromURL from '../Editor/PickFromURL';
 import PickFromDesktop from '../Editor/PickFromDesktop';
 import DrawingCanvas from '../Editor/DrawingCanvas';
 import SingleView from "../SingleView/SingleView";
+import TestMemes from '../TestMemes/TestMemes';
 import GallerySingleView from "../GallerySingleView/GallerySingleView";
 
 
