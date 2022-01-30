@@ -15,7 +15,7 @@ const Profile = () => {
     }
 
     return (
-        <UserInfos/>)
+        <UserInfos />)
 };
 
 export default Profile;

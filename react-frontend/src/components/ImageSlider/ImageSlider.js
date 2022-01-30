@@ -7,7 +7,7 @@ import {encode} from "base64-arraybuffer";
 
 const ImageSlider = ({slides}) => {
 
-    const [slideIndex, setSlideIndex] = useState(1) 
+    const [slideIndex, setSlideIndex] = useState(0) 
     const length = slides.length
 
     const nextSlide = () => {
@@ -22,15 +22,30 @@ const ImageSlider = ({slides}) => {
         setSlideIndex(index)
     }
 
-    //console.log(slides);
+    console.log(slides[0])
+        
 
-    const index = 1 ;
+    const getLeftIndex = () => {
+        let leftIndex = slideIndex;
+        if (slideIndex === 1) {
+            leftIndex = length;
+        } 
+        return leftIndex;
+    }
+
+    const getRightIndex = () => {
+        let rightIndex = slideIndex;
+        if (slideIndex === length) {
+            rightIndex = 1;
+        }
+        return rightIndex;
+    }
 
     
     // In case the middle img is the first/last one -> adjust the adjacent images/indecies
     const setIndex = () => {
-        let rightIndex = index + 2;
-        let leftIndex = index;
+        let rightIndex = slideIndex + 2;
+        let leftIndex = slideIndex;
         if (slideIndex === 1) {
             leftIndex = length;
         } 
@@ -38,18 +53,15 @@ const ImageSlider = ({slides}) => {
             rightIndex = 1;
         }
     }
-    
-    console.log(slides);
 
     
     return (
 
     <div className={imageSlider.slider}>
-        
         <div><FaArrowAltCircleLeft className={imageSlider.leftArrow}  onClick={prevSlide} /> </div>
         <div><FaArrowAltCircleRight className={imageSlider.rightArrow} onClick={nextSlide} /></div>
 
-        <div className={imageSlider.sliderInner} key={slides[index]}>
+        <div className={imageSlider.sliderInner} key={slides[slideIndex]._id}>
             
             <div className={imageSlider.slideActive} >
                 <img src={`data:image/png;base64,${encode(slides[0].template.data)}`} alt="Meme" className={imageSlider.imageSmall}/> 
@@ -63,7 +75,7 @@ const ImageSlider = ({slides}) => {
                     kex={index}>
                 </div>
             ))}
-            </div>
+            </div> 
         
             
         </div>

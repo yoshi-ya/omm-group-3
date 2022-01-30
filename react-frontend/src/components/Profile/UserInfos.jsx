@@ -20,14 +20,11 @@ export const UserInfos = () => {
     const {user} = useAuth0();
     const [userMemes, setUserMemes] = useState([]) 
 
-    useEffect(() => {
-        axios
+
+    useEffect(async() => {
+        let data = await axios
             .get(`http://localhost:5001/allMemes?author=${user.name}`)
-            .then(data => {
-                //console.log(data)
-                setUserMemes(data.data)
-            })
-        
+        setUserMemes(data.data)
     }, []);
 
 
