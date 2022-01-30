@@ -10,8 +10,8 @@ import {MemeGenerated} from '../MemeGenerated/MemeGenerated'
 import PickFromURL from '../Editor/PickFromURL';
 import PickFromDesktop from '../Editor/PickFromDesktop';
 import DrawingCanvas from '../Editor/DrawingCanvas';
-import TestMemes from "../TestMemes/TestMemes";
 import SingleView from "../SingleView/SingleView";
+import GallerySingleView from "../GallerySingleView/GallerySingleView";
 
 
 const Header = () => {
@@ -40,12 +40,12 @@ const Header = () => {
                 <Route path="/generated" element={<MemeGenerated/>}/>
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/view/:id" element={<SingleView/>}/>
-                <Route path="/test" element={<TestMemes/>}/>
                 <Route exact path="/drawing" element={<DrawingCanvas/>}/>
                 <Route exact path="/pickFromUrl" element={<PickFromURL/>}/>
                 <Route exact path="/pickFromDesktop" element={<PickFromDesktop/>}/>
                 <Route exact path="/random" element={<Meme/>}/>
                 <Route path="/profile/*" element={<Profile/>}/>
+                <Route path="/test" element={<GallerySingleView memesList={[{template: "https://via.placeholder.com/256?text=1"}, {template: "https://via.placeholder.com/256?text=2"}, {template: "https://via.placeholder.com/256?text=3"}, {template: "https://via.placeholder.com/256?text=4"}]} />}/>
             </Routes>
         </div>
     </Router>);
