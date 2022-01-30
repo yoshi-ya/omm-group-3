@@ -1,6 +1,7 @@
-import React, {useEffect, useReducer, useState} from 'react';
+import React, {useEffect, useReducer, useState, useRef} from 'react';
 import { MemeGenerated } from '../MemeGenerated/MemeGenerated';
 import {Route, Routes, BrowserRouter as Router, Link} from "react-router-dom";
+import { usePromiseTracker, trackPromise } from "react-promise-tracker";
 import axios from 'axios';
 import {encode} from "base64-arraybuffer";
 import { Meme } from '../Meme/Meme';
@@ -8,19 +9,19 @@ import styles from './Gallery.module.css';
 import like from './like.png'
 import comment from './comment.png'
 import share from './share.png'
+import SingleView from '../GallerySingleView/GallerySingleView'
 
 
 const Gallery = () => {
   const [page, setPage] = useState('overview')
   const [allmemes, setAllMemes] = useState([]);
-  const [data, setData] = useState([]);
-  const [votes, setVotes] = useState([])
+  const memeNumber = useRef(0);
 
   const content = () => {
     if (page === 'overview') {
       return (<Overview></Overview>);
     } else if (page === 'singleview') {
-      return (<SingleView></SingleView>)
+      return (<SingleView memesList={allmemes} memeNumber={memeNumber.current}></SingleView>)
     }
   }
 
@@ -29,38 +30,40 @@ const Gallery = () => {
   }, [])
   
   const fetchMemes = async() => {
-    const resultMemes = await axios.get('http://localhost:5001/allMemes', 
-    ).then((res) => {
+    const resultMemes = await axios.get('http://localhost:5001/allMemes',).then((res) => {
         if(res.data){
             return res.data
         }
     }).catch((error) => {
         error.toString();
-    })
-    setAllMemes(resultMemes);
-    allmemes.forEach(element => {
-      //element.template = window.URL.createObjectURL(element.template);
-      console.log(typeof element.template)
     });
-    //setData(resultMemes[0].template);
-    //setVotes(resultMemes[0].votes)
+    setAllMemes(resultMemes);
   }
 
   const Overview = (props) => {
 
     const memesArray = allmemes.map((meme, i) => (
     <div className={styles.item} key={i}>
-      <img width='250px' height='250px' alt="meme" src={`data:image/png;base64,${encode(meme.template.data)}`} onClick={()=>{setPage('singleview')}}/>
+      <img width='250px' height='250px' alt={`meme_${i}`} src={`data:image/png;base64,${encode(meme.template.data)}`} onClick={()=>{memeNumber.current = i;setPage('singleview')}}/>
+      Created by: {meme.author}
       <div className={styles.iconbox}>
-        <div className={styles.iconbox}>{meme.votes}<img src={like} className={styles.icons} onClick={() => { handleLikeClick() }}></img></div>
-        <div className={styles.iconbox}><img src={comment} className={styles.icons}></img></div>
-        <div className={styles.iconbox}><img src={share} className={styles.icons}></img></div>
+        <div className={styles.iconbox}>{meme.votes}<img src={like} alt={`like_${i}`} className={styles.icons} onClick={() => { handleLikeClick() }}></img></div>
+        <div className={styles.iconbox}><img src={comment} alt={`like_${i}`} className={styles.icons} onClick={() => { handleCommentClick() }}></img></div>
+        <div className={styles.iconbox}><img src={share} alt={`like_${i}`} className={styles.icons} onClick={() => { handleShareClick() }}></img></div>
       </div>
     </div>
-    )); // `.map()` creates/returns a new array from calling a function on every element in the array it's called on
+    )); 
 
     function handleLikeClick() {
       console.log('LIKED')
+    }
+
+    function handleCommentClick() {
+      console.log('COMMENT')
+    }
+
+    function handleShareClick() {
+      console.log('SHARE')
     }
 
     return (
@@ -68,42 +71,6 @@ const Gallery = () => {
       <h2>Overview</h2>
       <button className={styles.button} onClick={()=>{setPage('singleview')}}>Switch to Single View</button>
       <div className={styles.container}>{memesArray}</div> 
-      </div>
-    );
-  }
-
-  const SingleView = (props) => {
-  
-    const memesArray = allmemes.map((meme, i) => (
-    <div className={styles.slide} key={i}>
-      <img width='1000px' height='1000px' alt="meme" src={`data:image/png;base64,${encode(meme.template)}`}/>
-    </div>
-    )); 
-    
-    const slideDotsArray = allmemes.map((meme, i) => (
-        <div key={i} className={styles.dot}></div>
-    ));
-
-    const [index, setIndex] = useState(0)
-    const delay = 2500;
-
-    return (
-      <div>
-      <h2>Single View</h2>
-      <button className={styles.button} onClick={()=>{setPage('overview')}}>Switch to  Overview</button>
-      <div className={styles.slideshow}>
-        <div 
-          className={styles.slideshowSlider}
-          style={{ transform: `translate3d(${-index * 100}%, 0, 0)`}}
-        >
-        {memesArray}
-        </div>
-        <div className={styles.slideshowDots}>
-          {slideDotsArray}
-        </div>
-      </div>
-      Votes
-      Comments 
       </div>
     );
   }
