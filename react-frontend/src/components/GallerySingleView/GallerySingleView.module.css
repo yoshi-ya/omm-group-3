@@ -1,0 +1,71 @@
+.memeWrapper {
+
+}
+
+.sliderButtonsWrapper {
+    width: 100%;
+    text-align: center;
+}
+
+.sliderButtons {
+    width: calc(112px + 10px);
+    display: inline-block;
+    margin-top: 12px;
+}
+
+.sliderButtons div {
+    width: 56px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+}
+
+.sliderButtonLeft {
+    float: left;
+    background-color: black;
+    box-shadow: none;
+}
+
+.sliderButtonRight {
+    float: right;
+    background-color: black;
+    box-shadow: none;
+}
+
+.sliderButtonLeft::after, .sliderButtonRight::after {
+    content: "";
+    background-color: white;
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 0;
+}
+
+.sliderButtonLeft::after {
+    left: 0;
+    border-top: 12px solid transparent;
+    border-right: 24px solid black;
+    border-bottom: 12px solid transparent;
+}
+
+.sliderButtonRight::after {
+    left: calc(100% - 24px);
+    border-top: 12px solid transparent;
+    border-left: 24px solid black;
+    border-bottom: 12px solid transparent;
+}
+
+.buttonLeft, .buttonRight {
+    width: 36px;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.buttonLeft {
+    float: left;
+}
+
+.buttonRight {
+    float: right;
+    margin-right: 32px;
+}
