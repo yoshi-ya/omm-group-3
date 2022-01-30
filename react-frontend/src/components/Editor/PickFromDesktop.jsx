@@ -56,11 +56,6 @@ const PickFromDesktop = () =>{
                 <input type="file" name="photo" onChange={handleImagePicked}/>
                 <button type="submit" className={styles.use} >Upload</button>
             </form>
-            <form name="memeForm" action="http://localhost:5001/addMeme" method="POST"
-              encType="multipart/form-data">
-            <input type="file" name="meme" id="meme" accept="image/png, image/jpg, image/jpeg"/>
-            <input type="submit" value="Upload template"/>
-        </form>
             
         </div>
         )

@@ -58,7 +58,7 @@ const Editor = () => {
         }
     }
 
-    return (<div>
+    return (<div className={styles.editorContainer}>
         <div className={styles.container}>   
              {memes.map(meme => {
                 return (<div className={styles.templates} key={meme._id}>
@@ -89,9 +89,6 @@ const Editor = () => {
             </Link>
             <Outlet/>
         </div>
-        
-        
-        
     </div>);
 };
 

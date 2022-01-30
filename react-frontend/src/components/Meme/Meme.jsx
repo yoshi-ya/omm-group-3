@@ -81,9 +81,10 @@ export const Meme = () => {
        const memeURL = localStorage.getItem('MemeURL');
         const meme = {
             template: memeURL,
-            texts: texts
+            text1: texts[1],
+            text2: texts[2]
         }
-        axios.post('http://localhost:5001/newMeme',meme).then(res=>{ //send POST-request to /newMeme
+        axios.post('http://localhost:5001/addMeme',meme).then(res=>{ //send POST-request to /newMeme
             console.log(res.data)
     })}
 
