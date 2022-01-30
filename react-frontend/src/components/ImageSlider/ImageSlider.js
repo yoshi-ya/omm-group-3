@@ -1,6 +1,5 @@
 import React, { useState, Fragment } from 'react'
 import imageSlider from './imageSlider.module.css'
-import { SliderData } from './SliderData'
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa'
 import Media from 'react-media';
 import {encode} from "base64-arraybuffer";
@@ -23,6 +22,23 @@ const ImageSlider = ({slides}) => {
         setSlideIndex(index)
     }
 
+    //console.log(slides);
+
+    const index = 1 ;
+
+    
+    // In case the middle img is the first/last one -> adjust the adjacent images/indecies
+    const setIndex = () => {
+        let rightIndex = index + 2;
+        let leftIndex = index;
+        if (slideIndex === 1) {
+            leftIndex = length;
+        } 
+        if (slideIndex === length) {
+            rightIndex = 1;
+        }
+    }
+    
     console.log(slides);
 
     
@@ -33,91 +49,24 @@ const ImageSlider = ({slides}) => {
         <div><FaArrowAltCircleLeft className={imageSlider.leftArrow}  onClick={prevSlide} /> </div>
         <div><FaArrowAltCircleRight className={imageSlider.rightArrow} onClick={nextSlide} /></div>
 
-        <div className={imageSlider.sliderInner}>
-            {slides.map((obj,index) => {
-
-                // In case the middle img is the first/last one -> adjust the adjacent images 
-                let rightIndex = index + 2;
-                let leftIndex = index;
-                if (slideIndex === 1) {
-                    leftIndex = length;
-                } 
-                if (slideIndex === length) {
-                    rightIndex = 1;
-                }
-
-                return ( 
-                    <div key={obj._id}>
-                        <Media queries={{
-                        small: "(max-width: 899px)",
-                        medium: "(min-width: 900px) and (max-width: 1199px)",
-                        large: "(min-width: 1200px)"
-                        }}>
-
-                        {matches => (
-                            <Fragment>
-                                {matches.small && 
-                                <div className={slideIndex === index + 1 ? imageSlider.slideActive : imageSlider.slide} >
-                                <img src={`data:image/png;base64,${encode(obj.template.data)}`} alt="Meme" className={imageSlider.imageSmall}/> 
-                                </div>
-                                }
-
-                                {matches.medium && 
-                                <div className={imageSlider.slides}>
-
-                                <div className={slideIndex === index + 1 ? imageSlider.slideActive : imageSlider.slide} >
-                                    <img src={`data:image/png;base64,${encode(obj.template.data)}`} alt="Meme" className={imageSlider.imageMedium} /> 
-                                </div>
-
-                                <div className={slideIndex === index + 1 ? imageSlider.slideActive: imageSlider.slide} >
-                                    <img src={`data:image/png;base64,${encode(obj.template.data)}`} alt="Meme" className={imageSlider.imageMiddleMedium} /> 
-                                </div>
-
-                                <div className={slideIndex === index + 1 ? imageSlider.slideActive : imageSlider.slide} >
-                                    <img src={`data:image/png;base64,${encode(obj.template.data)}`} alt="Meme" className={imageSlider.imageMedium} /> 
-                                </div>
-
-                                </div>}
-
-
-                                {matches.large && 
-                                <div className={imageSlider.slides}>
-
-                                <div className={slideIndex === index + 1 ? imageSlider.slideActive : imageSlider.slide} >
-                                    <img src={`data:image/png;base64,${encode(obj.template.data)}`} alt="Meme" className={imageSlider.imageLarge} /> 
-                                </div>
-
-                                <div className={slideIndex === index + 1 ? imageSlider.slideActive: imageSlider.slide} >
-                                    <img src={`data:image/png;base64,${encode(obj.template.data)}`} alt="Meme" className={imageSlider.imageMiddleLarge} /> 
-                                </div>
-
-                                <div className={slideIndex === index + 1 ? imageSlider.slideActive : imageSlider.slide} >
-                                    <img src={`data:image/png;base64,${encode(obj.template.data)}`} alt="Meme" className={imageSlider.imageLarge} /> 
-                                </div>
-
-                                </div>}
-                            </Fragment>
-                        )}
-                        </Media>
-                        
-                         
-                        <div className={imageSlider.containerDots}>
-                        {Array.from({length: 5}).map((item, index) => (
-                            <div 
-                                onClick={() => moveDot(index + 1)}
-                                className={slideIndex === index + 1 ? imageSlider.dotActive : imageSlider.dot}>
-                            </div>
-                        ))}
-                        </div>
-
-                    </div>
-                    
-                )  
-            })}
-
+        <div className={imageSlider.sliderInner} key={slides[index]}>
+            
+            <div className={imageSlider.slideActive} >
+                <img src={`data:image/png;base64,${encode(slides[0].template.data)}`} alt="Meme" className={imageSlider.imageSmall}/> 
+            </div>
+  
+            <div className={imageSlider.containerDots}>
+            {Array.from({length: 5}).map((item, index) => (
+                <div 
+                    onClick={() => moveDot(index + 1)}
+                    className={slideIndex === index + 1 ? imageSlider.dotActive : imageSlider.dot}
+                    kex={index}>
+                </div>
+            ))}
+            </div>
+        
             
         </div>
-
     </div>
 )};
 
