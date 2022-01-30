@@ -1,5 +1,7 @@
 import React, {useEffect, useState, Component} from 'react';
 import userInfos from './userInfos.module.css';
+import { useAuth0 } from '@auth0/auth0-react';
+import axios from 'axios';
 
 // For button style
 import styled from 'styled-components';
@@ -9,14 +11,25 @@ import ShareButtons from '../ShareButtons/ShareButtons';
 
 // For slide-show
 import ImageSlider from '../ImageSlider/ImageSlider';
-import { SliderData } from '../ImageSlider/SliderData';
+
+
 
 export const UserInfos = () => {
 
-    const [memes, setMemes] = useState([]);
-    const [memeIndex, setMemeIndex] = useState(0);
-    const [texts, setTexts] = useState([]);
-    const [buttonPopup, setButtonPopup] = useState(false);
+    //const [buttonPopup, setButtonPopup] = useState(false);
+    const {user} = useAuth0();
+    const [userMemes, setUserMemes] = useState([]) 
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:5001/allMemes?author=${user.name}`)
+            .then(data => {
+                //console.log(data)
+                setUserMemes(data.data)
+            })
+        
+    }, []);
+
 
     
         // CSS for the default button theme 
@@ -65,9 +78,15 @@ export const UserInfos = () => {
     }
 
 
+    
+
+
+
     return(
+
         
         <div className={userInfos.container}>
+            <h1>{user.name}</h1>
 
             <div className={userInfos.card}>
                 <div className={userInfos.imageArea}>
@@ -88,7 +107,7 @@ export const UserInfos = () => {
                         <h3>My memes</h3>
                         <ShareButtons className={userInfos.shareButtons}/>
                     </div>
-                    <ImageSlider slides={SliderData}/>
+                    <ImageSlider slides={userMemes}/>
                 </div>
 
                 <div className={userInfos.card}>
@@ -96,7 +115,7 @@ export const UserInfos = () => {
                         <h3>Liked or commented memes</h3>
                         <ShareButtons className={userInfos.shareButtons}/>
                     </div>
-                    <ImageSlider slides={SliderData}/>
+                    <ImageSlider slides={userMemes}/>
                     
                 </div>
             </div>

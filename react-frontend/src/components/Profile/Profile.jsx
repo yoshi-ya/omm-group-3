@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Routes, Route, Outlet } from 'react-router-dom';
 import { UserInfos } from './UserInfos';
 
 
@@ -15,12 +14,8 @@ const Profile = () => {
         )
     }
 
-    return (<div>
-        <Routes>
-        <Route exact path='/' element={<UserInfos/>}/>
-        </Routes>
-        <Outlet/>
-    </div>);
+    return (
+        <UserInfos/>)
 };
 
 export default Profile;
