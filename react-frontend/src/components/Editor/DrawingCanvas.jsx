@@ -38,10 +38,11 @@ function DrawingCanvas() {
      const handleNewMeme = () =>{
         const memeURL = localStorage.getItem('MemeCanvasURL');
         const meme = {
-            templ: memeURL,
-            texts: texts
+            template: memeURL,
+            text1: texts[0],
+            text2: texts[1]
         }
-        axios.post('http://localhost:5001/newMeme',meme).then(res=>{ //send POST-request to /newMeme
+        axios.post('http://localhost:5001/addMeme',meme).then(res=>{ //send POST-request to /newMeme
             console.log(res.data)
     })
     

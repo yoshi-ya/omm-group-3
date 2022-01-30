@@ -1,6 +1,7 @@
 import React from 'react';
 import {Route, Routes, BrowserRouter as Router, Link} from "react-router-dom";
 import Gallery from "../Gallery/Gallery";
+import Singleview from "../Gallery/Gallery";
 import styles from "./Header.module.css"
 import AuthenticationButton from "../AuthenticationButton/AuthenticationButton";
 import Editor from "../Editor/Editor";
@@ -16,7 +17,6 @@ import GallerySingleView from "../GallerySingleView/GallerySingleView";
 
 const Header = () => {
     return (<Router>
-
         <div>
             <ul className={styles.navBar}>
                 <li className={styles.navElementLeft}>
@@ -36,16 +36,17 @@ const Header = () => {
             </ul>
             <Routes>
                 <Route path="/" element={<Gallery/>}/>
-                <Route path="/editor" element={<Editor/>}/>
-                <Route path="/generated" element={<MemeGenerated/>}/>
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/view/:id" element={<SingleView/>}/>
-                <Route exact path="/drawing" element={<DrawingCanvas/>}/>
-                <Route exact path="/pickFromUrl" element={<PickFromURL/>}/>
-                <Route exact path="/pickFromDesktop" element={<PickFromDesktop/>}/>
-                <Route exact path="/random" element={<Meme/>}/>
+                <Route path="/test" element={<TestMemes/>}/>
                 <Route path="/profile/*" element={<Profile/>}/>
-                <Route path="/test" element={<GallerySingleView memesList={[{template: "https://via.placeholder.com/256?text=1"}, {template: "https://via.placeholder.com/256?text=2"}, {template: "https://via.placeholder.com/256?text=3"}, {template: "https://via.placeholder.com/256?text=4"}]} />}/>
+                <Route path="editor" element={<Editor/>}>
+                    <Route path="generated" element={<MemeGenerated/>}/>
+                    <Route exact path="drawing" element={<DrawingCanvas/>}/>
+                    <Route exact path="pickfromUrl" element={<PickFromURL/>}/>
+                    <Route exact path="pickfromDesktop" element={<PickFromDesktop/>}/>
+                    <Route exact path="random" element={<Meme/>}/>
+                </Route>
             </Routes>
         </div>
     </Router>);

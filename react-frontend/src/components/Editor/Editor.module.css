@@ -10,17 +10,17 @@ button {
   border-radius: 3px;
 }
 img {
-  max-width: 500px;
-  max-height: 500px;
+  max-width: 250px;
+  max-height: 250px;
   margin: auto;
   margin-top: 50px;
   display: flex;
   box-shadow: 0px 0px 10px black;
 }
-
 input {
   box-sizing: border-box;
   display: flex;
+  flex-direction: row;
   padding: 10px;
   width: 350px;
   margin: auto;
@@ -37,8 +37,20 @@ canvas {
 }
 
 .container {
-  margin-top: 50px;
-  padding: 40px;
+  margin: 80px;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+.containerCOL {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.templates {
+  display: flex;
 }
 
 .midcontainercanv {
