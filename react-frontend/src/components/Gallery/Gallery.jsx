@@ -2,6 +2,7 @@ import React, {useEffect, useReducer, useState} from 'react';
 import { MemeGenerated } from '../MemeGenerated/MemeGenerated';
 import {Route, Routes, BrowserRouter as Router, Link} from "react-router-dom";
 import axios from 'axios';
+import {encode} from "base64-arraybuffer";
 import { Meme } from '../Meme/Meme';
 import styles from './Gallery.module.css';
 import like from './like.png'
@@ -49,7 +50,7 @@ const Gallery = () => {
 
     const memesArray = allmemes.map((meme, i) => (
     <div className={styles.item} key={i}>
-      <img width='250px' height='250px' alt="meme" src={`data:image/png;base64,${meme.template}`} onClick={()=>{setPage('singleview')}}/>
+      <img width='250px' height='250px' alt="meme" src={`data:image/png;base64,${encode(meme.template.data)}`} onClick={()=>{setPage('singleview')}}/>
       <div className={styles.iconbox}>
         <div className={styles.iconbox}>{meme.votes}<img src={like} className={styles.icons} onClick={() => { handleLikeClick() }}></img></div>
         <div className={styles.iconbox}><img src={comment} className={styles.icons}></img></div>
@@ -75,9 +76,9 @@ const Gallery = () => {
   
     const memesArray = allmemes.map((meme, i) => (
     <div className={styles.slide} key={i}>
-      <img width='1000px' height='1000px' alt="meme" src={`data:image/png;base64,${meme.template}`}/>
+      <img width='1000px' height='1000px' alt="meme" src={`data:image/png;base64,${encode(meme.template)}`}/>
     </div>
-    )); // `.map()` creates/returns a new array from calling a function on every element in the array it's called on
+    )); 
     
     const slideDotsArray = allmemes.map((meme, i) => (
         <div key={i} className={styles.dot}></div>
