@@ -17,16 +17,16 @@ function DrawingCanvas() {
 
     useEffect(() =>{
         const canvas = canvasRef.current;
-        canvas.width = window.innerWidth *2;
-        canvas.height = window.innerHeight *2;
-        canvas.style.width = `${window.innerWidth}px`;
-        canvas.style.height = `${window.innerHeight}px`;
+        canvas.width = 300;
+        canvas.height = 300;
+        canvas.style.width = `${300}px`;
+        canvas.style.height = `${300}px`;
 
         const context = canvas.getContext("2d");
         context.scale(2,2);
         context.lineCap = "round";
         context.strokeStyle ="black";
-        context.lineWidth = 5;
+        context.lineWidth = 3;
         contextRef.current = context;
     },[])
 
