@@ -1,6 +1,7 @@
 import React from 'react';
 import {Route, Routes, BrowserRouter as Router, Link} from "react-router-dom";
 import Gallery from "../Gallery/Gallery";
+import Singleview from "../Gallery/Gallery";
 import styles from "./Header.module.css"
 import AuthenticationButton from "../AuthenticationButton/AuthenticationButton";
 import Editor from "../Editor/Editor";
@@ -16,7 +17,6 @@ import SingleView from "../SingleView/SingleView";
 
 const Header = () => {
     return (<Router>
-
         <div>
             <ul className={styles.navBar}>
                 <li className={styles.navElementLeft}>
@@ -36,15 +36,15 @@ const Header = () => {
             </ul>
             <Routes>
                 <Route path="/" element={<Gallery/>}/>
-                <Route path="/editor" element={<Editor/>}/>
                 <Route path="/generated" element={<MemeGenerated/>}/>
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/view/:id" element={<SingleView/>}/>
                 <Route path="/test" element={<TestMemes/>}/>
-                <Route exact path="/drawing" element={<DrawingCanvas/>}/>
-                <Route exact path="/pickFromUrl" element={<PickFromURL/>}/>
-                <Route exact path="/pickFromDesktop" element={<PickFromDesktop/>}/>
-                <Route exact path="/random" element={<Meme/>}/>
+                <Route path="editor" element={<Editor/>}/>
+                    <Route exact path="drawing" element={<DrawingCanvas/>}/>
+                    <Route exact path="pickFromUrl" element={<PickFromURL/>}/>
+                    <Route exact path="pickFromDesktop" element={<PickFromDesktop/>}/>
+                    <Route exact path="random" element={<Meme/>}/>
                 <Route path="/profile/*" element={<Profile/>}/>
             </Routes>
         </div>

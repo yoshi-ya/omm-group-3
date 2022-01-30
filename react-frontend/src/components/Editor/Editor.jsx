@@ -9,6 +9,8 @@ import { MemeGenerated } from '../MemeGenerated/MemeGenerated'
 import DrawingCanvas from './DrawingCanvas';
 import PickFromDesktop from './PickFromDesktop';
 import PickFromURL from './PickFromURL';
+import TestMemes from '../TestMemes/TestMemes';
+import {encode} from "base64-arraybuffer";
 
 
 const Editor = () => {
@@ -18,6 +20,13 @@ const Editor = () => {
     const [showPickFromDesktop, setShowPickFromDesktop] = useState(false);
     const [showPickFromURL, setShowPickFromURL] = useState(false);
     const [showRandomImg, setShowRandomImg] = useState(false);
+    const [memes, setMemes] = useState([]);
+    const [currTemplate, setcurrTemplate] = useState(null);
+
+    useEffect(async () => {
+        let data = await axios.get("http://localhost:5001/allMemes")
+        setMemes(data.data)
+    }, []);
 
 
     if (!isAuthenticated) {
@@ -27,7 +36,6 @@ const Editor = () => {
             </div>
         )
     }
-   
 
     const openCanvas = () =>{
         setShowCanvas(true);
@@ -44,9 +52,29 @@ const Editor = () => {
     const openRandomIMG = () =>{
         setShowRandomImg(true);
     }
+    const handleMeme = (_meme) =>{
+        if(currTemplate== null){
+            setcurrTemplate(_meme);
+        }
+    }
 
     return (<div>
-        <div className={styles.container}>            
+        <div className={styles.container}>   
+             {memes.map(meme => {
+                return (<div className={styles.templates} key={meme._id}>
+                    <img width='50px' height='50px' onClick={handleMeme(meme)} src={`data:image/png;base64,${encode(meme.template.data)}`}
+                         alt={`meme_${meme._id}`}/>
+                </div>)
+            })} 
+        </div>
+        {currTemplate !== null
+         ?
+        <div className={styles.singleIMG} key={currTemplate._id}>
+                    <img width='100px'  height='100px' src={`data:image/png;base64,${encode(currTemplate.template.data)}`}
+                         alt={`meme_${currTemplate._id}`}/>
+        </div> : 
+        <></>}
+        <div className={styles.containerCOL}>       
             <Link to="drawing">
             <button className={styles.upload} onClick={openCanvas}>Open drawing canvas</button>
             </Link>
