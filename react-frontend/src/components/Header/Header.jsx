@@ -1,6 +1,7 @@
 import React from 'react';
 import {Route, Routes, BrowserRouter as Router, Link} from "react-router-dom";
 import Gallery from "../Gallery/Gallery";
+import Singleview from "../Gallery/Gallery";
 import styles from "./Header.module.css"
 import AuthenticationButton from "../AuthenticationButton/AuthenticationButton";
 import Editor from "../Editor/Editor";
@@ -34,6 +35,7 @@ const Header = () => {
                 </ul>
                 <Routes>
                     <Route path="/" element={<Gallery/>}/>
+                        <Route exact path="singleview" element={<Singleview/>}/>
                     <Route exact path="editor" element={<Editor/>}>
                         <Route exact path="generated" element={<MemeGenerated/>}/>
                         <Route exact path="drawing" element={<DrawingCanvas/>}/>
