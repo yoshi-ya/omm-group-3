@@ -67,42 +67,6 @@ const Gallery = () => {
     );
   }
 
-  const SingleViewOld = (props) => {
-  
-    const memesArray = allmemes.map((meme, i) => (
-    <div className={styles.slide} key={i}>
-      <img width='1000px' height='1000px' alt="meme" src={`data:image/png;base64,${encode(meme.template)}`}/>
-    </div>
-    )); 
-    
-    const slideDotsArray = allmemes.map((meme, i) => (
-        <div key={i} className={styles.dot}></div>
-    ));
-
-    const [index, setIndex] = useState(0)
-    const delay = 2500;
-
-    return (
-      <div>
-      <h2>Single View</h2>
-      <button className={styles.button} onClick={()=>{setPage('overview')}}>Switch to  Overview</button>
-      <div className={styles.slideshow}>
-        <div 
-          className={styles.slideshowSlider}
-          style={{ transform: `translate3d(${-index * 100}%, 0, 0)`}}
-        >
-        {memesArray}
-        </div>
-        <div className={styles.slideshowDots}>
-          {slideDotsArray}
-        </div>
-      </div>
-      Votes
-      Comments 
-      </div>
-    );
-  }
-
     return (
       <div>{content()}</div>
     );
