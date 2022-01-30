@@ -1,66 +1,54 @@
 import React, {useEffect, useState} from 'react'
-import imageSlider from './ImageSlider.module.css'
+import styles from './ImageSlider.module.css'
 import {FaArrowAltCircleRight, FaArrowAltCircleLeft} from 'react-icons/fa'
 import {encode} from "base64-arraybuffer";
+import axios from "axios";
 
 
-const ImageSlider = ({slides}) => {
+const ImageSlider = ({user}) => {
 
     const [slideIndex, setSlideIndex] = useState(0)
+    const [memes, setMemes] = useState([])
 
-    // const nextSlide = () => {
-    //     setSlideIndex(slideIndex !== slides. ? slideIndex + 1 : 1)
-    // }
-    //
-    // const prevSlide = () => {
-    //     setSlideIndex(slideIndex !== 1 ? slideIndex - 1 : length)
-    // }
-    //
-    // const moveDot = index => {
-    //     setSlideIndex(index)
-    // }
-    //
-    // const getLeftIndex = () => {
-    //     let leftIndex = slideIndex;
-    //     if (slideIndex === 1) {
-    //         leftIndex = length;
-    //     }
-    //     return leftIndex;
-    // }
-    //
-    // const getRightIndex = () => {
-    //     let rightIndex = slideIndex;
-    //     if (slideIndex === length) {
-    //         rightIndex = 1;
-    //     }
-    //     return rightIndex;
-    // }
+    useEffect(() => {
+        axios
+            .get(`http://localhost:5001/allMemes?author=${user.name}`)
+            .then(data => setMemes(data.data))
+    }, [])
 
-    return (
+    const nextSlide = () => {
+        setSlideIndex(slideIndex !== memes.length ? slideIndex + 1 : 1)
+    }
 
-        <div className={imageSlider.slider}>
-            <div><FaArrowAltCircleLeft className={imageSlider.leftArrow}  /> </div>
-            <div><FaArrowAltCircleRight className={imageSlider.rightArrow} /></div>
+    const prevSlide = () => {
+        setSlideIndex(slideIndex !== 1 ? slideIndex - 1 : memes.length)
+    }
 
-            <div className={imageSlider.sliderInner} key={slides[slideIndex]._id}>
+    const moveDot = index => {
+        setSlideIndex(index)
+    }
 
-                <div className={imageSlider.slideActive} >
-                    <img src={`data:image/png;base64,${encode(slides[0].template.data)}`} alt="Meme" className={imageSlider.imageSmall}/>
+    if (memes.length > 0) return (<div className={styles.slider}>
+            <div><FaArrowAltCircleLeft className={styles.leftArrow}/></div>
+            <div><FaArrowAltCircleRight className={styles.rightArrow}/></div>
+
+            <div className={styles.sliderInner} key={memes[slideIndex]._id}>
+
+                <div className={styles.slideActive}>
+                    <img src={`data:image/png;base64,${encode(memes[slideIndex].template.data)}`} alt="Meme"
+                         className={styles.imageSmall}/>
                 </div>
 
-                <div className={imageSlider.containerDots}>
-                {Array.from({length: 5}).map((item, index) => (
-                    <div
-                        className={slideIndex === index + 1 ? imageSlider.dotActive : imageSlider.dot}
-                        key={index}>
-                    </div>
-                ))}
+                <div className={styles.containerDots}>
+                    {Array.from({length: 5}).map((item, index) => (<div
+                            className={slideIndex === index + 1 ? styles.dotActive : styles.dot}
+                            key={index}>
+                        </div>))}
                 </div>
-
 
             </div>
-        </div>
-    )
+        </div>)
+    return <div>Lets create some Memes!</div>
 };
 
 export default ImageSlider;

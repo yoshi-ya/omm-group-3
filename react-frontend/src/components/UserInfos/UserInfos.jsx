@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react'
 import {useAuth0} from '@auth0/auth0-react';
-import axios from 'axios';
+import styles from "./UserInfos.module.css"
 
 // For button style
 import styled from 'styled-components';
@@ -15,15 +15,6 @@ import ImageSlider from '../ImageSlider/ImageSlider';
 const UserInfos = () => {
 
     const {user} = useAuth0();
-    const [userMemes, setUserMemes] = useState([])
-
-    useEffect(() => {
-        // todo add author filter
-        axios
-            .get(`http://localhost:5001/allMemes`)
-            .then(data => setUserMemes(data.data))
-            .catch(err => console.log(err))
-    }, []);
 
     // CSS for the default button theme
     const Button = styled.button`
@@ -37,7 +28,7 @@ const UserInfos = () => {
       outline: 0;
       text-transform: uppercase;
       cursor: pointer;
-      box-shadow: 0px 2px 2px grey;
+      box-shadow: 0 2px 2px grey;
       transition: ease background-color 250ms;
 
       &:hover {
@@ -68,43 +59,37 @@ const UserInfos = () => {
         console.log("CLICKED");
     }
 
-    if (userMemes) return (
-        <ImageSlider slides={userMemes}/>
+    return (
+        <div className={styles.container}>
+            <div className={styles.card}>
+                <div className={styles.imageArea}>
+                    <div className={styles.avatar}/>
+                    <div className={styles.cameraButton} onClick={chooseAvatar}/>
+                </div>
+                <h3 style={{textAlign: "center"}}>{user.name}</h3>
+                <a href="">Followers</a>
+                <a href="">Following</a>
+                <a href="">Edit Profile</a>
+                <Button onClick={chooseAvatar}>Edit Profile</Button>
+            </div>
+            <div className={styles.verticalBox}>
+                <div className={styles.card}>
+                    <div className={styles.firstRow}>
+                        <h3>My memes</h3>
+                        <ShareButtons className={styles.shareButtons}/>
+                    </div>
+                    <ImageSlider user={user.name}/>
+                </div>
 
-        // <div className={userInfos.container}>
-        //     <div className={userInfos.card}>
-        //         <div className={userInfos.imageArea}>
-        //             <div className={userInfos.avatar}/>
-        //             <div className={userInfos.cameraButton} onClick={chooseAvatar}/>
-        //         </div>
-        //         <h3 style={{textAlign: "center"}}>{user.name}</h3>
-        //         <a href="">Followers</a>
-        //         <a href="">Following</a>
-        //         <a href="">Edit Profile</a>
-        //         <Button onClick={chooseAvatar}>Edit Profile</Button>
-        //     </div>
-        //
-        //     <div className={userInfos.verticalBox}>
-        //         <div className={userInfos.card}>
-        //             <div className={userInfos.firstRow}>
-        //                 <h3>My memes</h3>
-        //                 <ShareButtons className={userInfos.shareButtons}/>
-        //             </div>
-        //             <ImageSlider slides={userMemes}/>
-        //         </div>
-        //
-        //         <div className={userInfos.card}>
-        //             <div className={userInfos.firstRow}>
-        //                 <h3>Liked or commented memes</h3>
-        //                 <ShareButtons className={userInfos.shareButtons}/>
-        //             </div>
-        //             <ImageSlider slides={userMemes}/>
-        //
-        //         </div>
-        //     </div>
-        //
-        // </div>
-
+                <div className={styles.card}>
+                    <div className={styles.firstRow}>
+                        <h3>Liked or commented memes</h3>
+                        <ShareButtons className={styles.shareButtons}/>
+                    </div>
+                    <ImageSlider user={user.name}/>
+                </div>
+            </div>
+        </div>
     );
 }
 export default UserInfos;
