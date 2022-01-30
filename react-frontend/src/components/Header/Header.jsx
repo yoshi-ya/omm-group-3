@@ -48,6 +48,8 @@ const Header = () => {
                     <Route exact path="pickfromDesktop" element={<PickFromDesktop/>}/>
                     <Route exact path="random" element={<Meme/>}/>
                 </Route>
+                <Route path="/test" element={<GallerySingleView memesList={[{template: "https://via.placeholder.com/256?text=1"}, {template: "https://via.placeholder.com/256?text=2"}, {template: "https://via.placeholder.com/256?text=3"}, {template: "https://via.placeholder.com/256?text=4"}]} />}/>
+                <Route path="/memes" element={<TestMemes/>} />
             </Routes>
         </div>
     </Router>);
