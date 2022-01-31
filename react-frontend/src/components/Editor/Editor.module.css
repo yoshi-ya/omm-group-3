@@ -1,13 +1,13 @@
-button {
-    cursor: pointer;
-    display: flex;
-    width: 200px;
-    padding: 10px;
-    margin: 20px auto 15px;
-    color: white;
-    border: none;
-    border-radius: 3px;
-}
+/*button {*/
+/*    cursor: pointer;*/
+/*    display: flex;*/
+/*    width: 200px;*/
+/*    padding: 10px;*/
+/*    margin: 20px auto 15px;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    border-radius: 3px;*/
+/*}*/
 
 .editorContainer {
     justify-content: center;
@@ -94,7 +94,7 @@ canvas {
 }
 
 .editorTools {
-    overflow: hidden;
+    /*overflow: hidden;*/
     margin: 0;
     padding: 0;
     width: 100%;
@@ -104,12 +104,14 @@ canvas {
     background-color: white;
     text-align: center;
     border-bottom: 1px solid black;
+    min-width: 400px;
 }
 
-.editorTools a img {
+.tool {
     margin-top: 8px;
     margin-left: 42px;
     opacity: 75%;
+    cursor: pointer;
 }
 
 .editorTools a img:hover {
@@ -138,4 +140,30 @@ canvas {
     visibility: visible;
     opacity: 1;
     transition: opacity .4s ease-in;
+}
+
+.dropDown {
+    width: 278px;
+    background-color: #cccccc;
+    cursor: pointer;
+    position: absolute;
+    z-index: 10;
+    top: 115%;
+    right: 50%;
+}
+
+.dropDown ul {
+    list-style-type: none;
+    position: absolute;
+}
+
+.dropDownItem {
+    width: 100%;
+    background-color: cornflowerblue;
+    z-index: 99;
+    white-space: nowrap;
+}
+
+.dropDownItem:hover {
+    background-color: #8a40eb;
 }
