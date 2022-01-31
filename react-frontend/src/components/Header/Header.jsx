@@ -1,7 +1,6 @@
 import React from 'react';
 import {Route, Routes, BrowserRouter as Router, Link} from "react-router-dom";
 import Gallery from "../Gallery/Gallery";
-import Singleview from "../Gallery/Gallery";
 import styles from "./Header.module.css"
 import AuthenticationButton from "../AuthenticationButton/AuthenticationButton";
 import Editor from "../Editor/Editor";
@@ -13,7 +12,6 @@ import PickFromDesktop from '../Editor/PickFromDesktop';
 import DrawingCanvas from '../Editor/DrawingCanvas';
 import SingleView from "../SingleView/SingleView";
 import TestMemes from '../TestMemes/TestMemes';
-import GallerySingleView from "../GallerySingleView/GallerySingleView";
 
 
 const Header = () => {
@@ -48,8 +46,7 @@ const Header = () => {
                     <Route exact path="pickfromDesktop" element={<PickFromDesktop/>}/>
                     <Route exact path="random" element={<Meme/>}/>
                 </Route>
-                <Route path="/test" element={<GallerySingleView memesList={[{template: "https://via.placeholder.com/256?text=1"}, {template: "https://via.placeholder.com/256?text=2"}, {template: "https://via.placeholder.com/256?text=3"}, {template: "https://via.placeholder.com/256?text=4"}]} />}/>
-                <Route path="/memes" element={<TestMemes/>} />
+                <Route path="/test" element={<TestMemes/>} />
             </Routes>
         </div>
     </Router>);
