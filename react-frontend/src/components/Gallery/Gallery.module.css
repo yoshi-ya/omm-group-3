@@ -1,5 +1,5 @@
-.button{
- background-color: gray;
+.button {
+    background-color: gray;
 }
 
 .item img {
@@ -21,8 +21,7 @@
     height: 20px;
     margin: 0;
     cursor: pointer;
-    /*align-items: right;*/
-    display:flex;
+    display: flex;
 }
 
 .iconBox {
@@ -31,22 +30,22 @@
     gap: 10px;
 }
 
-.slideshow{
+.slideshow {
     margin: 0 auto;
-    overflow:hidden;
+    overflow: hidden;
 }
 
-.slideshowSlider{
+.slideshowSlider {
     white-space: nowrap;
 }
 
-.slide{
+.slide {
     display: inline-block;
     width: 100%;
     border-radius: 40px;
 }
 
-.slideshowDots{
+.slideshowDots {
     text-align: center;
 }
 

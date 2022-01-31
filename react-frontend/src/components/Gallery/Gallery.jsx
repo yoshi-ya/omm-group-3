@@ -1,11 +1,7 @@
-import React, {useEffect, useState, useRef} from 'react';
-import axios from 'axios';
-import {encode} from "base64-arraybuffer";
-import styles from './Gallery.module.css';
-import like from './like.png'
-import comment from './comment.png'
-import share from './share.png'
+import React, {useEffect, useRef, useState} from 'react';
 import SingleView from '../GallerySingleView/GallerySingleView'
+import Overview from "../Overview/Overview";
+import axios from "axios";
 
 
 const Gallery = () => {
@@ -14,67 +10,22 @@ const Gallery = () => {
     const memeNumber = useRef(0);
 
     useEffect(() => {
-        axios
-            .get('http://localhost:5001/allMemes')
+        fetchData()
             .then(res => {
-                if (res.data) {
-                    setAllMemes(res.data)
-                }
+                setAllMemes(res.data)
             }).catch((error) => {
             error.toString();
         })
     }, [])
 
-    const toggleView = () => {
-        setSingleViewActive(!singleViewActive)
+    const fetchData = async () => {
+        return await axios.get('http://localhost:5001/allMemes')
     }
 
-    const Overview = () => {
-
-        let memesArray = allMemes.map((meme, i) => (<div className={styles.item} key={i}>
-            <img width='250px' height='250px' alt={`meme_${i}`}
-                 src={`data:image/png;base64,${encode(meme.template.data)}`} onClick={() => {
-                memeNumber.current = i;
-                toggleView()
-            }}/>
-            <div className={styles.iconBox}>
-                <div className={styles.iconBox}>{meme.votes}
-                    <img src={like} alt={`like_${i}`} className={styles.icons} onClick={() => {
-                        handleLikeClick()
-                    }}/>
-                </div>
-                <div className={styles.iconBox}>
-                    <img src={comment} alt={`like_${i}`} className={styles.icons}/>
-                </div>
-                <div className={styles.iconBox}>
-                    <img src={share} alt={`like_${i}`} className={styles.icons}/>
-                </div>
-            </div>
-        </div>));
-
-        function handleCommentClick() {
-            console.log('COMMENT')
-        }
-
-        function handleShareClick() {
-            console.log('SHARE')
-        }
-
-        function handleLikeClick() {
-            console.log('LIKED')
-        }
-
-        return (<div>
-            <h2>Overview</h2>
-            <button className={styles.button} onClick={() => {
-                toggleView()
-            }}>Switch Views
-            </button>
-            <div className={styles.container}>{memesArray}</div>
-        </div>);
-    }
-
-    return !singleViewActive ? <Overview/> : <SingleView memesList={allMemes} memeNumber={memeNumber.current} active={setSingleViewActive}/>
+    return !singleViewActive ?
+        <Overview memesList={allMemes} setMemes={setAllMemes} memeNumber={memeNumber} active={setSingleViewActive}/> :
+        <SingleView memesList={allMemes} memeNumber={memeNumber}
+                    active={setSingleViewActive}/>
 }
 
 export default Gallery;

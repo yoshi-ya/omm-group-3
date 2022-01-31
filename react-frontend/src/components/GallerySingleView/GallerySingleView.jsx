@@ -6,7 +6,7 @@ import {encode} from "base64-arraybuffer";
 
 const GallerySingleView = (props) => {
     const defaultMeme = "https://via.placeholder.com/256?text=no%20meme%20found"
-    const [currentMeme, setCurrentMeme] = useState(props.memeNumber);
+    const [currentMeme, setCurrentMeme] = useState(props.memeNumber.current);
     const [autoPlay, setAutoPlay] = useState(false);
 
     useEffect(() => {
@@ -15,7 +15,6 @@ const GallerySingleView = (props) => {
             const interval = setInterval(() => {
                 setCurrentMeme(nextIndex);
             }, 3000);
-
             return () => clearInterval(interval);
         }
     }, [currentMeme, autoPlay]);
