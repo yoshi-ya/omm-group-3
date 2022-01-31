@@ -196,6 +196,10 @@ module.exports = app => {
             .catch(() => console.log(`ERROR in /fetchMeme: could not find meme with ID ${req.query.id}`))
     })
 
+    /**
+     * updates the list of people who liked a meme in the database
+     * the body should contain a meme-ID and a list of emails
+     */
     app.post("/addLike", cors(), (req, res) => {
         Meme
             .findOneAndUpdate({_id: req.body.id}, {votes: req.body.votes}, {new: true})
