@@ -156,7 +156,7 @@ module.exports = app => {
      * ISSUE #7: API-Meme Retrieval
      * given an optional set of constraints, memes are retrieved and a list of URLs to respective
      * SingleViews is returned
-     * */
+     */
     app.get("/retrieveMemes", cors(), (req, res) => {
         let result = []
         const possibleFilter = ["author", "date", "template", "text1", "text2", "text3", "text4"]
@@ -194,5 +194,12 @@ module.exports = app => {
                 res.send(result)
             })
             .catch(() => console.log(`ERROR in /fetchMeme: could not find meme with ID ${req.query.id}`))
+    })
+
+    app.post("/addLike", cors(), (req, res) => {
+        Meme
+            .findOneAndUpdate({_id: req.body.id}, {votes: req.body.votes}, {new: true})
+            .then(result => res.send(result))
+            .catch(() => console.log(`ERROR in /addLike: could not find meme with ID ${req.body.id}`))
     })
 }
