@@ -34,7 +34,7 @@ const TestMemes = () => {
             <input type="file" name="meme" id="meme" accept="image/png, image/jpg, image/jpeg"/>
             <input type="text" name="author" id="author" placeholder="author"/>
             <input type="text" name="text1" id="text1" placeholder="text1"/>
-            <input type="number" name="votes" id="votes" placeholder="votes"/>
+            <input type="text" name="votes[]" id="votes" placeholder="a username for 1 like or empty"/>
             <label>
                 <input type="radio" value="yes" onClick={() => setIsPrivate(!isPrivate)} checked={isPrivate}/>
                 Set private?

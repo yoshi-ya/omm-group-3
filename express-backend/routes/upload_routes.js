@@ -27,7 +27,7 @@ module.exports = app => {
 
         new Meme(meme)
             .save()
-            .then(() => res.redirect("http://localhost:3000/memes"))
+            .then(() => res.redirect("http://localhost:3000/test"))
             .catch(err => {
                 console.log(err)
                 // always redirect from server, otherwise no response
