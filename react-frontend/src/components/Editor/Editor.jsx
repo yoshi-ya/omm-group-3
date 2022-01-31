@@ -1,16 +1,14 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios';
 import {useAuth0} from "@auth0/auth0-react";
-import {Meme} from '../Meme/Meme';
-import {Route, Routes, BrowserRouter as Router, Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 import styles from '../Editor/Editor.module.css';
 import {Outlet} from 'react-router-dom'
-import { MemeGenerated } from '../MemeGenerated/MemeGenerated'
-import DrawingCanvas from './DrawingCanvas';
-import PickFromDesktop from './PickFromDesktop';
-import PickFromURL from './PickFromURL';
-import TestMemes from '../TestMemes/TestMemes';
 import {encode} from "base64-arraybuffer";
+import uploadIcon from "./upload.png"
+import randomIcon from "./random.png"
+import urlIcon from "./url.png"
+import drawingIcon from "./drawing.png"
 
 
 const Editor = () => {
@@ -30,72 +28,84 @@ const Editor = () => {
 
 
     if (!isAuthenticated) {
-        return (
-            <div>
-                Please log in to create and upload memes.
-            </div>
-        )
+        return (<div>
+            Please log in to create and upload memes.
+        </div>)
     }
 
-    const openCanvas = () =>{
+    const openCanvas = () => {
         setShowCanvas(true);
     }
 
-    const openPickFromDesktop = () =>{
+    const openPickFromDesktop = () => {
         setShowPickFromDesktop(true);
     }
 
-    const openPickFromURL = () =>{
+    const openPickFromURL = () => {
         setShowPickFromURL(true);
     }
 
-    const openRandomIMG = () =>{
+    const openRandomIMG = () => {
         setShowRandomImg(true);
     }
-    const handleMeme = (_meme) =>{
-        if(currTemplate== null){
+    const handleMeme = (_meme) => {
+        if (currTemplate == null) {
             setcurrTemplate(_meme);
         }
     }
 
-    return (
-    <div className={styles.outerContainer}>
-    <div className={styles.editorContainer}>
-        <div className={styles.images}>
-        <div className={styles.container}>   
-             {memes.map(meme => {
-                return (<div className={styles.templates} key={meme._id}>
-                    <img width='50px' height='50px' onClick={handleMeme(meme)} src={`data:image/png;base64,${encode(meme.template.data)}`}
-                         alt={`meme_${meme._id}`}/>
-                </div>)
-            })} 
+    return (<>
+        <div className={styles.editorTools}>
+            <div className={styles.tooltip}>
+                <Link to="drawing" onClick={openCanvas}>
+                    <img src={drawingIcon} alt="drawingIcon"/>
+                </Link>
+                <span className={styles.tooltipText}>Draw</span>
+            </div>
+            <div className={styles.tooltip}>
+                <Link to="pickfromDesktop" onClick={openPickFromDesktop}>
+                    <img src={uploadIcon} alt="uploadIcon"/>
+                </Link>
+                <span className={styles.tooltipText}>Pick from files</span>
+            </div>
+            <div className={styles.tooltip}>
+                <Link to="pickfromURL" onClick={openPickFromURL}>
+                    <img src={urlIcon} alt="urlIcon"/>
+                </Link>
+                <span className={styles.tooltipText}>Pick from URL</span>
+            </div>
+            <div className={styles.tooltip}>
+                <Link to="random" onClick={openRandomIMG}>
+                    <img src={randomIcon} alt="randomIcon"/>
+                </Link>
+                <span className={styles.tooltipText}>Pick randomly</span>
+            </div>
         </div>
-        {currTemplate !== null
-         ?
-        <div className={styles.singleIMG} key={currTemplate._id}>
-                    <img width='400px'  height='400px' src={`data:image/png;base64,${encode(currTemplate.template.data)}`}
-                         alt={`meme_${currTemplate._id}`}/>
+        <div className={styles.outerContainer}>
+            <div className={styles.editorContainer}>
+                <div className={styles.images}>
+                    <div className={styles.container}>
+                        {memes.map(meme => {
+                            return (<div className={styles.templates} key={meme._id}>
+                                <img className={styles.meme} width='50px' height='50px'
+                                     onClick={handleMeme(meme)}
+                                     src={`data:image/png;base64,${encode(meme.template.data)}`}
+                                     alt={`meme_${meme._id}`}/>
+                            </div>)
+                        })}
+                    </div>
+                    {currTemplate !== null ?
+                        <div className={styles.singleIMG} key={currTemplate._id}>
+                            <img className={styles.meme} width='400px' height='400px'
+                                 src={`data:image/png;base64,${encode(currTemplate.template.data)}`}
+                                 alt={`meme_${currTemplate._id}`}/>
+                        </div> : <></>}
+                </div>
+                <Outlet/>
+
+            </div>
         </div>
-         : 
-        <></>}
-        </div>
-        <div className={styles.buttonContainer}>       
-            <Link to="drawing">
-            <button className={styles.upload} onClick={openCanvas}>Open drawing canvas</button>
-            </Link>
-            <Link to="pickfromDesktop">
-            <button className={styles.upload} onClick={openPickFromDesktop}>Pick image from Desktop</button>
-            </Link>
-            <Link to="pickfromURL">
-                <button className={styles.upload} onClick={openPickFromURL}>Pick image from URL</button>
-            </Link> 
-            <Link to="random">
-            <button className={styles.upload} onClick={openRandomIMG}>See random images</button>
-            </Link>
-            <Outlet/>
-        </div>
-        </div>
-    </div>);
+    </>);
 };
 
 export default Editor;
