@@ -5,6 +5,9 @@
     padding: 0;
     border-bottom: 1px solid #ccc;
     width: 100%;
+    background: linear-gradient(
+            90deg, rgba(47, 160, 210, 1) 0%, rgba(57, 216, 217, 1) 32%, rgba(0, 120, 144, 1) 100%);
+    letter-spacing: 2px;
 }
 
 .navElementRight {
@@ -20,9 +23,17 @@
 .navElementRight, .navElementLeft {
     padding: 16px;
     border-radius: 4px;
+    border-color: white;
+}
+
+.navElementRight:hover, .navElementLeft:hover {
+    background-color: #3fc9e4;
+    border-color: #3fc9e4;
+    transition: background-color .4s ease-out, border-color .4s ease-out;
 }
 
 .navLink {
     text-decoration: none;
     display: block;
+    color: black;
 }
