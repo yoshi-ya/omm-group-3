@@ -15,7 +15,7 @@ let meme = new schema({
     text2: String,
     text3: String,
     text4: String,
-    votes: Number,
+    votes: [String],
     private: Boolean,
     color: String,
     size: Number,
