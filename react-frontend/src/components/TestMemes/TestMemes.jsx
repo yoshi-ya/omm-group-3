@@ -11,13 +11,20 @@ import {encode} from "base64-arraybuffer";
 const TestMemes = () => {
 
     const [memes, setMemes] = useState([]);
-    const [isPrivate, setIsPrivate] = useState(false)
+    const [templates, setTemplates] = useState([])
 
     useEffect(() => {
         axios
             .get("http://localhost:5001/allMemes")
             .then(data => setMemes(data.data))
     }, []);
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:5001/allTemplates")
+            .then(data => setTemplates(data.data))
+    }, []);
+
 
     return (<>
         <ul>
@@ -29,20 +36,32 @@ const TestMemes = () => {
             })}
         </ul>
 
+        <ul>
+            {templates.map(template => {
+                return (<li key={template._id}>
+                    <img src={`data:image/png;base64,${encode(template.image.data)}`}
+                         alt={`meme_${template._id}`}/>
+                </li>)
+            })}
+        </ul>
+
+        <h1>Upload Memes</h1>
         <form name="memeForm" action="http://localhost:5001/upload" method="POST"
               encType="multipart/form-data">
-            <input type="file" name="meme" id="meme" accept="image/png, image/jpg, image/jpeg"/>
+            <input type="file" name="meme" id="meme" accept="image/png, image/jpg, image/jpeg" required/>
+            <input type="text" name="text1" id="text1" placeholder="text1" required/>
             <input type="text" name="author" id="author" placeholder="author"/>
-            <input type="text" name="text1" id="text1" placeholder="text1"/>
-            <input type="text" name="votes[]" id="votes" placeholder="a username for 1 like or empty"/>
-            <label>
-                <input type="radio" value="yes" onClick={() => setIsPrivate(!isPrivate)} checked={isPrivate}/>
-                Set private?
-            </label>
             <input type="submit" value="upload"/>
         </form>
-    </>
-);
+        <h1>Upload templates</h1>
+        <form name="memeForm" action="http://localhost:5001/uploadTemplate" method="POST"
+              encType="multipart/form-data">
+            <input type="file" name="template" id="template" accept="image/png, image/jpg, image/jpeg" required/>
+            <input type="text" name="name" id="name" placeholder="Template Name" required/>
+            <input type="text" name="author" id="author" placeholder="Author"/>
+            <input type="submit" value="upload"/>
+        </form>
+    </>);
 };
 
 export default TestMemes;
