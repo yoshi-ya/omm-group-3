@@ -8,7 +8,7 @@ import randomIcon from "./random.png";
 import browseIcon from "./browse.png";
 import axios from "axios";
 
-const Toolbox = (props) => {
+const Toolbox = () => {
 
     const [collapsed, setCollapsed] = useState(true);
     const [templates, setTemplates] = useState([]);
@@ -25,25 +25,25 @@ const Toolbox = (props) => {
 
     return (<div className={styles.editorTools}>
         <div className={styles.tooltip}>
-            <Link to="drawing" onClick={() => props.setOpenCanvas(true)}>
+            <Link to="drawing">
                 <img className={styles.tool} src={drawingIcon} alt="drawingIcon"/>
             </Link>
             <span className={styles.tooltipText}>Draw</span>
         </div>
         <div className={styles.tooltip}>
-            <Link to="pickfromDesktop" onClick={() => props.setPickFromDesktop(true)}>
+            <Link to="pickfromDesktop">
                 <img className={styles.tool} src={uploadIcon} alt="uploadIcon"/>
             </Link>
             <span className={styles.tooltipText}>Pick from files</span>
         </div>
         <div className={styles.tooltip}>
-            <Link to="pickfromURL" onClick={() => props.setPickFromUrl(true)}>
+            <Link to="pickfromURL">
                 <img className={styles.tool} src={urlIcon} alt="urlIcon"/>
             </Link>
             <span className={styles.tooltipText}>Pick from URL</span>
         </div>
         <div className={styles.tooltip}>
-            <Link to="random" onClick={() => props.setPickRandom(true)}>
+            <Link to="random">
                 <img className={styles.tool} src={randomIcon} alt="randomIcon"/>
             </Link>
             <span className={styles.tooltipText}>Pick randomly</span>
