@@ -14,7 +14,6 @@
     position: relative;
     padding: 32px;
     width: 100%;
-    max-width: 640px;
     background-color: white;
 }
 
@@ -34,4 +33,40 @@
 
 .closeButton:before {
     content: "×";
+}
+
+.memepng {
+    margin: 0;
+}
+
+.flexBoxShare {
+    display: flex;
+    margin: auto;
+    flex-direction: row;
+    margin: 20px;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.flexBoxComments {
+    display: flex;
+    margin: auto;
+    flex-direction: row;
+    margin: 20px;
+    gap: 30px;
+}
+
+.copyButton {
+    margin: 0;
+    color: #12b2e3;
+    background-color: #b2dfed;
+    width: auto;
+}
+
+.shareLink {
+    margin: 0;
+    color: #828282;
+    background-color: #f2f2f2;;
+    width: auto;
 }

@@ -16,6 +16,7 @@ const Overview = (props) => {
     const {user, isAuthenticated} = useAuth0()
     const [commentPopUp, setCommentPopUp] = useState(false)
     const [sharePopUp, setSharePopUp] = useState(false)
+    const [allComments, setAllComments] = useState([])
 
     const fetchData = async () => {
         return await axios.get('http://localhost:5001/allMemes')
@@ -41,6 +42,22 @@ const Overview = (props) => {
         }
     }
 
+    const handleCommentClick = (async () => {
+        const comments = await axios
+                    .get("http://localhost:5001/allComments")
+                    .then((res) => 
+                        {if(res.data) {
+                            console.log("result", res.data)
+                            return res.data
+                        }}
+                    )
+                    .catch(err => console.log(err))
+        setAllComments(comments)
+        console.log("all comments",comments)
+        console.log("all comments",allComments)
+        setCommentPopUp(true)
+    });
+
     if (isAuthenticated) {
         return (<div className={styles.container}>
 
@@ -62,13 +79,13 @@ const Overview = (props) => {
                         />
                     </div>
                     <div className={styles.iconBox}>
-                        <img src={comment} alt={`comment_${i}`} className={styles.icons} onClick={() => setCommentPopUp(true)}/>
+                        <img src={comment} alt={`comment_${i}`} className={styles.icons} onClick={handleCommentClick}/>
                     </div>
                     <div className={styles.iconBox}>
                         <img src={share} alt={`share_${i}`} className={styles.icons} onClick={()=> setSharePopUp(true)}/>
                     </div>
                 </div>
-                <CommentsPopUp trigger={commentPopUp} setTrigger={setCommentPopUp} meme={meme}>
+                <CommentsPopUp trigger={commentPopUp} setTrigger={setCommentPopUp} meme={meme} comments={allComments}>
                 </CommentsPopUp>
                 <SharePopUp trigger={sharePopUp} setTrigger={setSharePopUp} meme={meme}>
                 </SharePopUp>

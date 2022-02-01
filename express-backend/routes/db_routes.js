@@ -71,7 +71,7 @@ module.exports = app => {
      * URL-parameter meme: the ID of the Meme associated with the comment
      */
     app.get("/allComments", cors(), (req, res) => {
-        Comment.find({meme: req.query.meme}).then(comments => {
+        Comment.find().then(comments => {
             res.send(comments)
         }, err => console.error(err))
     })

@@ -1,0 +1,31 @@
+.commentSection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.allComments {
+
+}
+
+.oneComment {
+    margin: 5px;
+    display: flex;
+}
+
+.writeCommentBox {
+    margin-top: auto;
+    display: flex;
+    gap: 20px;
+}
+
+.commentInput {
+    margin:0;
+}
+
+.sendButton {
+    margin: 0;
+    color: #12b2e3;
+    background-color: #b2dfed;
+    width: auto;
+}
