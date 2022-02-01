@@ -1,0 +1,72 @@
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popupInner {
+    position: relative;
+    padding: 32px;
+    width: 100%;
+    background-color: white;
+}
+
+.closeButton {
+    position: absolute;
+    top:0;
+    right:0;
+    width: 50px;
+    height: 50px;
+    margin:5px;
+    display: inline-block;
+    font-size: 31px;
+    font-weight: bold;
+    color: white;
+    background-color: gray;
+}
+
+.closeButton:before {
+    content: "×";
+}
+
+.memepng {
+    margin: 0;
+}
+
+.flexBoxShare {
+    display: flex;
+    margin: auto;
+    flex-direction: row;
+    margin: 20px;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.flexBoxComments {
+    display: flex;
+    margin: auto;
+    flex-direction: row;
+    margin: 20px;
+    gap: 30px;
+}
+
+.copyButton {
+    margin: 0;
+    color: #12b2e3;
+    background-color: #b2dfed;
+    width: auto;
+}
+
+.shareLink {
+    margin: 0;
+    color: #828282;
+    background-color: #f2f2f2;;
+    width: auto;
+}

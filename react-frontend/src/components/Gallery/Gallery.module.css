@@ -13,6 +13,7 @@
     gap: 30px;
     flex-wrap: wrap;
     align-items: flex-start;
+    
 }
 
 .icons {
@@ -25,36 +26,11 @@
 }
 
 .iconBox {
-    margin: 10px;
+    margin: 10px 10px 10px 0px;
     display: flex;
     gap: 10px;
 }
 
-.slideshow {
-    margin: 0 auto;
-    overflow: hidden;
-}
-
-.slideshowSlider {
-    white-space: nowrap;
-}
-
-.slide {
-    display: inline-block;
-    width: 100%;
-    border-radius: 40px;
-}
-
-.slideshowDots {
-    text-align: center;
-}
-
-.dot {
-    display: inline-block;
-    height: 20px;
-    width: 20px;
-    cursor: pointer;
-    border-radius: 50%;
-    margin: 15px 7px 0;
-    background-color: gray;
+.createdByBox {
+    margin: 10px 10px 10px 0px;
 }
