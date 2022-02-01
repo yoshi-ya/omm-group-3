@@ -3,6 +3,7 @@ const schema = mongoose.Schema
 
 let meme = new schema({
     author: String,
+    name: String,
     date: Date,
     template: {
         type: Buffer,
