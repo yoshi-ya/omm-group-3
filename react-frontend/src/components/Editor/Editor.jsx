@@ -1,15 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios';
 import {useAuth0} from "@auth0/auth0-react";
-import {Link} from "react-router-dom";
 import styles from '../Editor/Editor.module.css';
 import {Outlet} from 'react-router-dom'
 import {encode} from "base64-arraybuffer";
-import uploadIcon from "./upload.png"
-import randomIcon from "./random.png"
-import urlIcon from "./url.png"
-import drawingIcon from "./drawing.png"
-import browseIcon from "./browse.png"
+import Toolbox from "../Toolbox/Toolbox";
 
 
 const Editor = () => {
@@ -56,43 +51,7 @@ const Editor = () => {
     }
 
     return (<>
-        <div className={styles.editorTools}>
-            <div className={styles.tooltip}>
-                <Link to="drawing" onClick={openCanvas}>
-                    <img className={styles.tool} src={drawingIcon} alt="drawingIcon"/>
-                </Link>
-                <span className={styles.tooltipText}>Draw</span>
-            </div>
-            <div className={styles.tooltip}>
-                <Link to="pickfromDesktop" onClick={openPickFromDesktop}>
-                    <img className={styles.tool} src={uploadIcon} alt="uploadIcon"/>
-                </Link>
-                <span className={styles.tooltipText}>Pick from files</span>
-            </div>
-            <div className={styles.tooltip}>
-                <Link to="pickfromURL" onClick={openPickFromURL}>
-                    <img className={styles.tool} src={urlIcon} alt="urlIcon"/>
-                </Link>
-                <span className={styles.tooltipText}>Pick from URL</span>
-            </div>
-            <div className={styles.tooltip}>
-                <Link to="random" onClick={openRandomIMG}>
-                    <img className={styles.tool} src={randomIcon} alt="randomIcon"/>
-                </Link>
-                <span className={styles.tooltipText}>Pick randomly</span>
-            </div>
-            <div className={styles.tooltip}>
-                <img className={styles.tool} src={browseIcon} alt="browseIcon"/>
-                <span className={styles.tooltipText}>Browse templates</span>
-                <div className={styles.dropDown}>
-                    <ul>
-                        <li className={styles.dropDownItem}>Hello World</li>
-                        <li className={styles.dropDownItem}>Some template name</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
+        <Toolbox setOpenCanvas={openCanvas} setPickFromDesktop={openPickFromDesktop} setPickFromUrl={openPickFromURL} setPickRandom={openRandomIMG}/>
 
         <div className={styles.outerContainer}>
             <div className={styles.editorContainer}>
