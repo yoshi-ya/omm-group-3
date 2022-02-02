@@ -11,17 +11,21 @@
     }
   }
 
+/* User infos on the left side*/
 .container > *:nth-child(1) {
     height: 98.4%;
     flex: 1 1 15%;
     min-width: 340px; 
 }
+
+/* Meme sliders on the right side */
 .container > *:nth-child(2) {
     height: 100%;
     flex: 1 1 75%;
     min-width: 42ch;
 }
 
+/* 2 sliders under each other */
 .verticalBox {
     display: flex;
     flex-direction: column;
@@ -32,6 +36,7 @@
     margin: 8px;
     border-radius: 15px;
     height: 100%;
+    width: 100%; /* Don't delete - it's a parent of other elements that need a set width */
     display: flex;
     flex-direction: column;
 }
@@ -45,26 +50,25 @@
     color: black;
 }
 
+/* Headline of card */
 .firstRow {
+    position: relative;
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
+/* Text */
 .firstRow > *:nth-child(1) {
-    flex: 1 1;
+    flex: 1 1; 
     margin-left: 20px; 
 }
+/* Share buttons */
 .firstRow > *:nth-child(2) {
-    flex: 1 1;
+    flex: 1 1; 
     margin-right: 20px;
 }
 
-/* ------------------------------------ */
-.shareButtons {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-}
-
+/* User infos on the left side */
 .imageArea {
     background-color: #343434;
     height: 150px;
@@ -73,6 +77,7 @@
     position: relative;
 }
 
+/* User infos on the left side */
 .avatar {
     background-image: url(Wolves.jpg);
     background-size: cover;
@@ -86,6 +91,7 @@
     transform: translate(-50%, -40%);
 }
 
+/* User infos on the left side */
 .cameraButton{
     background-image: url(camera.png);
     background-size: cover;
@@ -94,6 +100,30 @@
     position: absolute;
     top: 80%;
     right: 10px;
+}
+
+/*---- Button ------------------------------------------*/
+
+.button {
+    background-color: #232323;
+    width: 50%;
+    overflow: hidden;
+    color: white;
+    padding: 5px 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+    outline: 0;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0px 2px 2px grey;
+    transition: ease background-color 250ms;
+}
+.button:hover {
+    background-color: #232323;
+}
+.button.disabled {
+    cursor: default;
+    opacity: 0.7;
 }
 
 
