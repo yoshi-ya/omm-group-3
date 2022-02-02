@@ -76,7 +76,7 @@ const UserInfos = () => {
                 <div className={styles.card}>
                     <div className={styles.firstRow}>
                         <h3>My memes</h3>
-                        <ShareButtons className={styles.shareButtons}/>
+                        <ShareButtons />
                     </div>
                     <ImageSlider user={user.name}/>
                 </div>
@@ -84,7 +84,7 @@ const UserInfos = () => {
                 <div className={styles.card}>
                     <div className={styles.firstRow}>
                         <h3>Liked or commented memes</h3>
-                        <ShareButtons className={styles.shareButtons}/>
+                        <ShareButtons />
                     </div>
                     <ImageSlider user={user.name}/>
                 </div>
