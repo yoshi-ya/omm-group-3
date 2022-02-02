@@ -72,8 +72,8 @@ const Overview = (props) => {
                 <div className={styles.createdByBox}>Created by: {meme.author}</div>
                 <div className={styles.iconBox}>
                     <div className={styles.iconBox}>
-                        <span>{meme.votes.length}</span>
-                        <img src={meme.votes.includes(user.email) ? heartRed : heart}
+                        <span>{meme.votes ? meme.votes.length : 0}</span>
+                        <img src={meme.votes && meme.votes.includes(user.email) ? heartRed : heart}
                              alt={`like_${i}`} className={styles.icons} data-meme={meme._id}
                             onClick={handleLikeClick}
                         />
