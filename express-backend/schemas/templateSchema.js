@@ -12,7 +12,10 @@ let template = new schema({
         type: Buffer,
         required: true
     },
-    private: Boolean
+    private: {
+        type: Boolean,
+        default: false
+    }
 })
 
 const Template = mongoose.model("Template", template)
