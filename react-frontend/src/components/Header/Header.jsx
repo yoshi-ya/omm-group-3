@@ -19,7 +19,7 @@ const Header = () => {
         <div>
             <ul className={styles.navBar}>
                 <li className={styles.navElementLeft}>
-                    <Link className={styles.navLink} to="/gallery">Gallery</Link>
+                    <Link className={styles.navLink} to="/">Gallery</Link>
                 </li>
                 <li className={styles.navElementLeft}>
                     <Link className={styles.navLink} to="/editor">Editor</Link>
