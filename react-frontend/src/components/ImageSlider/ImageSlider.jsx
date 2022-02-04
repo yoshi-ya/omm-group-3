@@ -33,7 +33,7 @@ const ImageSlider = ({user, sliderText, sliderButton}) => {
     /* Show or not show a button inside the slider */
     function showButton(props) {
         if (props) {
-            return <div className={imageSlider.sliderButton}><Link to="/">Gallery</Link></div>
+            return <div className={imageSlider.sliderButton}><Link to="/gallery">Gallery</Link></div>
         } else {
             return ""
         }
