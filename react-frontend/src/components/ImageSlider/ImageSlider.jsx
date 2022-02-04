@@ -19,11 +19,12 @@ const ImageSlider = ({user, sliderText, sliderButton}) => {
     }, [])
 
     const nextSlide = () => {
-        setSlideIndex(slideIndex !== memes.length ? slideIndex + 1 : 1)
+        setSlideIndex(slideIndex !== memes.length ? slideIndex + 1 : 0)
     }
 
+
     const prevSlide = () => {
-        setSlideIndex(slideIndex !== 1 ? slideIndex - 1 : memes.length)
+        setSlideIndex(slideIndex !== 0 ? slideIndex - 1 : memes.length - 1)
     }
 
     const moveDot = index => {
@@ -40,16 +41,46 @@ const ImageSlider = ({user, sliderText, sliderButton}) => {
     }
 
 
-    if (memes.length > 0) 
+    if (memes.length > 0 && memes.length <= 3) 
         return (
             <div className={imageSlider.slider}>
-                <div><FaArrowAltCircleLeft className={imageSlider.leftArrow}/></div>
-                <div><FaArrowAltCircleRight className={imageSlider.rightArrow}/></div>
+                <div className={imageSlider.sliderInner} key={memes[slideIndex]._id}>
+                    <div className={imageSlider.slideActive}>
+                        <img src={`data:image/png;base64,${encode(memes[slideIndex].template.data)}`} alt="Meme"
+                            className={imageSlider.imageSmall}/>
+                    </div>
+                </div>
+            </div>
+        )
+    if (memes.length > 3) {
+        let rightIndex = slideIndex + 1;
+        let leftIndex = slideIndex -1 ;
+        if (slideIndex === 0) {
+            leftIndex = memes.length - 1;
+        } 
+        if (slideIndex === memes.length - 1) {
+            rightIndex = 0;
+        }
+                
+        return (
+            <div className={imageSlider.slider}>
+                <div onCLick={prevSlide}><FaArrowAltCircleLeft className={imageSlider.leftArrow}/></div>
+                <div onCLick={nextSlide}><FaArrowAltCircleRight className={imageSlider.rightArrow}/></div>
 
                 <div className={imageSlider.sliderInner} key={memes[slideIndex]._id}>
 
                     <div className={imageSlider.slideActive}>
+                        <img src={`data:image/png;base64,${encode(memes[leftIndex].template.data)}`} alt="Meme"
+                            className={imageSlider.imageSmall}/>
+                    </div>
+
+                    <div className={imageSlider.slideActive}>
                         <img src={`data:image/png;base64,${encode(memes[slideIndex].template.data)}`} alt="Meme"
+                            className={imageSlider.imageSmall}/>
+                    </div>
+
+                    <div className={imageSlider.slideActive}>
+                        <img src={`data:image/png;base64,${encode(memes[rightIndex].template.data)}`} alt="Meme"
                             className={imageSlider.imageSmall}/>
                     </div>
 
@@ -63,6 +94,7 @@ const ImageSlider = ({user, sliderText, sliderButton}) => {
                 </div>
             </div>
         )
+    }
         return (
             <div className={imageSlider.emptySlider}>
                 <div>Let's {sliderText} some Memes!</div>
