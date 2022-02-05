@@ -23,7 +23,7 @@ function DrawingCanvas() {
         canvas.style.height = `${300}px`;
 
         const context = canvas.getContext("2d");
-        context.scale(2,2);
+        context.scale(1,1);
         context.lineCap = "round";
         context.strokeStyle ="black";
         context.lineWidth = 3;
