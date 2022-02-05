@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import styles from '../Meme/styles.module.css';
+import React, {useState} from 'react';
+import styles from './EditorPickFromUrl.module.css';
 import axios from 'axios';
 
-const PickFromURL = () =>{
+const EditorPickFromUrl = () =>{
     const [imageURL, setImageURL] = useState("");
     const [texts, setTexts] = useState(['','']);
 
@@ -52,4 +52,4 @@ const PickFromURL = () =>{
             </div>   
         )
 }
-export default PickFromURL;
+export default EditorPickFromUrl;
