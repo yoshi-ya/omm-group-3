@@ -2,7 +2,10 @@ const mongoose = require('mongoose')
 const schema = mongoose.Schema
 
 let template = new schema({
-    author: String,
+    author: {
+        type: String,
+        required: true
+    },
     name: {
         type: String,
         required: true

@@ -2,8 +2,14 @@ const mongoose = require('mongoose')
 const schema = mongoose.Schema
 
 let meme = new schema({
-    author: String,
-    name: String,
+    author: {
+        type: String,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
     date: Date,
     template: {
         type: Buffer,
