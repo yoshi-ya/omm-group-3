@@ -22,13 +22,7 @@ const Editor = () => {
     const [showRandomImg, setShowRandomImg] = useState(false);
     const [memes, setMemes] = useState([]);
     const [currTemplate, setcurrTemplate] = useState(null);
-
-    useEffect(async () => {
-        let data = await axios.get("http://localhost:5001/allMemes")
-        setMemes(data.data)
-    }, []);
-
-
+/*
     if (!isAuthenticated) {
         return (
             <div>
@@ -44,16 +38,9 @@ const Editor = () => {
     const openPickFromDesktop = () =>{
         setShowPickFromDesktop(true);
     }
-
-    const openPickFromURL = () =>{
-        setShowPickFromURL(true);
-    }
-
-    const openRandomIMG = () =>{
-        setShowRandomImg(true);
-    }
-    const handleMeme = (_meme) =>{
-        if(currTemplate== null){
+*/
+    const handleMeme = (_meme) => {
+        if (currTemplate == null) {
             setcurrTemplate(_meme);
         }
     }
@@ -62,13 +49,13 @@ const Editor = () => {
     <div className={styles.outerContainer}>
     <div className={styles.editorContainer}>
         <div className={styles.images}>
-        <div className={styles.container}>   
+        <div className={styles.container}>
              {memes.map(meme => {
                 return (<div className={styles.templates} key={meme._id}>
                     <img width='50px' height='50px' onClick={handleMeme(meme)} src={`data:image/png;base64,${encode(meme.template.data)}`}
                          alt={`meme_${meme._id}`}/>
                 </div>)
-            })} 
+            })}
         </div>
         {currTemplate !== null
          ?
@@ -76,10 +63,10 @@ const Editor = () => {
                     <img width='400px'  height='400px' src={`data:image/png;base64,${encode(currTemplate.template.data)}`}
                          alt={`meme_${currTemplate._id}`}/>
         </div>
-         : 
+         :
         <></>}
         </div>
-        <div className={styles.buttonContainer}>       
+        <div className={styles.buttonContainer}>
             <Link to="drawing">
             <button className={styles.upload} onClick={openCanvas}>Open drawing canvas</button>
             </Link>
@@ -88,7 +75,7 @@ const Editor = () => {
             </Link>
             <Link to="pickfromURL">
                 <button className={styles.upload} onClick={openPickFromURL}>Pick image from URL</button>
-            </Link> 
+            </Link>
             <Link to="random">
             <button className={styles.upload} onClick={openRandomIMG}>See random images</button>
             </Link>
