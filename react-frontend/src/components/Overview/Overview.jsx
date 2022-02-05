@@ -1,14 +1,14 @@
-import styles from "../Gallery/Gallery.module.css";
+import styles from "./Overview.module.css";
 import {encode} from "base64-arraybuffer";
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {useAuth0} from "@auth0/auth0-react";
 import comment from "./comment.png"
 import share from "./share.png"
 import heart from "./heart.png"
 import heartRed from "./heartRed.png"
 import axios from "axios";
-import CommentsPopUp from "../PopUp/CommentsPopUp";
-import SharePopUp from "../PopUp/SharePopUp";
+import PopUpComments from "../PopUpComments/PopUpComments";
+import PopUpShare from "../PopUpShare/PopUpShare";
 
 
 const Overview = (props) => {
@@ -16,7 +16,7 @@ const Overview = (props) => {
     const {user, isAuthenticated} = useAuth0()
     const [commentPopUp, setCommentPopUp] = useState(false)
     const [sharePopUp, setSharePopUp] = useState(false)
-    const [allComments, setAllComments] = useState([])
+    const [currentMeme, setCurrentMeme] = useState({});
 
     const fetchData = async () => {
         return await axios.get('http://localhost:5001/allMemes')
@@ -24,42 +24,41 @@ const Overview = (props) => {
 
     const handleLikeClick = async e => {
         let meme = props.memesList.filter(m => m._id === e.target.dataset.meme)
-        let updatedListOfVotes = []
         if (meme.length > 0) {
-            if (meme[0].votes.includes(user.email)) {
-                let indexOfUser = meme[0].votes.indexOf(user.email)
-                updatedListOfVotes = [...meme[0].votes]
-                updatedListOfVotes.splice(indexOfUser, 1)
+            let listOfVotes = [...meme[0].votes]
+            // user wants to undo like
+            let email = String(user.email)
+            if (listOfVotes.includes(email)) {
+                let indexOfUser = listOfVotes.indexOf(email)
+                listOfVotes.splice(indexOfUser, 1)
             }
+            // user wants to like
             else {
-                updatedListOfVotes.push(user.email)
+                listOfVotes.push(email)
             }
-            await axios
-                .post("http://localhost:5001/addLike", {id: meme, votes: updatedListOfVotes})
+
+            axios
+                .post("http://localhost:5001/addLike", {id: meme, votes: listOfVotes})
                 .then(fetchData)
                 .then(data => props.setMemes(data.data))
                 .catch(err => console.log(err))
         }
     }
 
-    const handleCommentClick = (async () => {
-        const comments = await axios
-                    .get("http://localhost:5001/allComments")
-                    .then((res) => 
-                        {if(res.data) {
-                            console.log("result", res.data)
-                            return res.data
-                        }}
-                    )
-                    .catch(err => console.log(err))
-        setAllComments(comments)
-        console.log("all comments",comments)
-        console.log("all comments",allComments)
+    const showComments = e => {
+        let meme = props.memesList.filter(m => m._id === e.target.dataset.meme)
+        if (meme.length > 0) setCurrentMeme(meme[0])
         setCommentPopUp(true)
-    });
+    }
+
+    const showShareOptions = e => {
+        let meme = props.memesList.filter(m => m._id === e.target.dataset.meme)
+        if (meme.length > 0) setCurrentMeme(meme[0])
+        setSharePopUp(true)
+    }
 
     if (isAuthenticated) {
-        return (<div className={styles.container}>
+        return <div className={styles.container}>
 
             {props.memesList.map((meme, i) => <div className={styles.item} key={i}>
                 <img width='250px' height='250px' alt={`meme_${i}`}
@@ -72,25 +71,25 @@ const Overview = (props) => {
                 <div className={styles.createdByBox}>Created by: {meme.author}</div>
                 <div className={styles.iconBox}>
                     <div className={styles.iconBox}>
-                        <span>{meme.votes ? meme.votes.length : 0}</span>
-                        <img src={meme.votes && meme.votes.includes(user.email) ? heartRed : heart}
+                        <span>{meme.votes.length}</span>
+                        <img src={meme.votes.includes(user.email) ? heartRed : heart}
                              alt={`like_${i}`} className={styles.icons} data-meme={meme._id}
-                            onClick={handleLikeClick}
+                             onClick={handleLikeClick}
                         />
                     </div>
                     <div className={styles.iconBox}>
-                        <img src={comment} alt={`comment_${i}`} className={styles.icons} onClick={handleCommentClick}/>
+                        <img src={comment} data-meme={meme._id} alt={`comment_${i}`}
+                             className={styles.icons} onClick={showComments}/>
                     </div>
                     <div className={styles.iconBox}>
-                        <img src={share} alt={`share_${i}`} className={styles.icons} onClick={()=> setSharePopUp(true)}/>
+                        <img src={share} data-meme={meme._id} alt={`share_${i}`}
+                             className={styles.icons} onClick={showShareOptions}/>
                     </div>
                 </div>
-                <CommentsPopUp trigger={commentPopUp} setTrigger={setCommentPopUp} meme={meme} comments={allComments}>
-                </CommentsPopUp>
-                <SharePopUp trigger={sharePopUp} setTrigger={setSharePopUp} meme={meme}>
-                </SharePopUp>
             </div>)}
-        </div>)
+            <PopUpComments visible={commentPopUp} setVisible={setCommentPopUp} meme={currentMeme}/>
+            <PopUpShare visible={sharePopUp} setVisible={setSharePopUp} meme={currentMeme}/>
+        </div>
     }
 
     return (<div className={styles.container}>

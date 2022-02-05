@@ -4,7 +4,7 @@ import styles from './CommentSection.module.css'
 const CommentSection = (props) => {
     const [newComment, setNewComment] = useState("")
     const [sendText, setSendText] = useState("Send comment")
-    const [comments, setCommments] = useState([{content: "What is this???"},{content: "Nice meme wow"},{content: "Wow nice"},{content: "Reeee"}])
+    const [comments, setCommments] = useState([])
 
     const handleSendComment = async e => {
         await axios.post('http://localhost:5001/addComment',

@@ -1,0 +1,80 @@
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.popupInner {
+    position: relative;
+    padding: 32px;
+    width: 100%;
+    background-color: white;
+}
+
+.closeButton {
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 18px;
+    left: calc(100% - 36px);
+    cursor: pointer;
+}
+
+.closeButton::after {
+    content: "";
+    width: 4px;
+    height: 26px;
+    position: absolute;
+    background-color: black;
+    transform: translateX(11px) rotate(45deg);
+    top: 0;
+    left: 100%;
+}
+
+.closeButton::before {
+    content: "";
+    width: 26px;
+    height: 4px;
+    position: absolute;
+    background-color: black;
+    transform: translateY(11px) rotate(45deg);
+    top: 0;
+    left: 100%;
+}
+
+.closeButton:hover::before, .closeButton:hover::after {
+    background-color: orangered;
+    transition: background-color ease-in-out .2s;
+}
+
+.copyButton {
+    margin: 0;
+    color: #12b2e3;
+    background-color: #b2dfed;
+    width: auto;
+}
+
+.shareLink {
+    margin: 0;
+    color: #828282;
+    background-color: #f2f2f2;;
+    width: auto;
+    cursor: pointer;
+    padding: 22px;
+}
+
+.flexBoxShare {
+    display: flex;
+    margin: 20px;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}

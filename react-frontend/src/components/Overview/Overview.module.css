@@ -1,7 +1,3 @@
-.button {
-    background-color: gray;
-}
-
 .item img {
     cursor: pointer;
 }
@@ -13,7 +9,7 @@
     gap: 30px;
     flex-wrap: wrap;
     align-items: flex-start;
-    
+
 }
 
 .icons {
@@ -26,11 +22,11 @@
 }
 
 .iconBox {
-    margin: 10px 10px 10px 0px;
+    margin: 10px 10px 10px 0;
     display: flex;
     gap: 10px;
 }
 
 .createdByBox {
-    margin: 10px 10px 10px 0px;
+    margin: 10px 10px 10px 0;
 }

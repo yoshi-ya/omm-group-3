@@ -2,7 +2,10 @@ const mongoose = require('mongoose')
 const schema = mongoose.Schema
 
 let template = new schema({
-    author: String,
+    author: {
+        type: String,
+        required: true
+    },
     name: {
         type: String,
         required: true
@@ -12,7 +15,10 @@ let template = new schema({
         type: Buffer,
         required: true
     },
-    private: Boolean
+    private: {
+        type: Boolean,
+        default: false
+    }
 })
 
 const Template = mongoose.model("Template", template)
