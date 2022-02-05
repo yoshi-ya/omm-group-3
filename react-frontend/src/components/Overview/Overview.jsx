@@ -1,21 +1,21 @@
 import styles from "./Overview.module.css";
 import {encode} from "base64-arraybuffer";
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {useAuth0} from "@auth0/auth0-react";
 import comment from "./comment.png"
 import share from "./share.png"
 import heart from "./heart.png"
 import heartRed from "./heartRed.png"
 import axios from "axios";
-import CommentsPopUp from "../PopUp/CommentsPopUp";
-// import SharePopUp from "../PopUp/SharePopUp";
+import PopUpComments from "../PopUpComments/PopUpComments";
+import PopUpShare from "../PopUpShare/PopUpShare";
 
 
 const Overview = (props) => {
 
     const {user, isAuthenticated} = useAuth0()
     const [commentPopUp, setCommentPopUp] = useState(false)
-    // const [sharePopUp, setSharePopUp] = useState(false)
+    const [sharePopUp, setSharePopUp] = useState(false)
     const [currentMeme, setCurrentMeme] = useState({});
 
     const fetchData = async () => {
@@ -51,6 +51,12 @@ const Overview = (props) => {
         setCommentPopUp(true)
     }
 
+    const showShareOptions = e => {
+        let meme = props.memesList.filter(m => m._id === e.target.dataset.meme)
+        if (meme.length > 0) setCurrentMeme(meme[0])
+        setSharePopUp(true)
+    }
+
     if (isAuthenticated) {
         return <div className={styles.container}>
 
@@ -68,20 +74,21 @@ const Overview = (props) => {
                         <span>{meme.votes.length}</span>
                         <img src={meme.votes.includes(user.email) ? heartRed : heart}
                              alt={`like_${i}`} className={styles.icons} data-meme={meme._id}
-                            onClick={handleLikeClick}
+                             onClick={handleLikeClick}
                         />
                     </div>
                     <div className={styles.iconBox}>
-                        <img src={comment} data-meme={meme._id} alt={`comment_${i}`} className={styles.icons} onClick={showComments}/>
+                        <img src={comment} data-meme={meme._id} alt={`comment_${i}`}
+                             className={styles.icons} onClick={showComments}/>
                     </div>
                     <div className={styles.iconBox}>
-                        <img src={share} data-meme={meme._id} alt={`share_${i}`} className={styles.icons}/>
+                        <img src={share} data-meme={meme._id} alt={`share_${i}`}
+                             className={styles.icons} onClick={showShareOptions}/>
                     </div>
                 </div>
-            </div>
-            )}
-            <CommentsPopUp visible={commentPopUp} setVisible={setCommentPopUp} meme={currentMeme}/>
-            {/*<SharePopUp visible={sharePopUp} setVisible={setSharePopUp} meme={props.memesList[currentMeme]}/>*/}
+            </div>)}
+            <PopUpComments visible={commentPopUp} setVisible={setCommentPopUp} meme={currentMeme}/>
+            <PopUpShare visible={sharePopUp} setVisible={setSharePopUp} meme={currentMeme}/>
         </div>
     }
 
