@@ -1,17 +1,6 @@
-/*button {*/
-/*    cursor: pointer;*/
-/*    display: flex;*/
-/*    width: 200px;*/
-/*    padding: 10px;*/
-/*    margin: 20px auto 15px;*/
-/*    color: white;*/
-/*    border: none;*/
-/*    border-radius: 3px;*/
-/*}*/
-
 .editorContainer {
     justify-content: center;
-    width: 150vh;
+    width: 94vw;
     background-color: whitesmoke;
     margin: 8px;
     border-radius: 15px;
