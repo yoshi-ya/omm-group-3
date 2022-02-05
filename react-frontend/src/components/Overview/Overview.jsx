@@ -38,7 +38,7 @@ const Overview = (props) => {
             }
 
             axios
-                .post("http://localhost:5001/addLike", {id: meme, votes: listOfVotes})
+                .post("http://localhost:5001/addLike", {id: meme[0]._id, votes: listOfVotes})
                 .then(fetchData)
                 .then(data => props.setMemes(data.data))
                 .catch(err => console.log(err))
