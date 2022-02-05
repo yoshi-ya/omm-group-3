@@ -1,12 +1,16 @@
-.editorHidden {
-    display: none;
-}
+.editor {
 
-.editorActive {
-    display: block;
 }
 
 
 .uploadForm {
 
+}
+
+.memeTools {
+    display: inline-block;
+}
+
+.memeTools input {
+    float: left;
 }
