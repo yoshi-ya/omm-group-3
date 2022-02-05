@@ -78,15 +78,16 @@ const TestMemes = () => {
         <form onSubmit={e => upload(e, "addMeme")}>
             <input type="file" name="image" accept="image/png, image/jpg, image/jpeg"
                    required/>
+            <input type="text" name="name" placeholder="Meme name" required/>
             <input type="text" name="text1" placeholder="text1" required/>
-            <input type="text" name="author" placeholder="author"/>
+            <input type="text" name="author" placeholder="author" required/>
             <input type="submit" value="upload"/>
         </form>
         <h1>Upload templates</h1>
         <form onSubmit={e => upload(e, "addTemplate")}>
             <input type="file" name="image" accept="image/png, image/jpg, image/jpeg" required/>
             <input type="text" name="name" placeholder="Template Name" required/>
-            <input type="text" name="author" placeholder="Author"/>
+            <input type="text" name="author" placeholder="Author" required/>
             <input type="submit" value="upload"/>
         </form>
     </>);
