@@ -26,7 +26,7 @@ module.exports = app => {
 
         template
             .save()
-            .then(() => res.send("Saved template!"))
+            .then(result => res.send(result))
             .catch(err => console.error(err))
     })
 }
