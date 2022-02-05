@@ -54,24 +54,27 @@ const GallerySingleView = (props) => {
     }
 
     return (<>
-        <div className={styles.memeWrapper}>
-            <img src={`data:image/png;base64,${encode(props.memesList[currentMeme].template.data)}`}
-                 onClick={() => {
-                     props.active(false)
-                 }} alt="meme"/>
-        </div>
-        <div className={styles.sliderButtonsWrapper}>
-            <div className={styles.sliderButtons}>
-                <img className={styles.buttonLeft} src={playImg}
-                     onClick={() => setAutoPlay(!autoPlay)} alt="play"/>
-                <img id="random" className={styles.buttonRight} src={shuffleImg}
-                     onClick={() => setCurrentMeme(randomIndex)} alt="shuffle"/>
-            </div>
-            <div className={styles.sliderButtons}>
-                <div id="previous" className={styles.sliderButtonLeft}
-                     onClick={() => setCurrentMeme(previousIndex)}/>
-                <div id="next" className={styles.sliderButtonRight}
-                     onClick={() => setCurrentMeme(nextIndex)}/>
+        <div className={styles.wrapper}>
+            <div className={styles.memeWrapper}>
+                <img src={`data:image/png;base64,${encode(props.memesList[currentMeme].template.data)}`}
+                     className={styles.meme}
+                     onClick={() => {
+                         props.active(false)
+                     }} alt="meme"/>
+                <div className={styles.sliderButtonsWrapper}>
+                    <div className={styles.sliderButtons}>
+                        <img className={styles.buttonLeft} src={playImg}
+                             onClick={() => setAutoPlay(!autoPlay)} alt="play"/>
+                        <img id="random" className={styles.buttonRight} src={shuffleImg}
+                             onClick={() => setCurrentMeme(randomIndex)} alt="shuffle"/>
+                    </div>
+                    <div className={styles.sliderButtons}>
+                        <div id="previous" className={styles.sliderButtonLeft}
+                             onClick={() => setCurrentMeme(previousIndex)}/>
+                        <div id="next" className={styles.sliderButtonRight}
+                             onClick={() => setCurrentMeme(nextIndex)}/>
+                    </div>
+                </div>
             </div>
         </div>
     </>);
