@@ -4,15 +4,31 @@
     justify-content: center;
     align-items: center; 
     margin: 10px;
+    min-height: 100%;
+}
+.emptySlider {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
+}
+.emptySlider > *:nth-child(1) {
+    font-family: 'Comic Sans MS';
+    font-size: 2em;
+    font-weight: bold;
+    color: #3190A4;
 }
 
 /* Vertical inner container with images and dots */
 .sliderInner {
     position: relative;
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;   
+    width: 100%;
+    height: 100%; 
 }
 
 /* Horizontal container with one slide for each image */
@@ -99,9 +115,38 @@
     user-select: none;
 }
 
+/* --- Slider button for empty sliders ------------------------- */
+
+.sliderButton {
+    background-color: #666666;
+    width: 100px;
+    line-height: 1rem;
+    overflow: hidden;
+    padding: 1px 2px;
+    margin-top: 25px;
+    text-align: center;
+    border-radius: 5px;
+    outline: 0;
+    cursor: pointer;
+    box-shadow: 0 2px 2px grey;
+    transition: ease background-color 250ms;
+}
+.sliderButton:hover {
+    background-color: #454545;
+}
+.sliderButton > a {
+    color: #FFF;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 1em;
+}
+.sliderButton > a:hover {
+    color: rgb(235, 235, 235);
+}
 
 
-/* --- Dots ----------------------------------- */
+/* --- Dots ----------------------------------------------------- */
 
 .containerDots {
     bottom: 0px;

@@ -1,0 +1,90 @@
+.editorTools {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    position: sticky;
+    top: 52px;
+    height: 48px;
+    background-color: white;
+    text-align: center;
+    border-bottom: 1px solid black;
+    min-width: 400px;
+}
+
+.tool {
+    margin-top: 8px;
+    margin-left: 42px;
+    opacity: 75%;
+    cursor: pointer;
+}
+
+.tool:hover {
+    opacity: 1;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltipText {
+    visibility: hidden;
+    opacity: 0;
+    width: 124px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 6px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltipText {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity .4s ease-in;
+}
+
+.dropDown {
+    width: 278px;
+    background-color: #cccccc;
+    cursor: pointer;
+    position: absolute;
+    z-index: 10;
+    top: 115%;
+    right: 50%;
+}
+
+.dropDown ul {
+    list-style-type: none;
+    position: absolute;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.dropDownItem {
+    width: 100%;
+    background-color: #0D5C64;
+    color: white;
+    z-index: 99;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 8px;
+}
+
+.dropDownItem:hover {
+    background-color: #DB2B7B;
+}
+
+.collapsed {
+    max-height: 0;
+    transition: max-height .4s;
+}
+.expanded {
+    max-height: 204px;
+    transition: max-height .4s;
+}
+

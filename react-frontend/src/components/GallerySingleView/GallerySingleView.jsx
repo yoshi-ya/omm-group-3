@@ -6,7 +6,7 @@ import {encode} from "base64-arraybuffer";
 
 const GallerySingleView = (props) => {
     const defaultMeme = "https://via.placeholder.com/256?text=no%20meme%20found"
-    const [currentMeme, setCurrentMeme] = useState(props.memeNumber);
+    const [currentMeme, setCurrentMeme] = useState(props.memeNumber.current);
     const [autoPlay, setAutoPlay] = useState(false);
 
     useEffect(() => {
@@ -15,7 +15,6 @@ const GallerySingleView = (props) => {
             const interval = setInterval(() => {
                 setCurrentMeme(nextIndex);
             }, 3000);
-
             return () => clearInterval(interval);
         }
     }, [currentMeme, autoPlay]);
@@ -55,21 +54,30 @@ const GallerySingleView = (props) => {
     }
 
     return (<>
-        <div className={styles.memeWrapper}>
-            <img src={`data:image/png;base64,${encode(props.memesList[currentMeme].template.data)}`} alt="meme"/>
-        </div>
-        <div className={styles.sliderButtonsWrapper}>
-            <div className={styles.sliderButtons}>
-                <img className={styles.buttonLeft} src={playImg}
-                     onClick={() => setAutoPlay(!autoPlay)} alt="play"/>
-                <img id="random" className={styles.buttonRight} src={shuffleImg}
-                     onClick={() => setCurrentMeme(randomIndex)} alt="shuffle"/>
-            </div>
-            <div className={styles.sliderButtons}>
-                <div id="previous" className={styles.sliderButtonLeft}
-                     onClick={() => setCurrentMeme(previousIndex)}/>
-                <div id="next" className={styles.sliderButtonRight}
-                     onClick={() => setCurrentMeme(nextIndex)}/>
+        <div className={styles.wrapper}>
+            <div className={styles.memeWrapper}>
+                <div className={styles.closeView} onClick={() => {
+                    props.active(false)
+                }}/>
+                <img src={`data:image/png;base64,${encode(props.memesList[currentMeme].template.data)}`}
+                     className={styles.meme}
+                     onClick={() => {
+                         props.active(false)
+                     }} alt="meme"/>
+                <div className={styles.sliderButtonsWrapper}>
+                    <div className={styles.sliderButtons}>
+                        <img className={styles.buttonLeft} src={playImg}
+                             onClick={() => setAutoPlay(!autoPlay)} alt="play"/>
+                        <img id="random" className={styles.buttonRight} src={shuffleImg}
+                             onClick={() => setCurrentMeme(randomIndex)} alt="shuffle"/>
+                    </div>
+                    <div className={styles.sliderButtons}>
+                        <div id="previous" className={styles.sliderButtonLeft}
+                             onClick={() => setCurrentMeme(previousIndex)}/>
+                        <div id="next" className={styles.sliderButtonRight}
+                             onClick={() => setCurrentMeme(nextIndex)}/>
+                    </div>
+                </div>
             </div>
         </div>
     </>);

@@ -17,10 +17,13 @@ app.use((req, res, next) =>{
 });
 
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger)
-require('./routes/db_routes.js')(app)
+require('./routes/commentRoutes.js')(app)
+require('./routes/memeRoutes.js')(app)
+require('./routes/templateRoutes.js')(app)
+require('./routes/apiRoutes.js')(app)
 require('./routes/upload_routes.js')(app)
 connectToDB()
 

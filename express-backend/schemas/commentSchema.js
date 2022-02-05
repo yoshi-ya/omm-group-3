@@ -2,9 +2,18 @@ const mongoose = require('mongoose')
 const schema = mongoose.Schema
 
 let comment = new schema({
-    meme: String,
-    author: String,
-    content: String,
+    meme: {
+        type: String,
+        required: true
+    },
+    author: {
+        type: String,
+        required: true
+    },
+    content: {
+        type: String,
+        required: true
+    },
     date: Date
 })
 

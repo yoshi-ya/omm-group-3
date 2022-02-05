@@ -11,15 +11,51 @@ import {encode} from "base64-arraybuffer";
 const TestMemes = () => {
 
     const [memes, setMemes] = useState([]);
-    const [isPrivate, setIsPrivate] = useState(false)
+    const [templates, setTemplates] = useState([])
 
     useEffect(() => {
-        axios
-            .get("http://localhost:5001/allMemes")
-            .then(data => setMemes(data.data))
+        fetchData()
+            .then(data => {
+                setMemes(data[0].data)
+                setTemplates(data[1].data)
+            })
+            .catch(error => console.log(error))
+
     }, []);
 
+    const fetchData = async () => {
+        return await Promise.all([
+            axios.get("http://localhost:5001/allMemes"),
+            axios.get("http://localhost:5001/allTemplates")
+        ])
+    }
+
+    const upload = (event, route) => {
+        event.preventDefault()
+        const memeFormData = new FormData()
+        let image = event.target.image.files[0]
+        memeFormData.append("image", image)
+        Array.from(event.target).forEach(elem => {
+            if (elem.name && elem.name !== "image") memeFormData.append(elem.name, elem.value)
+        })
+
+        axios({
+            method: "post",
+            url: `http://localhost:5001/${route}`,
+            data: memeFormData,
+            headers: {"content-type": "multipart/form-data"}
+        })
+            .then(fetchData)
+            .then(data => {
+                setMemes(data[0].data)
+                setTemplates(data[1].data)
+            })
+            .catch(error => console.log(error))
+    }
+
+
     return (<>
+        <h3>memes</h3>
         <ul>
             {memes.map(meme => {
                 return (<li key={meme._id}>
@@ -28,21 +64,33 @@ const TestMemes = () => {
                 </li>)
             })}
         </ul>
+        <h3>templates</h3>
+        <ul>
+            {templates.map(template => {
+                return (<li key={template._id}>
+                    <img src={`data:image/png;base64,${encode(template.image.data)}`}
+                         alt={`meme_${template._id}`}/>
+                </li>)
+            })}
+        </ul>
 
-        <form name="memeForm" action="http://localhost:5001/upload" method="POST"
-              encType="multipart/form-data">
-            <input type="file" name="meme" id="meme" accept="image/png, image/jpg, image/jpeg"/>
-            <input type="text" name="author" id="author" placeholder="author"/>
-            <input type="text" name="text1" id="text1" placeholder="text1"/>
-            <input type="number" name="votes" id="votes" placeholder="votes"/>
-            <label>
-                <input type="radio" value="yes" onClick={() => setIsPrivate(!isPrivate)} checked={isPrivate}/>
-                Set private?
-            </label>
+        <h1>Upload Memes</h1>
+        <form onSubmit={e => upload(e, "addMeme")}>
+            <input type="file" name="image" accept="image/png, image/jpg, image/jpeg"
+                   required/>
+            <input type="text" name="name" placeholder="Meme name" required/>
+            <input type="text" name="text1" placeholder="text1" required/>
+            <input type="text" name="author" placeholder="author" required/>
             <input type="submit" value="upload"/>
         </form>
-    </>
-);
+        <h1>Upload templates</h1>
+        <form onSubmit={e => upload(e, "addTemplate")}>
+            <input type="file" name="image" accept="image/png, image/jpg, image/jpeg" required/>
+            <input type="text" name="name" placeholder="Template Name" required/>
+            <input type="text" name="author" placeholder="Author" required/>
+            <input type="submit" value="upload"/>
+        </form>
+    </>);
 };
 
 export default TestMemes;

@@ -1,5 +1,22 @@
-.memeWrapper {
+.wrapper {
+    height: calc(100vh - 112px);
+    min-height: calc(364px + 112px);
+    position: relative;
+}
 
+.memeWrapper {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.meme {
+    cursor: pointer;
+    width: 364px;
+    height: 364px;
+    border: 1px solid #0D5C64;
 }
 
 .sliderButtonsWrapper {
@@ -68,4 +85,41 @@
 .buttonRight {
     float: right;
     margin-right: 32px;
+}
+
+.closeView {
+    position: absolute;
+    width: 0;
+    height: 0;
+    background-color: red;
+    top: -12px;
+    left: 100%;
+    cursor: pointer;
+}
+
+.closeView::after {
+    content: "";
+    width: 4px;
+    height: 26px;
+    position: absolute;
+    background-color: black;
+    transform: translateX(11px) rotate(45deg);
+    top: -18px;
+    left: calc(100% + 12px);
+}
+
+.closeView::before {
+    content: "";
+    width: 26px;
+    height: 4px;
+    position: absolute;
+    background-color: black;
+    transform: translateY(11px) rotate(45deg);
+    top: -18px;
+    left: calc(100% + 12px);
+}
+
+.closeView:hover::before, .closeView:hover::after {
+    background-color: orangered;
+    transition: background-color ease-in-out .2s;
 }

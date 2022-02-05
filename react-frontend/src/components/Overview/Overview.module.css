@@ -1,0 +1,32 @@
+.item img {
+    cursor: pointer;
+}
+
+.container {
+    margin: 80px;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+
+}
+
+.icons {
+    box-shadow: none;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    cursor: pointer;
+    display: flex;
+}
+
+.iconBox {
+    margin: 10px 10px 10px 0;
+    display: flex;
+    gap: 10px;
+}
+
+.createdByBox {
+    margin: 10px 10px 10px 0;
+}

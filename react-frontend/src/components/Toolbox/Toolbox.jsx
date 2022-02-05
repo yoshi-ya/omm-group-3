@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react';
 import styles from "./Toolbox.module.css";
 import {Link} from "react-router-dom";
 import drawingIcon from "./drawing.png";
