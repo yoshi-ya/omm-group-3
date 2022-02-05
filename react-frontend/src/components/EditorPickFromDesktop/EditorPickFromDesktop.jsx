@@ -22,31 +22,15 @@ const EditorPickFromDesktop = () => {
     const [text2Y, setText2Y] = useState(60)
     const [text3Y, setText3Y] = useState(90)
     const [text4Y, setText4Y] = useState(120)
+    const [textColor, setTextColor] = useState("#fff")
+    const [textSize, setTextSize] = useState(22)
 
     const canvas = useRef(null)
 
     const {user} = useAuth0()
 
-    // todo: text font, color, size, background customizable
     // todo: text on top of image -> z-index??
     // todo: upload multiple images inside canvas -> resize images
-    useEffect(() => {
-        setText1X(text1X)
-        setText2X(text2X)
-        setText3X(text3X)
-        setText4X(text4X)
-        setText1Y(text1Y)
-        setText2Y(text2Y)
-        setText3Y(text3Y)
-        setText4Y(text4Y)
-    }, [text1Y, text2Y, text3Y, text4Y])
-
-    useEffect(() => {
-        setText1(text1)
-        setText2(text2)
-        setText3(text3)
-        setText4(text4)
-    }, [text1, text2, text3, text4])
 
     useEffect(() => {
         const context = canvas.current.getContext("2d")
@@ -59,14 +43,14 @@ const EditorPickFromDesktop = () => {
                 context.drawImage(templateImage, 50, 50, 300, 300)
             }
         }
-        context.font = "24px Comic Sans MS"
-        context.fillStyle = "white"
+        context.font = `${textSize}px Comic Sans MS`
+        context.fillStyle = textColor
         context.textAlign = "center"
         context.fillText(text1, text1X, text1Y)
         context.fillText(text2, text2X, text2Y)
         context.fillText(text3, text3X, text3Y)
         context.fillText(text4, text4X, text4Y)
-    }, [template, canvas, canvasWidth, canvasHeight, text1, text2, text3, text4, text1X, text2X, text3X, text4X, text1Y, text2Y, text3Y, text4Y]);
+    }, [template, canvas, canvasWidth, canvasHeight, text1, text2, text3, text4, text1X, text2X, text3X, text4X, text1Y, text2Y, text3Y, text4Y, textColor, textSize]);
 
 
     const addTextBox = () => {
@@ -203,6 +187,8 @@ const EditorPickFromDesktop = () => {
                 <h2>Editor</h2>
                 <button onClick={addTextBox}>Add</button>
                 <button onClick={removeTextBox}>Remove</button>
+                <input type="text" onChange={e => setTextColor(e.target.value)} placeholder="#fff" value={textColor}/>
+                <input type="number" onChange={e => setTextSize(parseInt(e.target.value))} placeholder="22" value={textSize}/>
                 {Array.from({length: numberOfTextBoxes}).map((i, index) => <div className={styles.memeTools} key={index + 1}>
                     <input type="text" placeholder={`text ${index + 1}`} onChange={e => setText(index+1, e.target.value)}/>
                     <input type="number" onChange={e => setXForText(index+1, e.target.value)} value={getXFor(index+1)}/>
