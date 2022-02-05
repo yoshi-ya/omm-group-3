@@ -8,8 +8,8 @@ import {encode} from "base64-arraybuffer";
 const EditorPickFromDesktop = () => {
     const [template, setTemplate] = useState({})
     const [numberOfTextBoxes, setNumberOfTextBoxes] = useState(1);
-    const [canvasWidth, setCanvasWidth] = useState(500)
-    const [canvasHeight, setCanvasHeight] = useState(500)
+    const [canvasWidth, setCanvasWidth] = useState(400)
+    const [canvasHeight, setCanvasHeight] = useState(400)
     const [text1, setText1] = useState("")
     const [text2, setText2] = useState("")
     const [text3, setText3] = useState("")
@@ -28,8 +28,8 @@ const EditorPickFromDesktop = () => {
     const {user} = useAuth0()
 
     // todo: text font, color, size, background customizable
+    // todo: text on top of image -> z-index??
     // todo: upload multiple images inside canvas -> resize images
-    // split view: left side: canvas & right side: tools
     useEffect(() => {
         setText1X(text1X)
         setText2X(text2X)
@@ -40,7 +40,6 @@ const EditorPickFromDesktop = () => {
         setText3Y(text3Y)
         setText4Y(text4Y)
     }, [text1Y, text2Y, text3Y, text4Y])
-
 
     useEffect(() => {
         setText1(text1)
@@ -57,7 +56,7 @@ const EditorPickFromDesktop = () => {
             const templateImage = new Image()
             templateImage.src = `data:image/png;base64,${encode(template.image.data)}`
             templateImage.onload = () => {
-                context.drawImage(templateImage, 75, 75, 350, 350)
+                context.drawImage(templateImage, 50, 50, 300, 300)
             }
         }
         context.font = "24px Comic Sans MS"
@@ -167,7 +166,6 @@ const EditorPickFromDesktop = () => {
         }
     }
 
-
     const uploadTemplate = event => {
         event.preventDefault()
         let template = event.target.template.files[0]
@@ -188,38 +186,42 @@ const EditorPickFromDesktop = () => {
             .catch(error => console.log(error))
     }
 
-    return (<div>
-        <div className={styles.uploadForm}>
-            <h2>Upload your template</h2>
-            <form onSubmit={e => uploadTemplate(e)}>
-                <input type="file" name="template" accept="image/png, image/jpg, image/jpeg" required/>
-                <input type="text" name="name" placeholder="Template Name" required/>
-                <input type="submit" value="upload"/>
-            </form>
+    return (<div className={styles.splitView}>
+        <div className={styles.splitLeft}>
+                <canvas ref={canvas} width={canvasWidth} height={canvasHeight}/>
         </div>
-        <div className={styles.editor}>
-            <h2>Editor</h2>
-            <button onClick={addTextBox}>Add</button>
-            <button onClick={removeTextBox}>Remove</button>
-            {Array.from({length: numberOfTextBoxes}).map((i, index) => <div className={styles.memeTools} key={index + 1}>
-                <input type="text" placeholder={`text ${index + 1}`} onChange={e => setText(index+1, e.target.value)}/>
-                <input type="number" onChange={e => setXForText(index+1, e.target.value)} value={getXFor(index+1)}/>
-                <input type="number" onChange={e => setYForText(index+1, e.target.value)} value={getYFor(index+1)}/>
-                <button onClick={() => {
-                    setXForText(index+1, canvasWidth/2)
-                    setYForText(index+1, canvasHeight/2)
-                }}>center</button>
-                <button onClick={() => {
-                    setXForText(index+1, canvasWidth/2)
-                }}>center X</button>
-                <button onClick={() => {
-                    setYForText(index+1, canvasHeight/2)
-                }}>center Y</button>
-            </div>)}
-            <canvas ref={canvas} width={canvasWidth} height={canvasHeight}/>
-            <div>
-                <input type="number" placeholder="canvas width" value={canvasWidth} onChange={e => setCanvasWidth(parseInt(e.target.value))}/>
-                <input type="number" placeholder="canvas height" value={canvasHeight} onChange={e => setCanvasHeight(parseInt(e.target.value))}/>
+        <div className={styles.splitRight}>
+            <div className={styles.uploadForm}>
+                <h2>Upload your template</h2>
+                <form onSubmit={e => uploadTemplate(e)}>
+                    <input type="file" name="template" accept="image/png, image/jpg, image/jpeg" required/>
+                    <input type="text" name="name" placeholder="Template Name" required/>
+                    <input type="submit" value="upload"/>
+                </form>
+            </div>
+            <div className={styles.editor}>
+                <h2>Editor</h2>
+                <button onClick={addTextBox}>Add</button>
+                <button onClick={removeTextBox}>Remove</button>
+                {Array.from({length: numberOfTextBoxes}).map((i, index) => <div className={styles.memeTools} key={index + 1}>
+                    <input type="text" placeholder={`text ${index + 1}`} onChange={e => setText(index+1, e.target.value)}/>
+                    <input type="number" onChange={e => setXForText(index+1, e.target.value)} value={getXFor(index+1)}/>
+                    <input type="number" onChange={e => setYForText(index+1, e.target.value)} value={getYFor(index+1)}/>
+                    <button onClick={() => {
+                        setXForText(index+1, canvasWidth/2)
+                        setYForText(index+1, canvasHeight/2)
+                    }}>center</button>
+                    <button onClick={() => {
+                        setXForText(index+1, canvasWidth/2)
+                    }}>center X</button>
+                    <button onClick={() => {
+                        setYForText(index+1, canvasHeight/2)
+                    }}>center Y</button>
+                </div>)}
+                <div>
+                    <input type="number" placeholder="canvas width" value={canvasWidth} onChange={e => setCanvasWidth(parseInt(e.target.value))}/>
+                    <input type="number" placeholder="canvas height" value={canvasHeight} onChange={e => setCanvasHeight(parseInt(e.target.value))}/>
+                </div>
             </div>
         </div>
     </div>)
