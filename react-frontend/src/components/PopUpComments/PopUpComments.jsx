@@ -2,11 +2,13 @@ import React, {useEffect, useState} from 'react';
 import styles from './PopUpComments.module.css'
 import {encode} from "base64-arraybuffer";
 import axios from "axios";
+import {useAuth0} from "@auth0/auth0-react";
 
 
 const PopUpComments = (props) => {
 
     const [comments, setComments] = useState([])
+    const { user } = useAuth0()
 
     useEffect(() => {
         fetchComments()
@@ -22,8 +24,17 @@ const PopUpComments = (props) => {
 
     const addComment = event => {
         event.preventDefault()
-        let comment = event.target.comment
-        console.log(comment)
+        let commentData = {
+            content: event.target.comment.value,
+            author: user.nickname,
+            meme: props.meme._id
+        }
+        event.target.comment.value = ""
+        axios
+            .post("http://localhost:5001/addComment", commentData)
+            .then(() => fetchComments())
+            .then(data => setComments(data.data))
+            .catch(error => console.log(error))
     }
 
     if (!props.visible) return <></>
