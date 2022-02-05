@@ -16,7 +16,7 @@ const PopUpComments = (props) => {
                 setComments(data.data)
             })
             .catch(error => console.log(error))
-    }, [props.meme])
+    }, [props.visible])
 
     const fetchComments = async () => {
         return await axios.get(`http://localhost:5001/allComments?meme=${props.meme._id}`)
