@@ -1,6 +1,6 @@
 import React from 'react'
 import {useAuth0} from '@auth0/auth0-react';
-import userInfos from "./userInfos.module.css"
+import userInfos from "./UserInfos.module.css"
 import styled from 'styled-components'; // For button style
 import ShareButtons from '../ShareButtons/ShareButtons'; // For social share icons
 import ImageSlider from '../ImageSlider/ImageSlider'; // For slide-show
