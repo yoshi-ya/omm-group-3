@@ -1,4 +1,4 @@
-import styles from "../Gallery/Gallery.module.css";
+import styles from "./Overview.module.css";
 import {encode} from "base64-arraybuffer";
 import React, { useState } from "react";
 import {useAuth0} from "@auth0/auth0-react";
