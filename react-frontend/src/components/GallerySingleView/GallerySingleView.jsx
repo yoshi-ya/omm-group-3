@@ -56,6 +56,9 @@ const GallerySingleView = (props) => {
     return (<>
         <div className={styles.wrapper}>
             <div className={styles.memeWrapper}>
+                <div className={styles.closeView} onClick={() => {
+                    props.active(false)
+                }}/>
                 <img src={`data:image/png;base64,${encode(props.memesList[currentMeme].template.data)}`}
                      className={styles.meme}
                      onClick={() => {
