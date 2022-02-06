@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import styles from "./Toolbox.module.css";
-import {Link} from "react-router-dom";
 import drawingIcon from "./drawing.png";
 import uploadIcon from "./upload.png";
 import urlIcon from "./url.png";
@@ -8,7 +7,8 @@ import randomIcon from "./random.png";
 import browseIcon from "./browse.png";
 import axios from "axios";
 
-const Toolbox = () => {
+
+const Toolbox = (props) => {
 
     const [collapsed, setCollapsed] = useState(true);
     const [templates, setTemplates] = useState([]);
@@ -25,27 +25,27 @@ const Toolbox = () => {
 
     return (<div className={styles.editorTools}>
         <div className={styles.tooltip}>
-            <Link to="drawing">
+            <div onClick={() => props.setMode({draw: true, desktop: false, url: false, random: false, browse: false})}>
                 <img className={styles.tool} src={drawingIcon} alt="drawingIcon"/>
-            </Link>
+            </div>
             <span className={styles.tooltipText}>Draw</span>
         </div>
         <div className={styles.tooltip}>
-            <Link to="pickfromDesktop">
+            <div onClick={() => props.setMode({draw: false, desktop: true, url: false, random: false, browse: false})}>
                 <img className={styles.tool} src={uploadIcon} alt="uploadIcon"/>
-            </Link>
+            </div>
             <span className={styles.tooltipText}>Pick from files</span>
         </div>
         <div className={styles.tooltip}>
-            <Link to="pickfromURL">
+            <div onClick={() => props.setMode({draw: false, desktop: false, url: true, random: false, browse: false})}>
                 <img className={styles.tool} src={urlIcon} alt="urlIcon"/>
-            </Link>
+            </div>
             <span className={styles.tooltipText}>Pick from URL</span>
         </div>
         <div className={styles.tooltip}>
-            <Link to="random">
+            <div onClick={() => props.setMode({draw: false, desktop: false, url: false, random: true, browse: false})}>
                 <img className={styles.tool} src={randomIcon} alt="randomIcon"/>
-            </Link>
+            </div>
             <span className={styles.tooltipText}>Pick randomly</span>
         </div>
         <div className={styles.tooltip}>
@@ -55,7 +55,7 @@ const Toolbox = () => {
                 <ul className={collapsed ? styles.collapsed : styles.expanded}>
                     {
                         templates.map(template => (
-                            <li key={template._id} className={styles.dropDownItem}>{template.name}</li>
+                            <li key={template._id} onClick={() => props.setMode({draw: false, desktop: false, url: false, random: false, browse: true})} className={styles.dropDownItem}>{template.name}</li>
                         ))
                     }
                 </ul>
