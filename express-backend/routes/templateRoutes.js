@@ -6,9 +6,24 @@ const upload = multer({storage: storage})
 
 
 module.exports = app => {
+
     app.get("/allTemplates", cors(), (req, res) => {
+        let dbFilter = {}
+        if (req.query.private) dbFilter.private = req.query.private
+        if (req.query.author) dbFilter.author = req.query.author
         Template
-            .find({})
+            .find(dbFilter)
+            .then(result => {
+                console.log(result.length)
+                res.send(result)
+            })
+            .catch(error => console.log(error))
+    })
+
+    app.get("/template", cors(), (req, res) => {
+        let name = req.query.name
+        Template
+            .findOne({name: name})
             .then(result => {
                 res.send(result)
             })
