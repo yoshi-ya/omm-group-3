@@ -15,7 +15,7 @@ const Toolbox = (props) => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:5001/allTemplates")
+            .get("http://localhost:5001/allTemplates?private=false")
             .then(data => {
                 setTemplates(data.data)
             })
@@ -55,7 +55,7 @@ const Toolbox = (props) => {
                 <ul className={collapsed ? styles.collapsed : styles.expanded}>
                     {
                         templates.map(template => (
-                            <li key={template._id} onClick={() => props.setMode({draw: false, desktop: false, url: false, random: false, browse: true})} className={styles.dropDownItem}>{template.name}</li>
+                            <li key={template._id} onClick={e => props.getTemplate(e.target.innerHTML)} className={styles.dropDownItem}>{template.name}</li>
                         ))
                     }
                 </ul>

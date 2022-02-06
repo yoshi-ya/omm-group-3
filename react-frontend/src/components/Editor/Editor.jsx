@@ -173,10 +173,17 @@ const Editor = () => {
             .catch(error => console.log(error))
     }
 
+    const getTemplate = (name) => {
+        axios
+            .get(`http://localhost:5001/template?name=${name}`)
+            .then(data => setTemplate({image: `data:image/png;base64,${encode(data.data.image.data)}`}))
+            .catch(error => console.log(error))
+    }
+
     if (!isAuthenticated) return <div>Please log in.</div>
 
     return (<>
-            <Toolbox setMode={setMode} mode={mode} randomTemplate={getRandomTemplate}/>
+            <Toolbox setMode={setMode} mode={mode} randomTemplate={getRandomTemplate} getTemplate={getTemplate}/>
             <div className={styles.outerContainer}>
                 <div className={styles.editorContainer}>
                     <div className={styles.splitView}>
