@@ -10,7 +10,7 @@ const EditorPickFromUrl = (props) => {
     return (<div>
             <input type="url" onChange={(e) => setImageURL(e.target.value)}
                    placeholder="https://i.insider.com/5485631e69bedda63303ed51"/>
-            <button onClick={() => props.setTemplate({image: imageURL})}>Pick IMG</button>
+            <button onClick={() => props.setTemplates([...props.templates, {image: imageURL}])}>Pick IMG</button>
         </div>)
 }
 export default EditorPickFromUrl;
