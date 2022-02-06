@@ -14,7 +14,6 @@ module.exports = app => {
         Template
             .find(dbFilter)
             .then(result => {
-                console.log(result.length)
                 res.send(result)
             })
             .catch(error => console.log(error))
