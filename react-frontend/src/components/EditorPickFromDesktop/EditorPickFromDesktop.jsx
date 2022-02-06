@@ -24,11 +24,12 @@ const EditorPickFromDesktop = () => {
     const [text4Y, setText4Y] = useState(120)
     const [textColor, setTextColor] = useState("#fff")
     const [textSize, setTextSize] = useState(22)
+    const [privateTemplate, setPrivateTemplate] = useState(false)
+
 
     const canvas = useRef(null)
 
     const {user} = useAuth0()
-
     // todo: text on top of image -> z-index??
     // todo: upload multiple images inside canvas -> resize images
 
@@ -71,6 +72,8 @@ const EditorPickFromDesktop = () => {
                     break
                 case 4:
                     setText4("")
+                    break
+                default:
             }
             setNumberOfTextBoxes(numberOfTextBoxes - 1)
         }
@@ -89,6 +92,8 @@ const EditorPickFromDesktop = () => {
                 break
             case 4:
                 setText4(content)
+                break
+            default:
         }
     }
 
@@ -105,6 +110,8 @@ const EditorPickFromDesktop = () => {
                 break
             case 4:
                 setText4X(xPos)
+                break
+            default:
         }
     }
 
@@ -121,6 +128,8 @@ const EditorPickFromDesktop = () => {
                 break
             case 4:
                 setText4Y(yPos)
+                break
+            default:
         }
     }
 
@@ -134,6 +143,7 @@ const EditorPickFromDesktop = () => {
                 return text3X
             case 4:
                 return text4X
+            default:
         }
     }
 
@@ -147,6 +157,7 @@ const EditorPickFromDesktop = () => {
                 return text3Y
             case 4:
                 return text4Y
+            default:
         }
     }
 
@@ -157,6 +168,7 @@ const EditorPickFromDesktop = () => {
         templateFormData.append("image", template)
         templateFormData.append("author", user.name)
         templateFormData.append("name", event.target.name.value)
+        templateFormData.append("private", privateTemplate.toString())
 
         axios({
             method: "post",
@@ -180,6 +192,8 @@ const EditorPickFromDesktop = () => {
                 <form onSubmit={e => uploadTemplate(e)}>
                     <input type="file" name="template" accept="image/png, image/jpg, image/jpeg" required/>
                     <input type="text" name="name" placeholder="Template Name" required/>
+                    <input type="radio" id="private" name="privacy" value="private" onClick={() => setPrivateTemplate(!privateTemplate)} checked={privateTemplate} readOnly={true}/>
+                    <label htmlFor="private">Private</label>
                     <input type="submit" value="upload"/>
                 </form>
             </div>
