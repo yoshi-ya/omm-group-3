@@ -107,7 +107,8 @@ function DrawingCanvas() {
             }
         <button onClick={useDrawingAsMeme} className={styles.use}>Use Drawing as Meme</button>
 
-        <canvas
+        <canvas 
+            className={styles.drawingCanvas}
             id="currentCanvas"
             onMouseDown={startDrawing}
             onMouseUp={finishDrawing}

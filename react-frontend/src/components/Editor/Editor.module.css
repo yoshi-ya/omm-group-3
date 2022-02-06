@@ -10,90 +10,156 @@
 /*}*/
 
 .editorContainer {
-    justify-content: center;
-    width: 150vh;
-    background-color: whitesmoke;
-    margin: 8px;
-    border-radius: 15px;
-    height: 100%;
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: flex-start;
+  justify-content: center;
+  width: 150vh;
+  background-color: whitesmoke;
+  margin: 8px;
+  border-radius: 15px;
+  height: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
 }
 
 .outerContainer {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .images {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .meme {
-    max-width: 300px;
-    max-height: 300px;
-    margin: 10px auto auto;
-    display: flex;
-    box-shadow: 0 0 10px black;
+  max-width: 300px;
+  max-height: 300px;
+  margin: 10px auto auto;
+  display: flex;
+  box-shadow: 0 0 10px black;
 }
 
 input {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
-    padding: 10px;
-    width: 350px;
-    margin: 20px 20px 15px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  width: 350px;
+  margin: 20px 20px 15px;
 }
 
 h1 {
-    text-align: center;
-    font-size: 50px;
-    text-shadow: 0 0 5px black;
+  text-align: center;
+  font-size: 50px;
+  text-shadow: 0 0 5px black;
 }
-
-canvas {
-    border: 2px solid black;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+/**
+drawing canvas 
+*/
+.drawingCanvas {
+  border: 2px solid black;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .container {
-    margin: 80px;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    gap: 30px;
+  margin: 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 30px;
 }
 
 .buttonContainer {
-    background-color: lightgray;
+  background-color: lightgray;
 }
 
 .templates {
-    display: flex;
-}
-
-video,
-img {
-  max-width: 100%;
+  display: flex;
 }
 
 .skip {
-    background-color: #d2f04e;
+  background-color: #d2f04e;
 }
 
 .generate {
-    background-color: #8a40eb;
+  background-color: #8a40eb;
 }
 
 .use {
-    background-color: #40eb4e;
+  background-color: #40eb4e;
 }
 
 .upload {
-    background-color: #8a40eb;
+  background-color: #8a40eb;
+}
+
+/**
+pick from Camera styles
+**/
+
+.camera {
+  position: relative;
+  padding: 20px;
+}
+
+video {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.snapButton {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  appearance: none;
+  border: none;
+  outline: none;
+  padding: 8px 16px;
+  background-image: linear-gradient(to right, #844fff 50%, #ff4f84 50%);
+  background-position: 0%;
+  background-size: 200%;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  transition: 0.4s;
+  cursor: pointer;
+}
+.useButton {
+  position: absolute;
+  bottom: 20px;
+  appearance: none;
+  border: none;
+  outline: none;
+  padding: 8px 16px;
+  background-image: linear-gradient(to right, #844fff 50%, #ff4f84 50%);
+  background-position: 0%;
+  background-size: 200%;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  transition: 0.4s;
+  cursor: pointer;
+}
+.useButton:hover {
+  background-position: 100%;
+}
+.snapButton:hover {
+  background-position: 100%;
+}
+
+.result {
+  position: fixed;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.result.hasPhoto {
+  left: 0;
 }

@@ -1,48 +1,65 @@
-import React, {useEffect, useState} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import axios from 'axios';
 import styles from '../Editor/Editor.module.css';
 
 const PickFromCamera = () =>{
 
-    var video = document.querySelector('video')
-    , canvas;
+    const videoRef = useRef(null);
+    const photoRef = useRef(null);
 
-    /**
-     *  generates a still frame image from the stream in the <video>
-     *  appends the image to the <body>
-     */
-    function takeSnapshot() {
-        var img = document.querySelector('img') || document.createElement('img');
-        var context;
-        var width = video.offsetWidth
-          , height = video.offsetHeight;
-        canvas = canvas || document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        context = canvas.getContext('2d');
+    const [hasPhoto, setHasPhoto] = useState(false);
+
+    const getVideo = () =>{
+        navigator.mediaDevices
+            .getUserMedia({
+                video: true
+            })
+            .then(stream =>{
+                let video = videoRef.current;
+                video.srcObject = stream; 
+                video.play();
+            })
+            .catch(err =>{
+                console.error(err);
+            })
+    }
+
+    const takePhoto = () =>{
+        const width= 550;
+        const height = 400;
+
+        let video = videoRef.current;
+        let photo = photoRef.current;
+
+        photo.width = width;
+        photo.height = height;
+
+        let context = photo.getContext('2d');
         context.drawImage(video, 0, 0, width, height);
-        img.src = canvas.toDataURL('image/png');
-        document.body.appendChild(img);
-      }
+        setHasPhoto(true);
 
-      if (navigator.mediaDevices) {
-        // access the web cam
-        navigator.mediaDevices.getUserMedia({video: true})
-        // permission granted:
-          .then(function(stream) {
-            video.srcObject = stream;
-            video.addEventListener('click', takeSnapshot);
-          })
-          // permission denied:
-          .catch(function(error) {
-            document.body.textContent = 'Could not access the camera. Error: ' + error.name;
-          });
-      }
-    
+    }
+
+    const usePhoto = () =>{
+        //use Photo as meme
+    }
+
+    useEffect(() =>{
+        getVideo();
+    },[videoRef]);
+
+  
 
     return(
         <div>
-            <video autoPlay={true} muted></video>
+            <div className={styles.camera}>
+                <video ref={videoRef}></video>
+                <button onClick={takePhoto} className={styles.snapButton}>Snap</button>
+            </div>
+            <div className={styles.result + (hasPhoto ? styles.hasPhoto : '')}>
+                <canvas ref={photoRef}></canvas>
+                <button onClick={usePhoto} className={styles.useButton}>Use</button>
+            </div>
         </div>
         )
 }

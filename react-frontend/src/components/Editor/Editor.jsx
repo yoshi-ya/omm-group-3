@@ -12,11 +12,11 @@ const Editor = () => {
     const [memes, setMemes] = useState([]);
     const [currTemplate, setcurrTemplate] = useState(null);
 
-    if (!isAuthenticated) {
+   /* if (!isAuthenticated) {
         return (<div>
             Please log in to create and upload memes.
         </div>)
-    }
+    }*/
 
     const handleMeme = (_meme) => {
         if (currTemplate == null) {
