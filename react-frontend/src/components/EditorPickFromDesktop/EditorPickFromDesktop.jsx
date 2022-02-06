@@ -25,7 +25,7 @@ const EditorPickFromDesktop = (props) => {
             headers: {"content-type": "multipart/form-data"}
         })
             .then(data => {
-                props.setTemplate({image: `data:image/png;base64,${encode(data.data.image.data)}`})
+                if (props.templates.length < 3) props.setTemplates([...props.templates, {image: `data:image/png;base64,${encode(data.data.image.data)}`}])
             })
             .catch(error => console.log(error))
     }

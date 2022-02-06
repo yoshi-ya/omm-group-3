@@ -9,8 +9,8 @@ import {encode} from "base64-arraybuffer";
 
 
 const Editor = () => {
-    const [template, setTemplate] = useState({})
-    const [numberOfTextBoxes, setNumberOfTextBoxes] = useState(1);
+    const [templates, setTemplates] = useState([])
+    const [numberOfTextBoxes, setNumberOfTextBoxes] = useState(1)
     const [canvasWidth, setCanvasWidth] = useState(400)
     const [canvasHeight, setCanvasHeight] = useState(400)
     const [text1, setText1] = useState("")
@@ -34,27 +34,31 @@ const Editor = () => {
     const canvas = useRef(null)
 
     const {isAuthenticated} = useAuth0()
-    // todo: upload multiple images inside canvas -> resize images
+    // todo: resize images, move images
 
     useEffect(() => {
-        if (template.image) {
+        if (templates.length > 0) {
             const context = canvas.current.getContext("2d")
             context.fillStyle = "black"
             context.fillRect(0, 0, canvasWidth, canvasHeight)
-            const templateImage = new Image()
-            templateImage.src = template.image
-            templateImage.onload = () => {
-                context.drawImage(templateImage, 50, 50, 300, 300)
-                context.font = `${textSize}px Comic Sans MS`
-                context.fillStyle = textColor
-                context.textAlign = "center"
-                context.fillText(text1, text1X, text1Y)
-                context.fillText(text2, text2X, text2Y)
-                context.fillText(text3, text3X, text3Y)
-                context.fillText(text4, text4X, text4Y)
-            }
+            templates.forEach((template, i) => {
+                const templateImage = new Image()
+                templateImage.src = template.image
+                templateImage.onload = () => {
+                    context.drawImage(templateImage, 50 + i*10, 50 + i*10, 300, 300)
+                    if (i === templates.length - 1) {
+                        context.font = `${textSize}px Comic Sans MS`
+                        context.fillStyle = textColor
+                        context.textAlign = "center"
+                        context.fillText(text1, text1X, text1Y)
+                        context.fillText(text2, text2X, text2Y)
+                        context.fillText(text3, text3X, text3Y)
+                        context.fillText(text4, text4X, text4Y)
+                    }
+                }
+            })
         }
-    }, [template, canvas, canvasWidth, canvasHeight, text1, text2, text3, text4, text1X, text2X, text3X, text4X, text1Y, text2Y, text3Y, text4Y, textColor, textSize]);
+    }, [templates, canvas, canvasWidth, canvasHeight, text1, text2, text3, text4, text1X, text2X, text3X, text4X, text1Y, text2Y, text3Y, text4Y, textColor, textSize]);
 
 
     const addTextBox = () => {
@@ -168,7 +172,7 @@ const Editor = () => {
         axios
             .get("http://localhost:5001/anyTemplate")
             .then(data => {
-                setTemplate({image: `data:image/png;base64,${encode(data.data.image.data)}`})
+                if (templates.length < 3) setTemplates([...templates, {image: `data:image/png;base64,${encode(data.data.image.data)}`}])
             })
             .catch(error => console.log(error))
     }
@@ -176,7 +180,9 @@ const Editor = () => {
     const getTemplate = (name) => {
         axios
             .get(`http://localhost:5001/template?name=${name}`)
-            .then(data => setTemplate({image: `data:image/png;base64,${encode(data.data.image.data)}`}))
+            .then(data => {
+                if (templates.length < 3) setTemplates([...templates, {image: `data:image/png;base64,${encode(data.data.image.data)}`}])
+            })
             .catch(error => console.log(error))
     }
 
@@ -191,8 +197,8 @@ const Editor = () => {
                             <canvas ref={canvas} width={canvasWidth} height={canvasHeight} className={styles.canvas}/>
                         </div>
                         <div className={styles.splitRight}>
-                            <EditorPickFromDesktop setPrivateTemplate={setPrivateTemplate} privateTemplate={privateTemplate} template={template} setTemplate={setTemplate} visible={mode.desktop}/>
-                            <EditorPickFromUrl template={template} setTemplate={setTemplate} visible={mode.url}/>
+                            <EditorPickFromDesktop setPrivateTemplate={setPrivateTemplate} privateTemplate={privateTemplate} templates={templates} setTemplates={setTemplates} visible={mode.desktop}/>
+                            <EditorPickFromUrl templates={templates} setTemplates={setTemplates} visible={mode.url}/>
                             <div>
                                 <h2>Editor</h2>
                                 <button onClick={addTextBox}>Add</button>
