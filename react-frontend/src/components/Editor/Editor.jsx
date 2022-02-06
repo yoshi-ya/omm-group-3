@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styles from './Editor.module.css';
 import {useAuth0} from "@auth0/auth0-react";
-import {encode} from "base64-arraybuffer";
 import Toolbox from "../Toolbox/Toolbox";
 import EditorPickFromDesktop from "../EditorPickFromDesktop/EditorPickFromDesktop";
+import EditorPickFromUrl from "../EditorPickFromUrl/EditorPickFromUrl";
 
 
 const Editor = () => {
@@ -40,7 +40,7 @@ const Editor = () => {
             context.fillStyle = "black"
             context.fillRect(0, 0, canvasWidth, canvasHeight)
             const templateImage = new Image()
-            templateImage.src = `data:image/png;base64,${encode(template.image.data)}`
+            templateImage.src = template.image
             templateImage.onload = () => {
                 context.drawImage(templateImage, 50, 50, 300, 300)
                 context.font = `${textSize}px Comic Sans MS`
@@ -174,6 +174,7 @@ const Editor = () => {
                         </div>
                         <div className={styles.splitRight}>
                             <EditorPickFromDesktop setPrivateTemplate={setPrivateTemplate} privateTemplate={privateTemplate} template={template} setTemplate={setTemplate} visible={mode.desktop}/>
+                            <EditorPickFromUrl template={template} setTemplate={setTemplate} visible={mode.url}/>
                             <div>
                                 <h2>Editor</h2>
                                 <button onClick={addTextBox}>Add</button>

@@ -1,7 +1,7 @@
 import React from 'react';
-// import styles from './EditorPickFromDesktop.module.css';
 import axios from "axios";
 import {useAuth0} from "@auth0/auth0-react";
+import {encode} from "base64-arraybuffer";
 
 
 
@@ -25,7 +25,7 @@ const EditorPickFromDesktop = (props) => {
             headers: {"content-type": "multipart/form-data"}
         })
             .then(data => {
-                props.setTemplate(data.data)
+                props.setTemplate({image: `data:image/png;base64,${encode(data.data.image.data)}`})
             })
             .catch(error => console.log(error))
     }
