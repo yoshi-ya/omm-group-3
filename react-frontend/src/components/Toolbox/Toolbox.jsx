@@ -43,7 +43,7 @@ const Toolbox = (props) => {
             <span className={styles.tooltipText}>Pick from URL</span>
         </div>
         <div className={styles.tooltip}>
-            <div onClick={() => props.setMode({draw: false, desktop: false, url: false, random: true, browse: false})}>
+            <div onClick={props.randomTemplate}>
                 <img className={styles.tool} src={randomIcon} alt="randomIcon"/>
             </div>
             <span className={styles.tooltipText}>Pick randomly</span>

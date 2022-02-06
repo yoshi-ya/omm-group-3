@@ -4,6 +4,8 @@ import {useAuth0} from "@auth0/auth0-react";
 import Toolbox from "../Toolbox/Toolbox";
 import EditorPickFromDesktop from "../EditorPickFromDesktop/EditorPickFromDesktop";
 import EditorPickFromUrl from "../EditorPickFromUrl/EditorPickFromUrl";
+import axios from "axios";
+import {encode} from "base64-arraybuffer";
 
 
 const Editor = () => {
@@ -162,10 +164,19 @@ const Editor = () => {
         }
     }
 
+    const getRandomTemplate = () => {
+        axios
+            .get("http://localhost:5001/anyTemplate")
+            .then(data => {
+                setTemplate({image: `data:image/png;base64,${encode(data.data.image.data)}`})
+            })
+            .catch(error => console.log(error))
+    }
+
     if (!isAuthenticated) return <div>Please log in.</div>
 
     return (<>
-            <Toolbox setMode={setMode} mode={mode} />
+            <Toolbox setMode={setMode} mode={mode} randomTemplate={getRandomTemplate}/>
             <div className={styles.outerContainer}>
                 <div className={styles.editorContainer}>
                     <div className={styles.splitView}>
