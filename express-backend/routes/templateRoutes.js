@@ -15,6 +15,17 @@ module.exports = app => {
             .catch(error => console.log(error))
     })
 
+    app.get("/anyTemplate", cors(), (req, res) => {
+        Template
+            .find({private: false})
+            .then(result => {
+                let numberOfDocuments = result.length
+                let randomIndex = Math.floor(Math.random() * numberOfDocuments)
+                res.send(result[randomIndex])
+            })
+            .catch(error => console.log(error))
+    })
+
     app.post("/addTemplate", cors(), upload.single("image"), (req, res) => {
         let template = new Template({
             author: req.body.author,
