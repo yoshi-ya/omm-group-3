@@ -125,6 +125,10 @@ const Editor = () => {
                     <div className={styles.splitLeft}>
                         <canvas ref={canvas} width={canvasWidth} height={canvasHeight}
                                 className={styles.canvas}/>
+                        <div className={styles.rowCenter}>
+                            <button>Save</button>
+                            <button>Download</button>
+                        </div>
                     </div>
                     <div className={styles.splitRight}>
                         <div className={styles.editor}>

@@ -62,6 +62,16 @@
     width: 100%;
 }
 
+.rowCenter {
+    text-align: center;
+    width: 100%;
+}
+
+.rowCenter button {
+    margin-top: 12px;
+    padding: 12px;
+}
+
 .item {
     float: left;
 }
