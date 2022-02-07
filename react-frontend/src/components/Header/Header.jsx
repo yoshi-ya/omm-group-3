@@ -5,13 +5,7 @@ import styles from "./Header.module.css"
 import AuthenticationButton from "../AuthenticationButton/AuthenticationButton";
 import Editor from "../Editor/Editor";
 import Profile from "../Profile/Profile";
-import {Meme} from '../Meme/Meme';
-import {MemeGenerated} from '../MemeGenerated/MemeGenerated'
-import EditorPickFromUrl from '../EditorPickFromUrl/EditorPickFromUrl';
-import EditorPickFromDesktop from '../EditorPickFromDesktop/EditorPickFromDesktop';
-import EditorDrawCanvas from '../EditorDrawCanvas/EditorDrawCanvas';
 import SingleView from "../SingleView/SingleView";
-import TestMemes from '../TestMemes/TestMemes';
 
 
 const Header = () => {
@@ -38,14 +32,7 @@ const Header = () => {
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/view/:id" element={<SingleView/>}/>
                 <Route path="/profile/*" element={<Profile/>}/>
-                <Route path="editor" element={<Editor/>}>
-                    <Route path="generated" element={<MemeGenerated/>}/>
-                    <Route exact path="drawing" element={<EditorDrawCanvas/>}/>
-                    <Route exact path="pickfromUrl" element={<EditorPickFromUrl/>}/>
-                    <Route exact path="pickfromDesktop" element={<EditorPickFromDesktop/>}/>
-                    <Route exact path="random" element={<Meme/>}/>
-                </Route>
-                <Route path="/test" element={<TestMemes/>} />
+                <Route path="/editor" element={<Editor/>}/>
             </Routes>
         </div>
     </Router>);
