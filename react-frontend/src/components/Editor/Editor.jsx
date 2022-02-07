@@ -21,14 +21,10 @@ const Editor = () => {
     const [textColor, setTextColor] = useState("#fff")
     const [textSize, setTextSize] = useState(22)
     const [privateTemplate, setPrivateTemplate] = useState(false)
-    const [mode, setMode] = useState({
-        draw: false, desktop: false, url: false, random: false, browse: false
-    })
+    const [mode, setMode] = useState({draw: false, desktop: false, url: false})
 
     const canvas = useRef(null)
     const {isAuthenticated} = useAuth0()
-
-    // todo: css pickFromUrl, pickFromDesktop, generateMeme
 
     useEffect(() => {
         if (templates.length > 0) {
@@ -139,55 +135,57 @@ const Editor = () => {
                             <EditorPickFromUrl templates={templates} setTemplates={setTemplates}
                                                visible={mode.url}/>
                             <h2>Editor</h2>
-                            {templates.map((_, i) => <div className={styles.wrapper} key={i}>
-                                <span className={styles.title}>{`Image ${i + 1}`}</span>
+                            <div className={styles.wrapper}>
+                                {templates.map((_, i) => <div key={i}>
+                                    <span className={styles.title}>{`Image ${i + 1}`}</span>
+                                    <div className={styles.row}>
+                                        <span className={styles.item}>x</span>
+                                        <input className={styles.item} type="number"
+                                               onChange={e => setConfigForTemplate(i, {
+                                                   x: parseInt(e.target.value),
+                                                   y: templateConfigs[i].y,
+                                                   width: templateConfigs[i].width,
+                                                   height: templateConfigs[i].height
+                                               })} value={templateConfigs[i].x}/>
+                                        <span className={styles.item}>y</span>
+                                        <input className={styles.item} type="number"
+                                               onChange={e => setConfigForTemplate(i, {
+                                                   x: templateConfigs[i].x,
+                                                   y: parseInt(e.target.value),
+                                                   width: templateConfigs[i].width,
+                                                   height: templateConfigs[i].height
+                                               })} value={templateConfigs[i].y}/>
+                                    </div>
+                                    <div className={styles.row}>
+                                        <span className={styles.item}>width</span>
+                                        <input className={styles.item} type="number"
+                                               onChange={e => setConfigForTemplate(i, {
+                                                   x: templateConfigs[i].x,
+                                                   y: templateConfigs[i].y,
+                                                   width: parseInt(e.target.value),
+                                                   height: templateConfigs[i].height
+                                               })} value={templateConfigs[i].width}/>
+                                        <span className={styles.item}>height</span>
+                                        <input className={styles.item} type="number"
+                                               onChange={e => setConfigForTemplate(i, {
+                                                   x: templateConfigs[i].x,
+                                                   y: templateConfigs[i].y,
+                                                   width: templateConfigs[i].width,
+                                                   height: parseInt(e.target.value)
+                                               })} value={templateConfigs[i].height}/>
+                                    </div>
+                                </div>)}
                                 <div className={styles.row}>
-                                    <span className={styles.item}>x</span>
+                                    <span className={styles.item}>color</span>
+                                    <input className={styles.item} type="text"
+                                           onChange={e => setTextColor(e.target.value)}
+                                           placeholder="#fff, black, ..."
+                                           value={textColor}/>
+                                    <span className={styles.item}>font-size</span>
                                     <input className={styles.item} type="number"
-                                           onChange={e => setConfigForTemplate(i, {
-                                               x: parseInt(e.target.value),
-                                               y: templateConfigs[i].y,
-                                               width: templateConfigs[i].width,
-                                               height: templateConfigs[i].height
-                                           })} value={templateConfigs[i].x}/>
-                                    <span className={styles.item}>y</span>
-                                    <input className={styles.item} type="number"
-                                           onChange={e => setConfigForTemplate(i, {
-                                               x: templateConfigs[i].x,
-                                               y: parseInt(e.target.value),
-                                               width: templateConfigs[i].width,
-                                               height: templateConfigs[i].height
-                                           })} value={templateConfigs[i].y}/>
+                                           onChange={e => setTextSize(parseInt(e.target.value))}
+                                           placeholder="text size" value={textSize}/>
                                 </div>
-                                <div className={styles.row}>
-                                    <span className={styles.item}>width</span>
-                                    <input className={styles.item} type="number"
-                                           onChange={e => setConfigForTemplate(i, {
-                                               x: templateConfigs[i].x,
-                                               y: templateConfigs[i].y,
-                                               width: parseInt(e.target.value),
-                                               height: templateConfigs[i].height
-                                           })} value={templateConfigs[i].width}/>
-                                    <span className={styles.item}>height</span>
-                                    <input className={styles.item} type="number"
-                                           onChange={e => setConfigForTemplate(i, {
-                                               x: templateConfigs[i].x,
-                                               y: templateConfigs[i].y,
-                                               width: templateConfigs[i].width,
-                                               height: parseInt(e.target.value)
-                                           })} value={templateConfigs[i].height}/>
-                                </div>
-                            </div>)}
-                            <div className={styles.row}>
-                                <span className={styles.item}>color</span>
-                                <input className={styles.item} type="text"
-                                       onChange={e => setTextColor(e.target.value)}
-                                       placeholder="#fff, black, ..."
-                                       value={textColor}/>
-                                <span className={styles.item}>font-size</span>
-                                <input className={styles.item} type="number"
-                                       onChange={e => setTextSize(parseInt(e.target.value))}
-                                       placeholder="text size" value={textSize}/>
                             </div>
                             {texts.map((i, index) => <div
                                 className={styles.wrapper} key={index + 1}>

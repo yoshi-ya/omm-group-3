@@ -30,9 +30,7 @@ const Toolbox = (props) => {
             <div onClick={() => props.setMode({
                 draw: true,
                 desktop: false,
-                url: false,
-                random: false,
-                browse: false
+                url: false
             })}>
                 <img className={styles.tool} src={drawingIcon} alt="drawingIcon"/>
             </div>
@@ -42,9 +40,7 @@ const Toolbox = (props) => {
             <div onClick={() => props.setMode({
                 draw: false,
                 desktop: true,
-                url: false,
-                random: false,
-                browse: false
+                url: false
             })}>
                 <img className={styles.tool} src={uploadIcon} alt="uploadIcon"/>
             </div>
@@ -54,9 +50,7 @@ const Toolbox = (props) => {
             <div onClick={() => props.setMode({
                 draw: false,
                 desktop: false,
-                url: true,
-                random: false,
-                browse: false
+                url: true
             })}>
                 <img className={styles.tool} src={urlIcon} alt="urlIcon"/>
             </div>
