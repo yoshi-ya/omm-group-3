@@ -15,6 +15,7 @@ const Editor = () => {
     const [texts, setTexts] = useState([{text: ""}])
     const [xPositions, setXPositions] = useState([{x: canvasWidth / 2}, {x: canvasWidth / 2}, {x: canvasWidth / 2}, {x: canvasWidth / 2}])
     const [yPositions, setYPositions] = useState([{y: 30}, {y: 60}, {y: 90}, {y: 120}])
+    const [templateConfigs, setTemplateConfigs] = useState([{x: 40, y: 40, width: 300, height: 300}, {x: 80, y: 80, width: 300, height: 300}, {x: 120, y: 120, width: 300, height: 300}])
     const [textColor, setTextColor] = useState("#fff")
     const [textSize, setTextSize] = useState(22)
     const [privateTemplate, setPrivateTemplate] = useState(false)
@@ -27,7 +28,6 @@ const Editor = () => {
     // todo: resize images, move images
 
     useEffect(() => {
-        console.log("updating")
         if (templates.length > 0) {
             const context = canvas.current.getContext("2d")
             context.fillStyle = "black"
@@ -36,7 +36,7 @@ const Editor = () => {
                 const templateImage = new Image()
                 templateImage.src = templates[i].image
                 templateImage.onload = () => {
-                    context.drawImage(templateImage, 50 + i * 20, 50 + i * 20, 300, 300)
+                    context.drawImage(templateImage, templateConfigs[i].x, templateConfigs[i].y, templateConfigs[i].width, templateConfigs[i].height)
                     if (i === templates.length - 1) {
                         context.font = `${textSize}px Comic Sans MS`
                         context.fillStyle = textColor
@@ -48,7 +48,7 @@ const Editor = () => {
                 }
             }
         }
-    }, [templates, texts, canvas, canvasWidth, canvasHeight, xPositions, yPositions, textColor, textSize]);
+    }, [templates, texts, canvas, canvasWidth, canvasHeight, xPositions, yPositions, templateConfigs, textColor, textSize]);
 
 
     const addTextBox = () => {
@@ -62,16 +62,37 @@ const Editor = () => {
     }
 
     const setText = (index, content) => {
-        setTexts([...texts.slice(0, index), {text: content}, ...texts.slice(index + 1, texts.length - 1)])
-        console.log(texts)
+        let result = [...texts]
+        if (index >= result.length) {
+            setTexts([...texts, {text: content}])
+        }
+        else {
+            result[index] = {text: content}
+            setTexts(result)
+        }
     }
 
     const setXForText = (index, xPos) => {
-        setXPositions([...xPositions.slice(0, index), {x: parseInt(xPos)}, ...xPositions.slice(index + 1, xPositions.length - 1)])
+        let result = [...xPositions]
+        result[index] = {x: parseInt(xPos)}
+        setXPositions(result)
     }
 
     const setYForText = (index, yPos) => {
-        setYPositions([...yPositions.slice(0, index), {y: parseInt(yPos)}, ...yPositions.slice(index + 1, yPositions.length - 1)])
+        let result = [...yPositions]
+        result[index] = {y: parseInt(yPos)}
+        setYPositions(result)
+    }
+
+    const setConfigForTemplate = (index, config) => {
+        let result = [...templateConfigs]
+        if (index >= result.length) {
+            setTemplateConfigs([...templateConfigs, config])
+        }
+        else {
+            result[index] = config
+            setTemplateConfigs(result)
+        }
     }
 
     const getRandomTemplate = () => {
@@ -117,6 +138,32 @@ const Editor = () => {
                                            visible={mode.url}/>
                         <div>
                             <h2>Editor</h2>
+                            {templates.map((_, i) => <div key={i}>
+                                <input type="number" onChange={e => setConfigForTemplate(i, {
+                                    x: parseInt(e.target.value),
+                                    y: templateConfigs[i].y,
+                                    width: templateConfigs[i].width,
+                                    height: templateConfigs[i].height
+                                })} value={templateConfigs[i].x}/>
+                                <input type="number" onChange={e => setConfigForTemplate(i, {
+                                    x: templateConfigs[i].x,
+                                    y: parseInt(e.target.value),
+                                    width: templateConfigs[i].width,
+                                    height: templateConfigs[i].height
+                                })} value={templateConfigs[i].y}/>
+                                <input type="number" onChange={e => setConfigForTemplate(i, {
+                                    x: templateConfigs[i].x,
+                                    y: templateConfigs[i].y,
+                                    width: parseInt(e.target.value),
+                                    height: templateConfigs[i].height
+                                })} value={templateConfigs[i].width}/>
+                                <input type="number" onChange={e => setConfigForTemplate(i, {
+                                    x: templateConfigs[i].x,
+                                    y: templateConfigs[i].y,
+                                    width: templateConfigs[i].width,
+                                    height: parseInt(e.target.value)
+                                })} value={templateConfigs[i].height}/>
+                            </div>)}
                             <button onClick={addTextBox}>Add</button>
                             <button onClick={removeTextBox}>Remove</button>
                             <input type="text" onChange={e => setTextColor(e.target.value)}
