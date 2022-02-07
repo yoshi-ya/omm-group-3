@@ -16,10 +16,7 @@ const Editor = () => {
     const [xPositions, setXPositions] = useState([{x: canvasWidth / 2}, {x: canvasWidth / 2}, {x: canvasWidth / 2}, {x: canvasWidth / 2}])
     const [yPositions, setYPositions] = useState([{y: 30}, {y: 60}, {y: 90}, {y: 120}])
     const [templateConfigs, setTemplateConfigs] = useState([{
-        x: 40,
-        y: 40,
-        width: 300,
-        height: 300
+        x: 40, y: 40, width: 300, height: 300
     }, {x: 80, y: 80, width: 300, height: 300}, {x: 120, y: 120, width: 300, height: 300}])
     const [textColor, setTextColor] = useState("#fff")
     const [textSize, setTextSize] = useState(22)
@@ -30,6 +27,8 @@ const Editor = () => {
 
     const canvas = useRef(null)
     const {isAuthenticated} = useAuth0()
+
+    // todo: css pickFromUrl, pickFromDesktop, generateMeme
 
     useEffect(() => {
         if (templates.length > 0) {
@@ -141,7 +140,7 @@ const Editor = () => {
                                                visible={mode.url}/>
                             <h2>Editor</h2>
                             {templates.map((_, i) => <div className={styles.wrapper} key={i}>
-                                <span className={styles.title}>{`Image ${i+1}`}</span>
+                                <span className={styles.title}>{`Image ${i + 1}`}</span>
                                 <div className={styles.row}>
                                     <span className={styles.item}>x</span>
                                     <input className={styles.item} type="number"
@@ -181,7 +180,8 @@ const Editor = () => {
                             </div>)}
                             <div className={styles.row}>
                                 <span className={styles.item}>color</span>
-                                <input className={styles.item} type="text" onChange={e => setTextColor(e.target.value)}
+                                <input className={styles.item} type="text"
+                                       onChange={e => setTextColor(e.target.value)}
                                        placeholder="#fff, black, ..."
                                        value={textColor}/>
                                 <span className={styles.item}>font-size</span>
@@ -191,7 +191,7 @@ const Editor = () => {
                             </div>
                             {texts.map((i, index) => <div
                                 className={styles.wrapper} key={index + 1}>
-                                <span className={styles.title}>{`Caption ${index+1}`}</span>
+                                <span className={styles.title}>{`Caption ${index + 1}`}</span>
                                 <div className={styles.row}>
                                     <input className={styles.item} type="text"
                                            placeholder={`text ${index + 1}`}
