@@ -36,6 +36,8 @@
     width: 50%;
     height: 100%;
     float: left;
+    position: sticky;
+    top: 102px;
 }
 
 .splitRight {
@@ -44,11 +46,37 @@
     float: right;
 }
 
-.memeTools {
-    display: inline-block;
+.editor {
+    margin: auto;
 }
 
-.memeTools input {
+.wrapper {
+    display: block;
+    border-top: 1px solid black;
+    padding: 8px;
+}
+
+.row {
+    margin-top: 16px;
+    display: inline-block;
+    width: 100%;
+}
+
+.item {
+    float: left;
+}
+
+.row input {
+    margin-right: 12px
+}
+
+.row span {
+    padding-right: 4px;
+}
+
+.title {
+    font-size: 22px;
+    width: 100%;
     float: left;
 }
 
