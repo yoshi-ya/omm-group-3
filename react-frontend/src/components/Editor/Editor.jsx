@@ -180,10 +180,6 @@ const Editor = () => {
                                 </div>
                             </div>)}
                             <div className={styles.row}>
-                                <button className={styles.item} onClick={addTextBox}>Add caption</button>
-                                <button className={styles.item} onClick={removeTextBox}>Remove caption</button>
-                            </div>
-                            <div className={styles.row}>
                                 <span className={styles.item}>color</span>
                                 <input className={styles.item} type="text" onChange={e => setTextColor(e.target.value)}
                                        placeholder="#fff, black, ..."

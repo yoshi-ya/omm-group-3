@@ -9,6 +9,7 @@
     text-align: center;
     border-bottom: 1px solid black;
     min-width: 400px;
+    z-index: 200;
 }
 
 .tool {
