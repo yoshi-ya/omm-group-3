@@ -123,7 +123,7 @@ const Editor = () => {
 
     return (<>
         <Toolbox setMode={setMode} mode={mode} randomTemplate={getRandomTemplate}
-                 getTemplate={getTemplate}/>
+                 getTemplate={getTemplate} addCaption={addTextBox} removeCaption={removeTextBox}/>
         <div className={styles.outerContainer}>
             <div className={styles.editorContainer}>
                 <div className={styles.splitView}>
@@ -228,10 +228,12 @@ const Editor = () => {
                             <div className={styles.wrapper}>
                                 <span className={styles.title}>Canvas</span>
                                 <div className={styles.row}>
+                                    <span className={styles.item}>width</span>
                                     <input className={styles.item} type="number"
                                            placeholder="canvas width"
                                            value={canvasWidth}
                                            onChange={e => setCanvasWidth(parseInt(e.target.value))}/>
+                                    <span className={styles.item}>height</span>
                                     <input type="number" placeholder="canvas height"
                                            value={canvasHeight}
                                            onChange={e => setCanvasHeight(parseInt(e.target.value))}/>

@@ -5,6 +5,8 @@ import uploadIcon from "./upload.png";
 import urlIcon from "./url.png";
 import randomIcon from "./random.png";
 import browseIcon from "./browse.png";
+import addIcon from "./add.png"
+import deleteIcon from "./delete.png"
 import axios from "axios";
 
 
@@ -25,19 +27,37 @@ const Toolbox = (props) => {
 
     return (<div className={styles.editorTools}>
         <div className={styles.tooltip}>
-            <div onClick={() => props.setMode({draw: true, desktop: false, url: false, random: false, browse: false})}>
+            <div onClick={() => props.setMode({
+                draw: true,
+                desktop: false,
+                url: false,
+                random: false,
+                browse: false
+            })}>
                 <img className={styles.tool} src={drawingIcon} alt="drawingIcon"/>
             </div>
             <span className={styles.tooltipText}>Draw</span>
         </div>
         <div className={styles.tooltip}>
-            <div onClick={() => props.setMode({draw: false, desktop: true, url: false, random: false, browse: false})}>
+            <div onClick={() => props.setMode({
+                draw: false,
+                desktop: true,
+                url: false,
+                random: false,
+                browse: false
+            })}>
                 <img className={styles.tool} src={uploadIcon} alt="uploadIcon"/>
             </div>
             <span className={styles.tooltipText}>Pick from files</span>
         </div>
         <div className={styles.tooltip}>
-            <div onClick={() => props.setMode({draw: false, desktop: false, url: true, random: false, browse: false})}>
+            <div onClick={() => props.setMode({
+                draw: false,
+                desktop: false,
+                url: true,
+                random: false,
+                browse: false
+            })}>
                 <img className={styles.tool} src={urlIcon} alt="urlIcon"/>
             </div>
             <span className={styles.tooltipText}>Pick from URL</span>
@@ -49,17 +69,28 @@ const Toolbox = (props) => {
             <span className={styles.tooltipText}>Pick randomly</span>
         </div>
         <div className={styles.tooltip}>
-            <img className={styles.tool} src={browseIcon} alt="browseIcon" onClick={() => setCollapsed(!collapsed)}/>
+            <img className={styles.tool} src={browseIcon} alt="browseIcon"
+                 onClick={() => setCollapsed(!collapsed)}/>
             <span className={styles.tooltipText}>Browse templates</span>
             <div className={styles.dropDown}>
                 <ul className={collapsed ? styles.collapsed : styles.expanded}>
-                    {
-                        templates.map(template => (
-                            <li key={template._id} onClick={e => props.getTemplate(e.target.innerHTML)} className={styles.dropDownItem}>{template.name}</li>
-                        ))
-                    }
+                    {templates.map(template => (
+                        <li key={template._id} onClick={e => props.getTemplate(e.target.innerHTML)}
+                            className={styles.dropDownItem}>{template.name}</li>))}
                 </ul>
             </div>
+        </div>
+        <div className={styles.tooltip}>
+            <div onClick={props.addCaption}>
+                <img className={styles.tool} src={addIcon} alt="addIcon"/>
+            </div>
+            <span className={styles.tooltipText}>Add caption</span>
+        </div>
+        <div className={styles.tooltip}>
+            <div onClick={props.removeCaption}>
+                <img className={styles.tool} src={deleteIcon} alt="deleteIcon"/>
+            </div>
+            <span className={styles.tooltipText}>Remove caption</span>
         </div>
     </div>);
 };
