@@ -16,7 +16,7 @@ app.use((req, res, next) =>{
     next();
 });
 
-app.use(express.json());
+app.use(express.json({limit: '10MB'}));
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger)
