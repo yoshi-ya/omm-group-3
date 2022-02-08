@@ -1,32 +1,26 @@
 const Meme = require("../schemas/memeSchema");
 const cors = require("cors");
-const multer = require("multer");
-const storage = multer.memoryStorage()
-const upload = multer({storage: storage})
 
 
 module.exports = app => {
 
     /**
-     * adds a Meme to the database
+     * saves a Meme to the database
      */
-    app.post("/addMeme", cors(), upload.single("image"), (req, res) => {
+    app.post("/saveMeme", cors(), (req, res) => {
 
         let meme = new Meme({
             author: req.body.author,
             name: req.body.name,
             date: new Date().toISOString(),
-            template: req.file.buffer,
-            text1: req.body.text1,
-            text2: req.body.text2,
-            text3: req.body.text3,
-            text4: req.body.text4,
+            templates: req.body.templates,
+            texts: req.body.texts,
             votes: req.body.votes,
             private: req.body.private,
             color: req.body.color,
             size: req.body.size,
-            transparency: req.body.transparency,
-            font: req.body.font
+            canvasWidth: req.body.canvasWidth,
+            canvasHeight: req.body.canvasHeight
         })
 
         meme

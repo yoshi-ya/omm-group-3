@@ -3,37 +3,24 @@ const schema = mongoose.Schema
 
 let meme = new schema({
     author: {
-        type: String,
-        required: true
+        type: String, required: true
     },
     name: {
-        type: String,
-        required: true
+        type: String, required: true
     },
     date: Date,
-    template: {
-        type: Buffer,
-        required: true
-    },
-    text1: {
-        type: String,
-        required: true
-    },
-    text2: String,
-    text3: String,
-    text4: String,
-    votes: {
-        type: [String],
-        default: []
-    },
-    private: {
-        type: Boolean,
-        default: false
-    },
+    templates: [{url: String, x: Number, y: Number, width: Number, height: Number}],
+    texts: [{text: String, x: Number, y: Number}],
+    canvasWidth: Number,
+    canvasHeight: Number,
     color: String,
     size: Number,
-    transparency: Number,
-    font: String
+    votes: {
+        type: [String], default: []
+    },
+    private: {
+        type: Boolean, default: false
+    }
 })
 
 const Meme = mongoose.model("Meme", meme)
