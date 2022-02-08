@@ -144,7 +144,7 @@ const Editor = () => {
     }
 
     const download = () => {
-        let canvasConfig = exportCanvas()
+        const canvasConfig = exportCanvas()
         axios
             .post("http://localhost:5001/download", canvasConfig, {responseType: 'blob'})
             .then(res => {
@@ -163,7 +163,10 @@ const Editor = () => {
         let canvasConfig = exportCanvas()
         let name = canvasConfig.name
         if (!name.length > 0) return alert("Please give your Meme a title!")
-        console.log("to be implemented")
+        axios
+            .post("http://localhost:5001/saveMeme", canvasConfig)
+            .then(() => alert("Saved."))
+            .catch(err => console.log(err))
     }
 
     if (!isAuthenticated) return <div>Please log in.</div>

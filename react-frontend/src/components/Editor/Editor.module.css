@@ -38,6 +38,13 @@
     float: left;
     position: sticky;
     top: 102px;
+    overflow: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.splitLeft::-webkit-scrollbar {
+    display: none;
 }
 
 .splitRight {
