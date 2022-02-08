@@ -2,6 +2,7 @@ const Meme = require("../schemas/memeSchema");
 const fs = require("fs");
 const cors = require("cors");
 const {createCanvas, loadImage} = require("canvas");
+const path = require("path")
 
 
 module.exports = app => {
@@ -84,6 +85,9 @@ module.exports = app => {
             .catch(err => console.log(err))
     })
 
+    /**
+     * helper function that recreates a canvas with help of the incoming payload
+     */
     const drawCanvas = async (canvasData) => {
         const canvas = createCanvas(canvasData.canvasWidth, canvasData.canvasHeight)
         const context = canvas.getContext('2d')
@@ -101,16 +105,15 @@ module.exports = app => {
                             context.fillText(canvasData.texts[j].text, canvasData.texts[j].x, canvasData.texts[j].y)
                         }
                         const buffer = canvas.toBuffer('image/png')
-                        fs.writeFileSync(__dirname + "/meme.png", buffer)
+                        fs.writeFileSync(path.dirname(__dirname) + "/public/uploads/meme.png", buffer)
                     }
                 })
         }
     }
 
     app.post("/download", cors(), async (req, res) => {
-        console.log(req.body)
         await drawCanvas(req.body)
-        res.sendFile(__dirname + "/meme.png")
+        res.sendFile((path.dirname(__dirname)+ "/public/uploads/meme.png"))
     })
 }
 
