@@ -7,6 +7,8 @@ import randomIcon from "./random.png";
 import browseIcon from "./browse.png";
 import addIcon from "./add.png"
 import deleteIcon from "./delete.png"
+import downloadIcon from "./download.png"
+import saveIcon from "./save.png"
 import axios from "axios";
 
 
@@ -85,6 +87,18 @@ const Toolbox = (props) => {
                 <img className={styles.tool} src={deleteIcon} alt="deleteIcon"/>
             </div>
             <span className={styles.tooltipText}>Remove caption</span>
+        </div>
+        <div className={styles.tooltip}>
+            <div onClick={props.save}>
+                <img className={styles.tool} src={saveIcon} alt="saveIcon"/>
+            </div>
+            <span className={styles.tooltipText}>Save</span>
+        </div>
+        <div className={styles.tooltip}>
+            <div onClick={props.download}>
+                <img className={styles.tool} src={downloadIcon} alt="downloadIcon"/>
+            </div>
+            <span className={styles.tooltipText}>Download</span>
         </div>
     </div>);
 };
