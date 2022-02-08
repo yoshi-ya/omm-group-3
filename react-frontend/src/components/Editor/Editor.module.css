@@ -19,7 +19,7 @@
 .canvas {
     border: 2px solid black;
     display: block;
-    margin: auto;
+    margin: 14px auto;
 }
 
 .hidden {
@@ -67,7 +67,7 @@
     width: 100%;
 }
 
-.rowCenter button {
+.rowCenter button, .rowCenter input {
     margin-top: 12px;
     padding: 12px;
 }

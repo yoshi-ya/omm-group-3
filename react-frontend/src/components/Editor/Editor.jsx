@@ -24,7 +24,7 @@ const Editor = () => {
     const [mode, setMode] = useState({draw: false, desktop: false, url: false})
 
     const canvas = useRef(null)
-    const {isAuthenticated} = useAuth0()
+    const {isAuthenticated, user} = useAuth0()
 
     useEffect(() => {
         if (templates.length > 0) {
@@ -114,20 +114,74 @@ const Editor = () => {
             .catch(error => console.log(error))
     }
 
+    const exportCanvas = () => {
+        let name = document.getElementById("title").value
+        let templateData = []
+        templates.forEach((template, index) => {
+            templateData.push({
+                url: template.image,
+                x: templateConfigs[index].x,
+                y: templateConfigs[index].y,
+                width: templateConfigs[index].width,
+                height: templateConfigs[index].height
+            })
+        })
+        let textData = []
+        texts.forEach((text, index) => {
+            textData.push({text: text.text, x: xPositions[index].x, y: yPositions[index].y})
+        })
+        return {
+            templates: templateData,
+            texts: textData,
+            canvasWidth: canvasWidth,
+            canvasHeight: canvasHeight,
+            color: textColor,
+            size: textSize,
+            author: user.name,
+            name: name,
+            private: privateTemplate
+        }
+    }
+
+    const download = () => {
+        let canvasConfig = exportCanvas()
+        axios
+            .post("http://localhost:5001/download", canvasConfig, {responseType: 'blob'})
+            .then(res => {
+                const url = window.URL.createObjectURL(new Blob([res.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'meme.png');
+                document.body.appendChild(link);
+                link.click();
+                link.remove()
+            })
+            .catch(error => console.log(error))
+    }
+
+    const save = () => {
+        let canvasConfig = exportCanvas()
+        let name = canvasConfig.name
+        if (!name.length > 0) return alert("Please give your Meme a title!")
+        console.log("to be implemented")
+    }
+
     if (!isAuthenticated) return <div>Please log in.</div>
 
     return (<>
         <Toolbox setMode={setMode} mode={mode} randomTemplate={getRandomTemplate}
-                 getTemplate={getTemplate} addCaption={addTextBox} removeCaption={removeTextBox}/>
+                 getTemplate={getTemplate} addCaption={addTextBox} removeCaption={removeTextBox}
+                 download={download} save={save}/>
         <div className={styles.outerContainer}>
             <div className={styles.editorContainer}>
                 <div className={styles.splitView}>
                     <div className={styles.splitLeft}>
-                        <canvas ref={canvas} width={canvasWidth} height={canvasHeight}
+                        <canvas id="canvas" ref={canvas} width={canvasWidth} height={canvasHeight}
                                 className={styles.canvas}/>
                         <div className={styles.rowCenter}>
-                            <button>Save</button>
-                            <button>Download</button>
+                            <form>
+                                <input id="title" type="text" placeholder="meme title"/>
+                            </form>
                         </div>
                     </div>
                     <div className={styles.splitRight}>
