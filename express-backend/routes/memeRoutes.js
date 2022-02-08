@@ -7,11 +7,14 @@ const path = require("path")
 module.exports = app => {
 
     /**
-     * saves a Meme to the database
+     * saves a Meme to the database if the meme does not exist, otherwise updates it
      */
     app.post("/saveMeme", cors(), (req, res) => {
+        let dbFilter = {
+            author: req.body.author, name: req.body.name
+        }
 
-        let meme = new Meme({
+        let meme = {
             author: req.body.author,
             name: req.body.name,
             date: new Date().toISOString(),
@@ -23,12 +26,17 @@ module.exports = app => {
             size: req.body.size,
             canvasWidth: req.body.canvasWidth,
             canvasHeight: req.body.canvasHeight
-        })
+        }
 
-        meme
-            .save()
-            .then(() => res.send("Saved meme!"))
-            .catch(err => console.error(err))
+        Meme
+            .findOneAndUpdate(dbFilter, meme, {new: true})
+            .then(updatedMeme => {
+                if (updatedMeme) res.send(updatedMeme)
+                else {
+                    new Meme(meme).save().then(newMeme => res.send(newMeme))
+                }
+            })
+            .catch(err => console.log(err))
     })
 
     /**
