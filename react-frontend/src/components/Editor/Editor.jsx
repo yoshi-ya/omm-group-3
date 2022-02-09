@@ -9,6 +9,15 @@ import {encode} from "base64-arraybuffer";
 
 
 const Editor = () => {
+    /*
+todo: the toolbar should indicate whether drawing is active
+todo: drawing should be a separate mode where you can only insert text
+todo: a drawn meme with all captions should be storable inside the db -> store dataURL with
+  captions
+todo: when entering drawing mode, you can not add templates e.g. pick from url, desktop,
+  random, etc.
+*/
+
     const [templates, setTemplates] = useState([])
     const [canvasWidth, setCanvasWidth] = useState(400)
     const [canvasHeight, setCanvasHeight] = useState(400)
@@ -22,13 +31,18 @@ const Editor = () => {
     const [textSize, setTextSize] = useState(22)
     const [privateTemplate, setPrivateTemplate] = useState(false)
     const [mode, setMode] = useState({draw: false, desktop: false, url: false})
-
-    const canvas = useRef(null)
+    const [isDrawing, setIsDrawing] = useState(false)
+    const canvasRef = useRef(0)
     const {isAuthenticated, user} = useAuth0()
+
 
     useEffect(() => {
         if (templates.length > 0) {
-            const context = canvas.current.getContext("2d")
+            const context = canvasRef.current.getContext("2d")
+            context.scale(1, 1);
+            context.lineCap = "round";
+            context.strokeStyle = "black";
+            context.lineWidth = 3;
             context.fillStyle = "black"
             context.fillRect(0, 0, canvasWidth, canvasHeight)
             for (let i = 0; i < templates.length; i++) {
@@ -47,8 +61,35 @@ const Editor = () => {
                 }
             }
         }
-    }, [templates, texts, canvas, canvasWidth, canvasHeight, xPositions, yPositions, templateConfigs, textColor, textSize]);
+    }, [templates, texts, canvasRef, canvasWidth, canvasHeight, xPositions, yPositions, templateConfigs, textColor, textSize]);
 
+
+    const startDrawing = ({nativeEvent}) => {
+        if (mode.draw) {
+            setIsDrawing(true);
+            const {offsetX, offsetY} = nativeEvent;
+            const context = canvasRef.current.getContext("2d")
+            context.beginPath();
+            context.moveTo(offsetX, offsetY);
+        }
+    }
+
+    const finishDrawing = () => {
+        if (mode.draw) {
+            const context = canvasRef.current.getContext("2d")
+            context.closePath();
+            setIsDrawing(false)
+        }
+    }
+
+    const draw = ({nativeEvent}) => {
+        if (mode.draw && isDrawing) {
+            const {offsetX, offsetY} = nativeEvent;
+            const context = canvasRef.current.getContext("2d")
+            context.lineTo(offsetX, offsetY);
+            context.stroke();
+        }
+    }
 
     const addTextBox = () => {
         if (texts.length < 4) setTexts([...texts, {text: ""}])
@@ -179,8 +220,10 @@ const Editor = () => {
             <div className={styles.editorContainer}>
                 <div className={styles.splitView}>
                     <div className={styles.splitLeft}>
-                        <canvas id="canvas" ref={canvas} width={canvasWidth} height={canvasHeight}
-                                className={styles.canvas}/>
+                        <canvas id="canvas" ref={canvasRef} width={canvasWidth}
+                                height={canvasHeight}
+                                className={styles.canvas} onMouseDown={startDrawing}
+                                onMouseUp={finishDrawing} onMouseMove={draw}/>
                         <div className={styles.rowCenter}>
                             <form>
                                 <input id="title" type="text" placeholder="meme title"/>
