@@ -1,5 +1,4 @@
 import styles from "./Overview.module.css";
-import {encode} from "base64-arraybuffer";
 import React, {useState} from "react";
 import {useAuth0} from "@auth0/auth0-react";
 import comment from "./comment.png"
@@ -9,6 +8,7 @@ import heartRed from "./heartRed.png"
 import axios from "axios";
 import PopUpComments from "../PopUpComments/PopUpComments";
 import PopUpShare from "../PopUpShare/PopUpShare";
+import CanvasMeme from "../CanvasMeme/CanvasMeme";
 
 
 const Overview = (props) => {
@@ -57,17 +57,16 @@ const Overview = (props) => {
         setSharePopUp(true)
     }
 
+    const focusMeme = (i) => {
+        props.memeNumber.current = i;
+        props.active(true)
+    }
+
     if (isAuthenticated) {
         return <div className={styles.container}>
 
             {props.memesList.map((meme, i) => <div className={styles.item} key={i}>
-                <img width='250px' height='250px' alt={`meme_${i}`}
-                     src={`data:image/png;base64,${encode(meme.template.data)}`}
-                     onClick={() => {
-                         props.memeNumber.current = i;
-                         props.active(true)
-                     }}
-                />
+                <CanvasMeme meme={meme} focusMeme={focusMeme}/>
                 <div className={styles.createdByBox}>Created by: {meme.author}</div>
                 <div className={styles.iconBox}>
                     <div className={styles.iconBox}>
@@ -94,13 +93,7 @@ const Overview = (props) => {
 
     return (<div className={styles.container}>
         {props.memesList.map((meme, i) => <div className={styles.item} key={i}>
-            <img width='250px' height='250px' alt={`meme_${i}`}
-                 src={`data:image/png;base64,${encode(meme.template.data)}`}
-                 onClick={() => {
-                     props.memeNumber.current = i;
-                     props.active(true)
-                 }}
-            />
+            <CanvasMeme meme={meme} focusMeme={focusMeme}/>
         </div>)}
     </div>)
 };

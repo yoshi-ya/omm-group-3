@@ -1,23 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import styles from "./CanvasMeme.module.css";
-import axios from "axios";
 
 
-const CanvasMeme = ({id}) => {
+const CanvasMeme = ({meme, focusMeme}) => {
 
     const canvasRef = useRef(0)
-    const [meme, setMeme] = useState({})
 
-
-    useEffect(() => {
-        axios
-            .get(`http://localhost:5001/fetchMeme?id=${id}`)
-            .then(result => {
-                setMeme(result.data)
-            })
-            .catch(error => console.log(error))
-
-    }, []);
 
     useEffect(() => {
         if (meme && meme.templates && meme.templates.length > 0) {
@@ -42,10 +30,11 @@ const CanvasMeme = ({id}) => {
         }
     }, [meme]);
 
+    if (!meme) return <div/>
 
-
-    return (<canvas ref={canvasRef} width={meme ? meme.canvasWidth : 400} height={meme ? meme.canvasHeight : 400}
-                    className={styles.canvas}/>);
+    return (
+        <canvas ref={canvasRef} width={meme.canvasWidth ? meme.canvasWidth : 400} height={meme.canvasHeight ? meme.canvasHeight : 400}
+                className={styles.canvas} onClick={focusMeme}/>);
 };
 
 export default CanvasMeme;

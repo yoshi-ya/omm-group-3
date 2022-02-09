@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import styles from './PopUpComments.module.css'
-import {encode} from "base64-arraybuffer";
 import axios from "axios";
 import {useAuth0} from "@auth0/auth0-react";
+import CanvasMeme from "../CanvasMeme/CanvasMeme";
 
 
 const PopUpComments = (props) => {
@@ -26,7 +26,7 @@ const PopUpComments = (props) => {
         event.preventDefault()
         let commentData = {
             content: event.target.comment.value,
-            author: user.nickname,
+            author: user.name,
             meme: props.meme._id
         }
         event.target.comment.value = ""
@@ -43,10 +43,9 @@ const PopUpComments = (props) => {
         <div className={styles.popupInner}>
             <div className={styles.closeButton} onClick={() => props.setVisible(false)}/>
             <div className={styles.flexBoxComments}>
-                <img className={styles.meme}
-                     alt={`meme_${props.meme._id}`}
-                     src={`data:image/png;base64,${encode(props.meme.template.data)}`}
-                />
+                <div className={styles.meme}>
+                    <CanvasMeme meme={props.meme}/>
+                </div>
                 <div className={styles.comments}>
                     <ul className={styles.commentBox}>
                         {comments.map((comment, i) => (
