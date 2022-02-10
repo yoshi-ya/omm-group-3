@@ -19,7 +19,7 @@ const Overview = (props) => {
     const [currentMeme, setCurrentMeme] = useState({});
 
     const fetchData = async () => {
-        return await axios.get('http://localhost:5001/allMemes')
+        return await axios.get('http://localhost:5001/allMemes?private=false')
     }
 
     const handleLikeClick = async e => {

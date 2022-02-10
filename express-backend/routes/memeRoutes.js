@@ -71,6 +71,7 @@ module.exports = app => {
      */
     app.get("/allMemes", cors(), (req, res) => {
         let dbFilter = req.query.author ? {author: req.query.author} : {author: {$not: /^api$/}}
+        if (req.query.private) dbFilter.private = req.query.private
         Meme
             .find(dbFilter)
             .then(memes => {
