@@ -30,15 +30,15 @@ const Toolbox = (props) => {
     return (<div className={styles.editorTools}>
         <div className={styles.tooltip}>
             <div onClick={() => props.setMode({
-                draw: true,
-                desktop: false,
+                draw: !props.mode.draw,
+                desktop: !props.mode.desktop,
                 url: false
             })}>
-                <img className={styles.tool} src={drawingIcon} alt="drawingIcon"/>
+                <img className={props.mode.draw ? styles.toolActive : styles.tool} src={drawingIcon} alt="drawingIcon"/>
             </div>
             <span className={styles.tooltipText}>Draw</span>
         </div>
-        <div className={styles.tooltip}>
+        <div className={props.mode.draw ? styles.hidden : styles.tooltip}>
             <div onClick={() => props.setMode({
                 draw: false,
                 desktop: true,
@@ -48,7 +48,7 @@ const Toolbox = (props) => {
             </div>
             <span className={styles.tooltipText}>Pick from files</span>
         </div>
-        <div className={styles.tooltip}>
+        <div className={props.mode.draw ? styles.hidden : styles.tooltip}>
             <div onClick={() => props.setMode({
                 draw: false,
                 desktop: false,
@@ -58,31 +58,46 @@ const Toolbox = (props) => {
             </div>
             <span className={styles.tooltipText}>Pick from URL</span>
         </div>
-        <div className={styles.tooltip}>
-            <div onClick={props.randomTemplate}>
+        <div className={props.mode.draw ? styles.hidden : styles.tooltip}>
+            <div onClick={() => {
+                props.setMode({
+                    draw: false,
+                    desktop: true,
+                    url: false
+                })
+                props.randomTemplate()
+            }}>
                 <img className={styles.tool} src={randomIcon} alt="randomIcon"/>
             </div>
             <span className={styles.tooltipText}>Pick randomly</span>
         </div>
-        <div className={styles.tooltip}>
+        <div className={props.mode.draw ? styles.hidden : styles.tooltip}>
             <img className={styles.tool} src={browseIcon} alt="browseIcon"
                  onClick={() => setCollapsed(!collapsed)}/>
             <span className={styles.tooltipText}>Browse templates</span>
             <div className={styles.dropDown}>
                 <ul className={collapsed ? styles.collapsed : styles.expanded}>
                     {templates.map(template => (
-                        <li key={template._id} onClick={e => props.getTemplate(e.target.innerHTML)}
+                        <li key={template._id} onClick={e => {
+                            props.getTemplate(e.target.innerHTML)
+                            props.setMode({
+                                draw: false,
+                                desktop: true,
+                                url: false
+                            })
+                            setCollapsed(true)
+                        }}
                             className={styles.dropDownItem}>{template.name}</li>))}
                 </ul>
             </div>
         </div>
-        <div className={styles.tooltip}>
+        <div className={props.mode.draw ? styles.hidden : styles.tooltip}>
             <div onClick={props.addCaption}>
                 <img className={styles.tool} src={addIcon} alt="addIcon"/>
             </div>
             <span className={styles.tooltipText}>Add caption</span>
         </div>
-        <div className={styles.tooltip}>
+        <div className={props.mode.draw ? styles.hidden : styles.tooltip}>
             <div onClick={props.removeCaption}>
                 <img className={styles.tool} src={deleteIcon} alt="deleteIcon"/>
             </div>
