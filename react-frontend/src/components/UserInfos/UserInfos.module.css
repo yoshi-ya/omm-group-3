@@ -1,36 +1,32 @@
 .container {
-    height: 100%;
+    height: 90vh;
     margin: 20px 40px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
-@media only screen and (min-width: 1536px) {
-    .container {
-        height: 100vh;
-    }
-  }
 
 /* User infos on the left side*/
 .container > *:nth-child(1) {
-    height: 98.4%;
     flex: 1 1 15%;
+    height: 100%;
     min-width: 340px; 
 }
 
 /* Meme sliders on the right side */
 .container > *:nth-child(2) {
-    height: 100%;
     flex: 1 1 75%;
     min-width: 42ch;
     width: 100%;
+    height: 100%;
 }
 
-/* 2 sliders under each other */
+/* 2 cards */
 .verticalBox {
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 100%;
 }
 
 .card {
@@ -52,23 +48,29 @@
     color: black;
 }
 
-/* Headline of card */
+.cardTitle {
+    margin: 15px 0 0 25px;;
+}
+
+/* currently not in use: 
+
+/* Headline of card 
 .firstRow {
     position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
-/* Text */
+/* Text 
 .firstRow > *:nth-child(1) {
     flex: 1 1; 
     margin-left: 20px; 
 }
-/* Share buttons */
+/* Share buttons 
 .firstRow > *:nth-child(2) {
     flex: 1 1; 
     margin-right: 20px;
-}
+}*/
 
 /* User infos on the left side */
 .imageArea {

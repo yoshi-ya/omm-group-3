@@ -84,8 +84,7 @@ module.exports = app => {
      */
     app.delete("/deleteMeme", cors(), (req, res) => {
         Meme
-            .findOne({_id: req.query.meme})
-            .deleteOne()
+            .findOneAndDelete({_id: req.body.meme})
             .then(result => {
                 res.send(result)
             })
