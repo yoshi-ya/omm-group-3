@@ -1,0 +1,13 @@
+.row {
+    width: 100%;
+    display: inline-block;
+}
+
+.item {
+    float: left;
+    padding: 8px;
+}
+
+.row input {
+    width: 50%;
+}

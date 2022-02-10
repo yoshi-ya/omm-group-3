@@ -5,13 +5,7 @@ import styles from "./Header.module.css"
 import AuthenticationButton from "../AuthenticationButton/AuthenticationButton";
 import Editor from "../Editor/Editor";
 import Profile from "../Profile/Profile";
-import {Meme} from '../Meme/Meme';
-import {MemeGenerated} from '../MemeGenerated/MemeGenerated'
-import PickFromURL from '../Editor/PickFromURL';
-import PickFromDesktop from '../Editor/PickFromDesktop';
-import DrawingCanvas from '../Editor/DrawingCanvas';
 import SingleView from "../SingleView/SingleView";
-import TestMemes from '../TestMemes/TestMemes';
 
 
 const Header = () => {
@@ -37,6 +31,7 @@ const Header = () => {
                 <Route path="/" element={<Gallery/>}/>
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/view/:id" element={<SingleView/>}/>
+
                 <Route path="editor" element={<Editor/>}>
                     <Route path="generated" element={<MemeGenerated/>}/>
                     <Route exact path="drawing" element={<DrawingCanvas/>}/>

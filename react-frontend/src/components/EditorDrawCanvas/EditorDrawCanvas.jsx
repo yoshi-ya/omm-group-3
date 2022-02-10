@@ -1,8 +1,8 @@
 import React, {useEffect, useState, useRef} from 'react'
-import styles from '../Editor/Editor.module.css';
+import styles from './EditorDrawCanvas.module.css';
 import axios from 'axios';
 
-function DrawingCanvas() {
+function EditorDrawCanvas() {
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
 
@@ -119,4 +119,4 @@ function DrawingCanvas() {
     
         );
 }
-export default DrawingCanvas;
+export default EditorDrawCanvas;

@@ -1,38 +1,42 @@
 const Meme = require("../schemas/memeSchema");
+const drawCanvas = require("../canvas")
 const cors = require("cors");
-const multer = require("multer");
-const storage = multer.memoryStorage()
-const upload = multer({storage: storage})
+const path = require("path")
 
 
 module.exports = app => {
 
     /**
-     * adds a Meme to the database
+     * saves a Meme to the database if the meme does not exist, otherwise updates it
      */
-    app.post("/addMeme", cors(), upload.single("image"), (req, res) => {
+    app.post("/saveMeme", cors(), (req, res) => {
+        let dbFilter = {
+            author: req.body.author, name: req.body.name
+        }
 
-        let meme = new Meme({
+        let meme = {
             author: req.body.author,
             name: req.body.name,
             date: new Date().toISOString(),
-            template: req.file.buffer,
-            text1: req.body.text1,
-            text2: req.body.text2,
-            text3: req.body.text3,
-            text4: req.body.text4,
+            templates: req.body.templates,
+            texts: req.body.texts,
             votes: req.body.votes,
             private: req.body.private,
             color: req.body.color,
             size: req.body.size,
-            transparency: req.body.transparency,
-            font: req.body.font
-        })
+            canvasWidth: req.body.canvasWidth,
+            canvasHeight: req.body.canvasHeight
+        }
 
-        meme
-            .save()
-            .then(() => res.send("Saved meme!"))
-            .catch(err => console.error(err))
+        Meme
+            .findOneAndUpdate(dbFilter, meme, {new: true})
+            .then(updatedMeme => {
+                if (updatedMeme) res.send(updatedMeme)
+                else {
+                    new Meme(meme).save().then(newMeme => res.send(newMeme))
+                }
+            })
+            .catch(err => console.log(err))
     })
 
     /**
@@ -86,6 +90,11 @@ module.exports = app => {
                 res.send(result)
             })
             .catch(err => console.log(err))
+    })
+
+    app.post("/download", cors(), async (req, res) => {
+        await drawCanvas(req.body)
+        res.sendFile(path.dirname(__dirname) + "/public/uploads/meme.png")
     })
 }
 
