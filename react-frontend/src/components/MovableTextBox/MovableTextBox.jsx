@@ -1,7 +1,7 @@
 import React from "react";
 import Moveable from "react-moveable";
 
-const Movable = ({ moveRef, setStyle }) => {
+const MovableTextBox = ({ moveRef, setStyle }) => {
   const [renderMovable, setRenderMovable] = React.useState(false);
 
   React.useEffect(() => {
@@ -25,4 +25,4 @@ const Movable = ({ moveRef, setStyle }) => {
   );
 };
 
-export default Movable;
+export default MovableTextBox;

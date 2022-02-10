@@ -23,12 +23,14 @@
     height: 100%;
     flex: 1 1 75%;
     min-width: 42ch;
+    width: 100%;
 }
 
 /* 2 sliders under each other */
 .verticalBox {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .card {
@@ -124,8 +126,6 @@
 .button:hover {
     background-color: #454545;
 }
-
-
 
 
 

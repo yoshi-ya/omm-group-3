@@ -2,22 +2,29 @@ import styles from "./GallerySingleView.module.css"
 import React, {useEffect, useState} from 'react';
 import playImg from "./play.png"
 import shuffleImg from "./shuffle.png"
-import {encode} from "base64-arraybuffer";
+import CanvasMeme from "../CanvasMeme/CanvasMeme";
 
 const GallerySingleView = (props) => {
     const defaultMeme = "https://via.placeholder.com/256?text=no%20meme%20found"
-    const [currentMeme, setCurrentMeme] = useState(props.memeNumber.current);
+    const [currentMemeIndex, setCurrentMemeIndex] = useState(0);
+    const [current, setCurrent] = useState({});
     const [autoPlay, setAutoPlay] = useState(false);
+
+
+    useEffect(() => {
+        setCurrentMemeIndex(props.memeNumber.current)
+        setCurrent(props.memesList[currentMemeIndex])
+    }, [])
 
     useEffect(() => {
         toggleVisibility()
         if (autoPlay) {
             const interval = setInterval(() => {
-                setCurrentMeme(nextIndex);
+                setCurrentMemeIndex(nextIndex);
             }, 3000);
             return () => clearInterval(interval);
         }
-    }, [currentMeme, autoPlay]);
+    }, [currentMemeIndex, autoPlay]);
 
     const toggleVisibility = () => {
         let elements = [
@@ -34,17 +41,17 @@ const GallerySingleView = (props) => {
     const randomIndex = () => {
         if (props.memesList.length > 1 && !autoPlay) {
             let memeIndex = Math.floor(Math.random() * props.memesList.length)
-            return currentMeme !== memeIndex ? memeIndex : randomIndex()
+            return currentMemeIndex !== memeIndex ? memeIndex : randomIndex()
         }
         return 1
     }
 
     const previousIndex = () => {
-        return currentMeme === 0 ? props.memesList.length - 1 : currentMeme - 1
+        return currentMemeIndex === 0 ? props.memesList.length - 1 : currentMemeIndex - 1
     }
 
     const nextIndex = () => {
-        return currentMeme === props.memesList.length - 1 ? 0 : currentMeme + 1
+        return currentMemeIndex === props.memesList.length - 1 ? 0 : currentMemeIndex + 1
     }
 
     if (props.memesList.length < 1) {
@@ -59,23 +66,21 @@ const GallerySingleView = (props) => {
                 <div className={styles.closeView} onClick={() => {
                     props.active(false)
                 }}/>
-                <img src={`data:image/png;base64,${encode(props.memesList[currentMeme].template.data)}`}
-                     className={styles.meme}
-                     onClick={() => {
-                         props.active(false)
-                     }} alt="meme"/>
+                <div className={styles.meme}>
+                    <CanvasMeme meme={current}/>
+                </div>
                 <div className={styles.sliderButtonsWrapper}>
                     <div className={styles.sliderButtons}>
                         <img className={styles.buttonLeft} src={playImg}
                              onClick={() => setAutoPlay(!autoPlay)} alt="play"/>
                         <img id="random" className={styles.buttonRight} src={shuffleImg}
-                             onClick={() => setCurrentMeme(randomIndex)} alt="shuffle"/>
+                             onClick={() => setCurrentMemeIndex(randomIndex)} alt="shuffle"/>
                     </div>
                     <div className={styles.sliderButtons}>
                         <div id="previous" className={styles.sliderButtonLeft}
-                             onClick={() => setCurrentMeme(previousIndex)}/>
+                             onClick={() => setCurrentMemeIndex(previousIndex)}/>
                         <div id="next" className={styles.sliderButtonRight}
-                             onClick={() => setCurrentMeme(nextIndex)}/>
+                             onClick={() => setCurrentMemeIndex(nextIndex)}/>
                     </div>
                 </div>
             </div>

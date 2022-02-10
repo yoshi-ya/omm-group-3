@@ -1,16 +1,41 @@
-const cors = require("cors");
 const Template = require("../schemas/templateSchema")
+const cors = require("cors");
 const multer = require("multer");
 const storage = multer.memoryStorage()
 const upload = multer({storage: storage})
 
 
 module.exports = app => {
+
     app.get("/allTemplates", cors(), (req, res) => {
+        let dbFilter = {}
+        if (req.query.private) dbFilter.private = req.query.private
+        if (req.query.author) dbFilter.author = req.query.author
         Template
-            .find({})
+            .find(dbFilter)
             .then(result => {
                 res.send(result)
+            })
+            .catch(error => console.log(error))
+    })
+
+    app.get("/template", cors(), (req, res) => {
+        let name = req.query.name
+        Template
+            .findOne({name: name})
+            .then(result => {
+                res.send(result)
+            })
+            .catch(error => console.log(error))
+    })
+
+    app.get("/anyTemplate", cors(), (req, res) => {
+        Template
+            .find({private: false})
+            .then(result => {
+                let numberOfDocuments = result.length
+                let randomIndex = Math.floor(Math.random() * numberOfDocuments)
+                res.send(result[randomIndex])
             })
             .catch(error => console.log(error))
     })
@@ -26,7 +51,8 @@ module.exports = app => {
 
         template
             .save()
-            .then(() => res.send("Saved template!"))
+            .then(result => res.send(result))
             .catch(err => console.error(err))
     })
+
 }

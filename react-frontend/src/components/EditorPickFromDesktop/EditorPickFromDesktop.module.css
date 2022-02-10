@@ -1,0 +1,20 @@
+.wrapper {
+    width: 100%;
+}
+
+.wrapper form {
+    width: 100%;
+}
+
+.row {
+    width: 100%;
+    padding: 4px;
+}
+
+.row span {
+    margin-right: 8px;
+}
+
+.row input {
+    padding: 8px;
+}

@@ -4,7 +4,9 @@
     justify-content: center;
     align-items: center; 
     margin: 10px;
-    min-height: 100%;
+    height: 100%;
+    width: 100%;
+    
 }
 .emptySlider {
     position: relative;
@@ -22,58 +24,98 @@
     color: #3190A4;
 }
 
-/* Vertical inner container with images and dots */
+/*--- Vertical inner container with share buttons, images and dots ---*/
 .sliderInner {
     position: relative;
     display: flex;
+    /* justify-content: center;  */
+    align-items: center;
     flex-direction: column;   
     width: 100%;
     height: 100%; 
 }
 
-/* Horizontal container with one slide for each image */
+/*--- Horizontal container with alle memes (one slide for each image) ---*/
 .slides {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%; 
+    height: 100%;
+    margin-top: 15px; /* To make a gab between memes and dots */
 }
 
-/* Contains image */
-.slide {
+.slide { /* currently not in use */
     opacity: 0;
     transition-duration: 0.5s ease;
     position: absolute; 
     margin: 0px 10px; 
+    height: 100%; 
 }
-
 .slideActive {
     opacity: 1;
     transition-duration: 0.5s;
     margin: 0px 10px; 
+    height: 100%; 
 }
 
-/* Images of the slider - different classes for different screensizes */
+/*--- Image container for one single image ---*/
+.image {
+    height: 210px;
+    position: relative; /* Important for positioning of the trash icon */
+}
+.image:hover .trashIcon {
+    opacity: 1;
+}
+.image:after {
+    content: '';
+    position: absolute;
+    width: 100%; height: 100%;
+    top:0; left:0;
+    background:rgba(0,0,0,0.6);
+    opacity: 0;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+.image:hover:after {
+    opacity: 0.7;
+}
+
+/*--- Trash icon to delete meme ---*/
+.trashIcon {
+    background-image: url(trash_white.png);
+    background-size: cover;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    bottom: 0; right: 0;
+    margin: 0 10px 10px 0;
+    opacity: 0;
+    z-index: 5;
+}
+
+/*--- Images of memes - different classes for different screensizes ---*/
 .imageSmall {
     height: 210px; /* without fix height pictures and arrows of the slider jump up and down */
     background-size: cover;
     border-radius: 5px;
-    margin-bottom: 40px;  
 }
 .imageMedium {
     height: 160px;
     background-size: cover;
-    border-radius: 5px;
-    margin-bottom: 40px;  
+    border-radius: 5px; 
 }
 .imageLarge {
-    height: 210px;
+    height: 100%;
     background-size: cover;
     border-radius: 5px;
-    margin-bottom: 40px;  
+    position: relative; /* important for black overlay */
 }
 
-/* Image in the middle with border */
+
+
+/*--- Image in the middle with border ---*/
 .imageMiddleMedium {
     height: 180px;
     background-size: cover;
@@ -93,13 +135,15 @@
     margin-bottom: 40px;
 }
 
+/*--- Arrows ---*/
+
 .rightArrow {
     position: absolute;
     top: 50%;
     right: 10px;
     font-size: 2.6rem;
     color: #343434;
-    z-index: 10;
+    z-index: 5;
     cursor: pointer;
     user-select: none;
 }
@@ -110,12 +154,12 @@
     left: 10px;
     font-size: 2.6rem;
     color: #343434;
-    z-index: 10;
+    z-index: 5;
     cursor: pointer;
     user-select: none;
 }
 
-/* --- Slider button for empty sliders ------------------------- */
+/*--- Slider button for empty sliders ---*/
 
 .sliderButton {
     background-color: #666666;
@@ -145,31 +189,30 @@
     color: rgb(235, 235, 235);
 }
 
-
-/* --- Dots ----------------------------------------------------- */
-
+/*--- Dots under memes ---*/
 .containerDots {
+    position: absolute;
     bottom: 0px;
     left: 50%;
-    position: absolute;
     transform: translateX(-50%);
     display: flex;
   }
+.dot {
+width: 15px;
+height: 15px;
+border-radius: 50%;
+border: 3px solid #343434;
+margin: 0 5px;
+background: #343434;
+}
+.dotActive {
+width: 15px;
+height: 15px;
+border-radius: 50%;
+border: 3px solid #343434;
+margin: 0 5px;
+background: whitesmoke;
+}
 
-  .dot {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    border: 3px solid #343434;
-    margin: 0 5px;
-    background: #343434;
-  }
- 
-  .dotActive {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    border: 3px solid #343434;
-    margin: 0 5px;
-    background: whitesmoke;
-  }
+
+

@@ -1,17 +1,12 @@
-/*button {*/
-/*    cursor: pointer;*/
-/*    display: flex;*/
-/*    width: 200px;*/
-/*    padding: 10px;*/
-/*    margin: 20px auto 15px;*/
-/*    color: white;*/
-/*    border: none;*/
-/*    border-radius: 3px;*/
-/*}*/
+.outerContainer {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
 
 .editorContainer {
   justify-content: center;
-  width: 150vh;
+  width: 94vw;
   background-color: whitesmoke;
   margin: 8px;
   border-radius: 15px;
@@ -21,78 +16,86 @@
   align-items: flex-start;
 }
 
-.outerContainer {
-  display: flex;
-  justify-content: center;
-}
-
-.images {
-  display: flex;
-  flex-direction: column;
-}
-
-.meme {
-  max-width: 300px;
-  max-height: 300px;
-  margin: 10px auto auto;
-  display: flex;
-  box-shadow: 0 0 10px black;
-}
-
-input {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  padding: 10px;
-  width: 350px;
-  margin: 20px 20px 15px;
-}
-
-h1 {
-  text-align: center;
-  font-size: 50px;
-  text-shadow: 0 0 5px black;
-}
-/**
-drawing canvas 
-*/
-.drawingCanvas {
+.canvas {
   border: 2px solid black;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 14px auto;
 }
 
-.container {
-  margin: 80px;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  gap: 30px;
+.hidden {
+  display: none;
 }
 
-.buttonContainer {
-  background-color: lightgray;
+.splitView {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
 }
 
-.templates {
-  display: flex;
+.splitLeft {
+  width: 50%;
+  height: 100%;
+  float: left;
+  position: sticky;
+  top: 102px;
+  overflow: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
-.skip {
-  background-color: #d2f04e;
+.splitLeft::-webkit-scrollbar {
+  display: none;
 }
 
-.generate {
-  background-color: #8a40eb;
+.splitRight {
+  width: 50%;
+  height: 100%;
+  float: right;
 }
 
-.use {
-  background-color: #40eb4e;
+.editor {
+  margin: auto;
 }
 
-.upload {
-  background-color: #8a40eb;
+.wrapper {
+  display: block;
+  border-top: 1px solid black;
+  padding: 8px;
+}
+
+.row {
+  margin-top: 16px;
+  display: inline-block;
+  width: 100%;
+}
+
+.rowCenter {
+  text-align: center;
+  width: 100%;
+}
+
+.rowCenter button,
+.rowCenter input {
+  margin-top: 12px;
+  padding: 12px;
+}
+
+.item {
+  float: left;
+}
+
+.row input {
+  margin-right: 12px;
+}
+
+.row span {
+  padding-right: 4px;
+}
+
+.title {
+  font-size: 22px;
+  width: 100%;
+  float: left;
 }
 
 /**
@@ -162,4 +165,24 @@ video {
 
 .result.hasPhoto {
   left: 0;
+}
+@media screen and (max-width: 900px) {
+  .splitView {
+    width: 100%;
+    height: 100%;
+  }
+
+  .splitLeft {
+    float: none;
+    width: 100%;
+    height: auto;
+    position: relative;
+    top: 0;
+  }
+
+  .splitRight {
+    float: none;
+    width: 100%;
+    height: auto;
+  }
 }
