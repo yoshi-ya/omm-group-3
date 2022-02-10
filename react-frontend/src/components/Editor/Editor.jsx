@@ -21,6 +21,7 @@ const Editor = () => {
     const [textColor, setTextColor] = useState("#fff")
     const [textSize, setTextSize] = useState(22)
     const [privateTemplate, setPrivateTemplate] = useState(false)
+    const [privateMeme, setPrivateMeme] = useState(false)
     const [mode, setMode] = useState({draw: false, desktop: true, url: false})
     const [isDrawing, setIsDrawing] = useState(false)
     const canvasRef = useRef(0)
@@ -180,7 +181,7 @@ const Editor = () => {
             size: textSize,
             author: user.name,
             name: name,
-            private: privateTemplate
+            private: privateMeme
         }
     }
 
@@ -246,6 +247,10 @@ const Editor = () => {
                         <div className={mode.draw ? styles.hidden : styles.rowCenter}>
                             <form>
                                 <input id="title" type="text" placeholder="meme title"/>
+                                <div className={styles.memeTitle}>
+                                    <input id="private-meme" type="radio" onClick={() => setPrivateMeme(!privateMeme)} checked={privateMeme} readOnly={true}/>
+                                    <label htmlFor="private-meme">private meme</label>
+                                </div>
                             </form>
                         </div>
                     </div>

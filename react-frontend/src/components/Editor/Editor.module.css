@@ -105,6 +105,11 @@
     float: left;
 }
 
+.memeTitle {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
 @media screen and (max-width: 900px) {
     .splitView {
         width: 100%;
