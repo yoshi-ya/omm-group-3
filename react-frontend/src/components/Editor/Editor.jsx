@@ -21,14 +21,28 @@ const Editor = () => {
     const [textColor, setTextColor] = useState("#fff")
     const [textSize, setTextSize] = useState(22)
     const [privateTemplate, setPrivateTemplate] = useState(false)
-    const [mode, setMode] = useState({draw: false, desktop: false, url: false})
-
-    const canvas = useRef(null)
+    const [mode, setMode] = useState({draw: false, desktop: true, url: false})
+    const [isDrawing, setIsDrawing] = useState(false)
+    const canvasRef = useRef(0)
     const {isAuthenticated, user} = useAuth0()
 
+
     useEffect(() => {
-        if (templates.length > 0) {
-            const context = canvas.current.getContext("2d")
+        if (mode.draw) {
+            const context = canvasRef.current.getContext("2d")
+            context.fillStyle = "black"
+            context.fillRect(0, 0, canvasWidth, canvasHeight)
+            context.scale(1, 1);
+            context.lineCap = "round";
+            context.strokeStyle = "white";
+            context.lineWidth = 3;
+        }
+    }, [canvasRef, mode])
+
+    useEffect(() => {
+        if (templates.length > 0 && !mode.draw) {
+            console.log(templates)
+            const context = canvasRef.current.getContext("2d")
             context.fillStyle = "black"
             context.fillRect(0, 0, canvasWidth, canvasHeight)
             for (let i = 0; i < templates.length; i++) {
@@ -47,8 +61,35 @@ const Editor = () => {
                 }
             }
         }
-    }, [templates, texts, canvas, canvasWidth, canvasHeight, xPositions, yPositions, templateConfigs, textColor, textSize]);
+    }, [mode, templates, texts, canvasRef, canvasWidth, canvasHeight, xPositions, yPositions, templateConfigs, textColor, textSize]);
 
+
+    const startDrawing = ({nativeEvent}) => {
+        if (mode.draw) {
+            setIsDrawing(true);
+            const {offsetX, offsetY} = nativeEvent;
+            const context = canvasRef.current.getContext("2d")
+            context.beginPath();
+            context.moveTo(offsetX, offsetY);
+        }
+    }
+
+    const finishDrawing = () => {
+        if (mode.draw) {
+            const context = canvasRef.current.getContext("2d")
+            context.closePath();
+            setIsDrawing(false)
+        }
+    }
+
+    const draw = ({nativeEvent}) => {
+        if (mode.draw && isDrawing) {
+            const {offsetX, offsetY} = nativeEvent;
+            const context = canvasRef.current.getContext("2d")
+            context.lineTo(offsetX, offsetY);
+            context.stroke();
+        }
+    }
 
     const addTextBox = () => {
         if (texts.length < 4) setTexts([...texts, {text: ""}])
@@ -144,29 +185,48 @@ const Editor = () => {
     }
 
     const download = () => {
-        const canvasConfig = exportCanvas()
-        axios
-            .post("http://localhost:5001/download", canvasConfig, {responseType: 'blob'})
-            .then(res => {
-                const url = window.URL.createObjectURL(new Blob([res.data]));
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', 'meme.png');
-                document.body.appendChild(link);
-                link.click();
-                link.remove()
-            })
-            .catch(error => console.log(error))
+        if (mode.draw) {
+            const imageURL = canvasRef.current.toDataURL()
+            const link = document.createElement('a')
+            link.href = imageURL
+            link.download = 'meme.png'
+            document.body.appendChild(link)
+            link.click()
+            document.body.removeChild(link)
+        }
+        else {
+            const canvasConfig = exportCanvas()
+            axios
+                .post("http://localhost:5001/download", canvasConfig, {responseType: 'blob'})
+                .then(res => {
+                    const url = window.URL.createObjectURL(new Blob([res.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'meme.png');
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove()
+                })
+                .catch(error => console.log(error))
+        }
     }
 
     const save = () => {
-        let canvasConfig = exportCanvas()
-        let name = canvasConfig.name
-        if (!name.length > 0) return alert("Please give your Meme a title!")
-        axios
-            .post("http://localhost:5001/saveMeme", canvasConfig)
-            .then(() => alert("Saved."))
-            .catch(err => console.log(err))
+        if (mode.draw && templates.length < 3) {
+            // set drawing as template
+            let imageURL = canvasRef.current.toDataURL()
+            setTemplates([...templates, {image: imageURL}])
+            setMode({draw: false, desktop: true, url: false})
+        }
+        else {
+            let canvasConfig = exportCanvas()
+            let name = canvasConfig.name
+            if (!name.length > 0) return alert("Please give your Meme a title!")
+            axios
+                .post("http://localhost:5001/saveMeme", canvasConfig)
+                .then(() => alert("Saved."))
+                .catch(err => console.log(err))
+        }
     }
 
     if (!isAuthenticated) return <div>Please log in.</div>
@@ -178,16 +238,18 @@ const Editor = () => {
         <div className={styles.outerContainer}>
             <div className={styles.editorContainer}>
                 <div className={styles.splitView}>
-                    <div className={styles.splitLeft}>
-                        <canvas id="canvas" ref={canvas} width={canvasWidth} height={canvasHeight}
-                                className={styles.canvas}/>
-                        <div className={styles.rowCenter}>
+                    <div className={mode.draw ? styles.drawModeLeft : styles.splitLeft}>
+                        <canvas id="canvas" ref={canvasRef} width={canvasWidth}
+                                height={canvasHeight}
+                                className={styles.canvas} onMouseDown={startDrawing}
+                                onMouseUp={finishDrawing} onMouseMove={draw}/>
+                        <div className={mode.draw ? styles.hidden : styles.rowCenter}>
                             <form>
                                 <input id="title" type="text" placeholder="meme title"/>
                             </form>
                         </div>
                     </div>
-                    <div className={styles.splitRight}>
+                    <div className={mode.draw ? styles.drawModeRight : styles.splitRight}>
                         <div className={styles.editor}>
                             <EditorPickFromDesktop setPrivateTemplate={setPrivateTemplate}
                                                    privateTemplate={privateTemplate}
@@ -195,8 +257,7 @@ const Editor = () => {
                                                    visible={mode.desktop}/>
                             <EditorPickFromUrl templates={templates} setTemplates={setTemplates}
                                                visible={mode.url}/>
-                            <h2>Editor</h2>
-                            <div className={styles.wrapper}>
+                            <div className={templates.length > 0 ? styles.wrapper : styles.hidden}>
                                 {templates.map((_, i) => <div key={i}>
                                     <span className={styles.title}>{`Image ${i + 1}`}</span>
                                     <div className={styles.row}>
@@ -249,7 +310,7 @@ const Editor = () => {
                                 </div>
                             </div>
                             {texts.map((i, index) => <div
-                                className={styles.wrapper} key={index + 1}>
+                                className={templates.length > 0 ? styles.wrapper : styles.hidden} key={index + 1}>
                                 <span className={styles.title}>{`Caption ${index + 1}`}</span>
                                 <div className={styles.row}>
                                     <input className={styles.item} type="text"
@@ -280,7 +341,7 @@ const Editor = () => {
                                     </button>
                                 </div>
                             </div>)}
-                            <div className={styles.wrapper}>
+                            <div className={templates.length > 0 ? styles.wrapper : styles.hidden}>
                                 <span className={styles.title}>Canvas</span>
                                 <div className={styles.row}>
                                     <span className={styles.item}>width</span>

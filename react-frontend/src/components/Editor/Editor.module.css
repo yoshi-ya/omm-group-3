@@ -53,6 +53,14 @@
     float: right;
 }
 
+.drawModeLeft {
+    width: 100%;
+}
+
+.drawModeRight {
+    display: none;
+}
+
 .editor {
     margin: auto;
 }
