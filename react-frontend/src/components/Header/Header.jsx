@@ -37,7 +37,6 @@ const Header = () => {
                 <Route path="/" element={<Gallery/>}/>
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/view/:id" element={<SingleView/>}/>
-                <Route path="/profile/*" element={<Profile/>}/>
                 <Route path="editor" element={<Editor/>}>
                     <Route path="generated" element={<MemeGenerated/>}/>
                     <Route exact path="drawing" element={<DrawingCanvas/>}/>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import shareButtons from './shareButtons.module.css';
 
 // For social share icons
@@ -9,11 +9,13 @@ import {
     TwitterShareButton, TwitterIcon,
     RedditShareButton, RedditIcon } from 'react-share';
 
+export const ShareButtons = (slideIndex) => { 
 
-export const ShareButtons = () => {
+    // URL of the current meme
+    const url = "www.memegenerator.de/" + slideIndex._id;
 
     // For social sharing
-    const shareUrl_Facebook = 'https://www.google.de/';
+    const shareUrl_Facebook = url; 
     const shareUrl_Whatsapp = 'https://www.google.de/';
     const shareUrl_Telegram = 'https://www.google.de/';
     const shareUrl_Twitter = 'https://www.google.de/';
@@ -61,3 +63,4 @@ export const ShareButtons = () => {
 // inline style: size={35} round={true}
 
 export default ShareButtons;
+
