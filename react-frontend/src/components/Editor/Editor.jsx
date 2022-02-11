@@ -23,7 +23,7 @@ const Editor = () => {
     const [textSize, setTextSize] = useState(22)
     const [privateTemplate, setPrivateTemplate] = useState(false)
     const [privateMeme, setPrivateMeme] = useState(false)
-    const [mode, setMode] = useState({draw: false, desktop: true, url: false, camera:false})
+    const [mode, setMode] = useState({draw: false, desktop: true, url: false, camera: false})
     const [isDrawing, setIsDrawing] = useState(false)
     const canvasRef = useRef(0)
     const {isAuthenticated, user} = useAuth0()
@@ -43,7 +43,6 @@ const Editor = () => {
 
     useEffect(() => {
         if (templates.length > 0 && !mode.draw) {
-            console.log(templates)
             const context = canvasRef.current.getContext("2d")
             context.fillStyle = "black"
             context.fillRect(0, 0, canvasWidth, canvasHeight)
@@ -200,8 +199,7 @@ const Editor = () => {
             document.body.appendChild(link)
             link.click()
             document.body.removeChild(link)
-        }
-        else {
+        } else {
             const canvasConfig = exportCanvas()
             axios
                 .post("http://localhost:5001/download", canvasConfig, {responseType: 'blob'})
@@ -223,9 +221,8 @@ const Editor = () => {
             // set drawing as template
             let imageURL = canvasRef.current.toDataURL()
             setTemplates([...templates, {image: imageURL}])
-            setMode({draw: false, desktop: true, url: false})
-        }
-        else {
+            setMode({draw: false, desktop: true, url: false, camera: false})
+        } else {
             let canvasConfig = exportCanvas()
             let name = canvasConfig.name
             if (!name.length > 0) return alert("Please give your Meme a title!")
@@ -245,16 +242,22 @@ const Editor = () => {
         <div className={styles.outerContainer}>
             <div className={styles.editorContainer}>
                 <div className={styles.splitView}>
-                    <div className={mode.draw ? styles.drawModeLeft : styles.splitLeft}>
+                    <div className={mode.draw || mode.camera ? styles.drawModeLeft : styles.splitLeft}>
+                        <EditorPickFromCamera setPrivateTemplate={setPrivateTemplate}
+                                              privateTemplate={privateTemplate}
+                                              templates={templates} setTemplates={setTemplates}
+                                              visible={mode.camera} setMode={setMode}/>
                         <canvas id="canvas" ref={canvasRef} width={canvasWidth}
                                 height={canvasHeight}
-                                className={styles.canvas} onMouseDown={startDrawing}
+                                className={mode.camera ? styles.hidden : styles.canvas} onMouseDown={startDrawing}
                                 onMouseUp={finishDrawing} onMouseMove={draw}/>
-                        <div className={mode.draw ? styles.hidden : styles.rowCenter}>
+                        <div className={mode.draw || mode.camera ? styles.hidden : styles.rowCenter}>
                             <form>
                                 <input id="title" type="text" placeholder="meme title"/>
                                 <div className={styles.memeTitle}>
-                                    <input id="private-meme" type="radio" onClick={() => setPrivateMeme(!privateMeme)} checked={privateMeme} readOnly={true}/>
+                                    <input id="private-meme" type="radio"
+                                           onClick={() => setPrivateMeme(!privateMeme)}
+                                           checked={privateMeme} readOnly={true}/>
                                     <label htmlFor="private-meme">private meme</label>
                                 </div>
                             </form>
@@ -266,10 +269,6 @@ const Editor = () => {
                                                    privateTemplate={privateTemplate}
                                                    templates={templates} setTemplates={setTemplates}
                                                    visible={mode.desktop}/>
-                            <EditorPickFromCamera setPrivateTemplate={setPrivateTemplate}
-                                                   privateTemplate={privateTemplate}
-                                                   templates={templates} setTemplates={setTemplates}
-                                                   visible={mode.camera} />
                             <EditorPickFromUrl templates={templates} setTemplates={setTemplates}
                                                visible={mode.url}/>
                             <div className={templates.length > 0 ? styles.wrapper : styles.hidden}>
@@ -325,7 +324,8 @@ const Editor = () => {
                                 </div>
                             </div>
                             {texts.map((i, index) => <div
-                                className={templates.length > 0 ? styles.wrapper : styles.hidden} key={index + 1}>
+                                className={templates.length > 0 ? styles.wrapper : styles.hidden}
+                                key={index + 1}>
                                 <span className={styles.title}>{`Caption ${index + 1}`}</span>
                                 <div className={styles.row}>
                                     <input className={styles.item} type="text"

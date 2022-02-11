@@ -1,34 +1,41 @@
+import styles from './EditorPickFromCamera.module.css';
 import React, {useRef, useEffect, useState} from 'react';
 import axios from 'axios';
-import styles from '../Editor/Editor.module.css';
 import {useAuth0} from "@auth0/auth0-react";
-import {encode} from "base64-arraybuffer";
 
-const EditorPickFromCamera = (props) =>{
+
+const EditorPickFromCamera = (props) => {
 
     const videoRef = useRef(null);
     const photoRef = useRef(null);
 
-    const [hasPhoto, setHasPhoto] = useState(false);
+    const [photo, setPhoto] = useState(false)
+    const [name, setName] = useState("")
+
     const {user} = useAuth0()
 
-    const getVideo = () =>{
+
+    useEffect(() => {
+        if (videoRef.current) getVideo()
+    }, [props.visible])
+
+    const getVideo = () => {
         navigator.mediaDevices
             .getUserMedia({
                 video: true
             })
-            .then(stream =>{
+            .then(stream => {
                 let video = videoRef.current;
-                video.srcObject = stream; 
+                video.srcObject = stream;
                 video.play();
             })
-            .catch(err =>{
+            .catch(err => {
                 console.error(err);
             })
     }
 
-    const takePhoto = () =>{
-        const width= 450;
+    const takePhoto = () => {
+        const width = 450;
         const height = 300;
 
         let video = videoRef.current;
@@ -39,36 +46,25 @@ const EditorPickFromCamera = (props) =>{
 
         let context = photo.getContext('2d');
         context.drawImage(video, 0, 0, width, height);
-        setHasPhoto(true);
-
+        setPhoto(true)
     }
-
-    const usePhoto = () =>{
-        //use Photo as meme
-    }
-
-    useEffect(() =>{
-        getVideo();
-    },[videoRef]);
 
     const uploadTemplate = event => {
         event.preventDefault()
-        let template = event.target.template.files[0]
-        const templateFormData = new FormData()
-        templateFormData.append("image", template)
-        templateFormData.append("author", user.name)
-        templateFormData.append("name", event.target.name.value)
-        templateFormData.append("private", props.privateTemplate)
+        let templateUrl = photoRef.current.toDataURL()
+        let payload = {
+            author: user.name,
+            image: templateUrl,
+            name: name,
+            private: props.privateTemplate
+        }
 
-        axios({
-            method: "post",
-            url: "http://localhost:5001/addTemplate",
-            data: templateFormData,
-            headers: {"content-type": "multipart/form-data"}
-        })
-            .then(data => {
+        axios
+            .post("http://localhost:5001/addTemplate", payload)
+            .then(() => {
                 if (props.templates.length < 3) {
-                    props.setTemplates([...props.templates, {image: `data:image/png;base64,${encode(data.data.image.data)}`}])
+                    props.setTemplates([...props.templates, {image: templateUrl}])
+                    props.setMode({draw: false, desktop: true, url: false, camera: false})
                 }
             })
             .catch(error => console.log(error))
@@ -76,21 +72,26 @@ const EditorPickFromCamera = (props) =>{
 
     if (!props.visible) return <></>
 
-    return(
-        <div>
-            <h2>Take a photo</h2>
-            <form onSubmit={e => uploadTemplate(e)}>
-            <div className={styles.camera}>
-                <p>Please reload if not asked for camera access</p>
-                <video ref={videoRef}></video>
-                <button onClick={takePhoto} className={styles.snapButton}>Snap</button>
+    return (<div className={styles.wrapper}>
+        <h2>Take a photo</h2>
+        <form onSubmit={e => uploadTemplate(e)}>
+            <div className={styles.preview}>
+                <video ref={videoRef}/>
+                <canvas ref={photoRef} className={photo ? styles.photo : styles.hidden}/>
             </div>
-            <div className={styles.result + (hasPhoto ? styles.hasPhoto : '')}>
-                <canvas ref={photoRef}></canvas>
-                <button onClick={usePhoto} className={styles.useButton}>Use</button>
+            <div className={styles.controlPanel}>
+                <input className={styles.controlPanelItem} type="text" name="name"
+                       placeholder="template name" value={name} onChange={e => setName(e.target.value)} required/>
+                <label className={styles.controlPanelItem}>
+                    private template
+                    <input type="radio" id="private" name="privacy" value="private"
+                           onClick={() => props.setPrivateTemplate(!props.privateTemplate)}
+                           checked={props.privateTemplate} readOnly={true}/>
+                </label>
+                <input className={styles.useButton} type="submit" value="use as template"/>
             </div>
-            </form>
-        </div>
-        )
+        </form>
+        <button className={styles.snapButton} onClick={takePhoto}>Snap</button>
+    </div>)
 }
 export default EditorPickFromCamera;
