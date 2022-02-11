@@ -3,8 +3,8 @@ import shareButtons from './shareButtons.module.css';
 
 // For social share icons
 import { 
-    FacebookShareButton,FacebookIcon,
-    WhatsappShareButton,WhatsappIcon,
+    FacebookShareButton, FacebookIcon,
+    WhatsappShareButton, WhatsappIcon,
     TelegramShareButton, TelegramIcon,
     TwitterShareButton, TwitterIcon,
     RedditShareButton, RedditIcon } from 'react-share';
