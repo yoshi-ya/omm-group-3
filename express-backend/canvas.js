@@ -1,5 +1,7 @@
 const {createCanvas, loadImage} = require("canvas");
 const fs = require("fs");
+const Meme = require("./schemas/memeSchema");
+const {v4} = require("uuid")
 
 
 /**
@@ -28,7 +30,7 @@ const drawCanvas = async (canvasData) => {
     }
 }
 
-const drawApiMeme = async (data) => {
+const drawApiMeme = async data => {
     const listOfMemes = []
     for (let i = 0; i < data.texts.length; i++) {
         const canvas = createCanvas(400, 400)
@@ -36,7 +38,7 @@ const drawApiMeme = async (data) => {
         context.fillStyle = "black"
         context.fillRect(0, 0, 400, 400)
         await loadImage(data.template)
-            .then(image => {
+            .then(async image => {
                 context.drawImage(image, 50, 50, 300, 300)
                 context.font = `${data.texts[i].size || 22}px Comic Sans MS`
                 context.fillStyle = data.texts[i].color || "white"
@@ -44,10 +46,11 @@ const drawApiMeme = async (data) => {
                 for (let j = 0; j < data.texts[i].captions.length; j++) {
                     context.fillText(data.texts[i].captions[j].text, data.texts[i].captions[j].x || 200, data.texts[i].captions[j].y || 40 + j*100)
                 }
-                let pathToMeme = `${__dirname}/public/uploads/meme_${i}.png`
-                const buffer = canvas.toBuffer('image/png')
-                fs.writeFileSync(pathToMeme, buffer)
-                listOfMemes.push(`http://localhost:5001/uploads/meme_${i}.png`)
+                const memeData = canvas.toDataURL('image/png')
+                await new Meme({url: memeData, author: "api", name: v4().slice(0,8)})
+                    .save()
+                    .then((result => listOfMemes.push(`http://localhost:3000/view/${result._id}`)))
+                    .catch(err => console.log(err))
             })
     }
     return {data: listOfMemes}

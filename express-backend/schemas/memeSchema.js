@@ -20,7 +20,8 @@ let meme = new schema({
     },
     private: {
         type: Boolean, default: false
-    }
+    },
+    url: String
 })
 
 const Meme = mongoose.model("Meme", meme)
