@@ -7,7 +7,7 @@ import ShareButtons from '../ShareButtons/ShareButtons'; // Social share icons
 import CanvasMeme from '../CanvasMeme/CanvasMeme'; // An actual meme
 import {FaArrowAltCircleRight, FaArrowAltCircleLeft} from 'react-icons/fa'; // Icons
 
-const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme}) => {
+const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, author}) => {
 
     const [slideIndex, setSlideIndex] = useState(0)
     /*
@@ -77,7 +77,7 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme}) => {
                                     <div className={imageSlider.slideActive} key={meme._id}>
                                         <div className={imageSlider.image}>
                                             <CanvasMeme meme={meme} />{ /* meme = memes[i]} */} 
-                                            <div className={imageSlider.trashIcon} onClick={() => deleteMeme(meme._id)}></div>
+                                            { author ? <div className={imageSlider.trashIcon} onClick={() => deleteMeme(meme._id)}/> : "" }
                                         </div>
                                     </div>
                                 )}
@@ -126,17 +126,17 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme}) => {
 
                                     <div className={imageSlider.image} key={memes[firstIndex]._id}>
                                         <CanvasMeme meme={memes[firstIndex]} />
-                                        <div className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[firstIndex]._id)} ></div>
+                                        { author ? <div className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[firstIndex]._id)} /> : "" }
                                     </div>
 
                                     <div className={imageSlider.image} key={memes[secondIndex]._id}>
                                         <CanvasMeme meme={memes[secondIndex]} />
-                                        <div className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[secondIndex]._id)} ></div>
+                                        { author ? <div className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[secondIndex]._id)} /> : "" }
                                     </div>
 
                                     <div className={imageSlider.image} key={memes[thirdIndex]._id}>
                                         <CanvasMeme meme={memes[thirdIndex]} />
-                                        <div className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[thirdIndex]._id)}></div>
+                                        { author ? <div className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[thirdIndex]._id)} /> : "" }
                                     </div>
 
                                 </div>
@@ -161,7 +161,7 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme}) => {
     // Empty slider
     return (
         <div className={imageSlider.emptySlider}>
-            <div>Let's {sliderText} some Memes!</div>
+            <div>{sliderText}</div>
             {showButton(sliderButton)} 
         </div>
     )
