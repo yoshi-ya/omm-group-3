@@ -17,7 +17,6 @@ const Gallery = () => {
         filtervotes: 'none',
     })
     const [showfilterbool, setShowFilterBool] = useState(false)
-    const [searchTerm, setSearchTerm] = useState('')
 
     useEffect(() => {
         fetchData()
@@ -30,6 +29,15 @@ const Gallery = () => {
 
     const fetchData = async () => {
         return await axios.get('http://localhost:5001/allMemes?private=false')
+    }
+
+    const fetchMemes = () => {
+        fetchData()
+            .then(res => {
+                setAllMemes(res.data)
+            }).catch((error) => {
+            error.toString();
+        })
     }
 
     // Handles the Sort Event
@@ -101,8 +109,22 @@ const Gallery = () => {
             sortvalue: value,
             sortorder: order,
             filtervotes: filtervotes,
-            filtercreated: 'none',
         })
+    }
+
+    // Searches if the term is included in all memes
+    function search(term) {
+        let searched = allMemes.filter( (meme) => {
+            for(let i = 0; i < meme.texts.length; i++ ) {
+                if(meme.texts[i].text.toLowerCase().includes(term.toLowerCase())) {
+                    return meme
+                }
+            }
+            if(meme.author.toLowerCase().includes(term.toLowerCase()) || meme.name.toLowerCase().includes(term.toLowerCase())){
+                return meme
+            } 
+        })
+        setAllMemes(searched)
     }
 
     // Filter component that shows when clicking on the filter image button
@@ -126,7 +148,8 @@ const Gallery = () => {
     return <div>
         <form className={styles.container}>
             <span className="visually-hidden">Search: </span>
-        <input type="text" id="meme-search" placeholder="Name, Author or Text" name="s" onChange={(e) => setSearchTerm(e.target.value)}/>
+        <input type="text" id="meme-search" placeholder="Name, Author or Text" name="s" onChange={(e) => search(e.target.value)}/>
+        <button onClick={() => fetchMemes()}>Clear Search</button>
         </form>
         <div id="sortandfilter" className={styles.container}>
             <img src={sortimg} className={styles.sorticon} alt="filterimg"/>
