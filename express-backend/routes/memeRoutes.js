@@ -1,5 +1,5 @@
 const Meme = require("../schemas/memeSchema");
-const drawCanvas = require("../canvas")
+const {drawCanvas} = require("../canvas")
 const cors = require("cors");
 const path = require("path")
 
@@ -31,8 +31,9 @@ module.exports = app => {
         Meme
             .findOneAndUpdate(dbFilter, meme, {new: true})
             .then(updatedMeme => {
-                if (updatedMeme) res.send(updatedMeme)
-                else {
+                if (updatedMeme) {
+                    res.send(updatedMeme)
+                } else {
                     new Meme(meme).save().then(newMeme => res.send(newMeme))
                 }
             })
