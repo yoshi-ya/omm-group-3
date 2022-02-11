@@ -22,10 +22,16 @@ const SingleView = () => {
 
     if (!meme) return <img src="https://via.placeholder.com/256?text=no%20meme%20found" alt="meme"/>
 
-    return <div className={styles.meme}>
-        <CanvasMeme meme={meme}/>
-    </div>
-
+    if (meme.url) {
+        return <div className={styles.meme}>
+            <img src={meme.url} alt="meme"/>
+        </div>
+    }
+    else {
+        return <div className={styles.meme}>
+            <CanvasMeme meme={meme}/>
+        </div>
+    }
 };
 
 export default SingleView;
