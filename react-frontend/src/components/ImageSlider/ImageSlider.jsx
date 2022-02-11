@@ -1,15 +1,16 @@
-import React, {useEffect, useState} from 'react'
-import imageSlider from './ImageSlider.module.css'
-import {FaArrowAltCircleRight, FaArrowAltCircleLeft} from 'react-icons/fa'
+import React, {useEffect, useState} from 'react';
+import imageSlider from './ImageSlider.module.css';
 import {encode} from "base64-arraybuffer";
 import axios from "axios";
 import {Link} from "react-router-dom";
-import ShareButtons from '../ShareButtons/ShareButtons'; // For social share icons
-import CanvasMeme from '../CanvasMeme/CanvasMeme';
+import ShareButtons from '../ShareButtons/ShareButtons'; // Social share icons
+import CanvasMeme from '../CanvasMeme/CanvasMeme'; // An actual meme
+import {FaArrowAltCircleRight, FaArrowAltCircleLeft} from 'react-icons/fa'; // Icons
 
-const ImageSlider = ({user, sliderText, sliderButton}) => {
+const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme}) => {
 
     const [slideIndex, setSlideIndex] = useState(0)
+    /*
     const [memes, setMemes] = useState([])
 
     const fetchData = async () => {
@@ -35,7 +36,9 @@ const ImageSlider = ({user, sliderText, sliderButton}) => {
                 .then(data => setMemes(data.data))
                 .catch(err => console.log(err))
         }
-    }
+    }*/
+
+    
 
     // Go further to next meme
     const nextSlide = () => {
@@ -51,7 +54,7 @@ const ImageSlider = ({user, sliderText, sliderButton}) => {
         setSlideIndex(index)
     }
 
-    /* Dynamic button with link to gallery or editor */
+    /* Button in empty sliders with link to gallery/editor */
     function showButton(sliderButton) {
         if (sliderButton === 'Gallery') {
             return <div className={imageSlider.sliderButton}><Link to="/">{sliderButton}</Link></div>
@@ -73,8 +76,8 @@ const ImageSlider = ({user, sliderText, sliderButton}) => {
                                 return (
                                     <div className={imageSlider.slideActive} key={meme._id}>
                                         <div className={imageSlider.image}>
-                                            <CanvasMeme meme={meme} />{/* <div className={imageSlider.imageLarge}>, memes[i]} */} 
-                                            <div className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[i]._id)}></div>
+                                            <CanvasMeme meme={meme} />{ /* meme = memes[i]} */} 
+                                            <div className={imageSlider.trashIcon} onClick={() => deleteMeme(meme._id)}></div>
                                         </div>
                                     </div>
                                 )}
@@ -97,7 +100,7 @@ const ImageSlider = ({user, sliderText, sliderButton}) => {
                     <ShareButtons slideIndex={slideIndex}/>
                     
                     {memes.map((meme, i) => {
-
+                        console.log('Memes: ', memes)
                         // For slider functionality: determine the indecies of the 3 visible images
                         let firstIndex = slideIndex;
                         let secondIndex = slideIndex + 1;
@@ -116,10 +119,10 @@ const ImageSlider = ({user, sliderText, sliderButton}) => {
                             thirdIndex = 0;
                         }   
 
-                        // Only render 3 memes that are currently in focus (no need to render all memes of array)
+                        // Only render the 3 memes that are currently in focus (no need to render all memes of array)
                         if(slideIndex === i) {
                             return (
-                                <div className={imageSlider.horizontalContainer}>
+                                <div className={imageSlider.horizontalContainer} key={i}>
 
                                     <div className={imageSlider.image} key={memes[firstIndex]._id}>
                                         <CanvasMeme meme={memes[firstIndex]} />

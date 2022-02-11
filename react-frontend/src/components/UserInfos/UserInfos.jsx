@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import axios from "axios";
 import {useAuth0} from '@auth0/auth0-react';
 import userInfos from "./UserInfos.module.css"
@@ -14,6 +14,86 @@ const UserInfos = () => {
     const mySliderText='create';
     const otherSliderText='search for';
     const [avatar, setAvatar] = useState(null);
+
+    //---------------------------
+
+    const [myMemes, setMyMemes] = useState([])
+    const [otherMemes, setOtherMemes] = useState([])
+
+    // Get all memes from server that are create by logged in user
+    const fetchMyMemes = async () => {
+        return await axios.get(`http://localhost:5001/allMemes?author=${user.name}`)
+    }
+
+    // Get all memes from server that are liked or commented by logged in user
+    const fetchOtherMemes = async () => {
+        return await axios.get(`http://localhost:5001/allMemes?votes=${user.name}`)
+    }
+
+    // Handle state changes of myMemes and otherMemes
+    useEffect(() => {
+
+        fetchMyMemes()
+        .then(myMemes => {
+            console.log('Fetched data (my memes): ', myMemes)
+            setMyMemes(myMemes.data) })
+
+        fetchOtherMemes()
+        .then(otherMemes => {
+            console.log('Fetched data (other Memes): ', otherMemes)
+            setOtherMemes(otherMemes.data) })
+
+        .catch(error => console.log(error))
+
+        console.log('MyMemes: ', myMemes)
+        console.log('OtherMemes: ', otherMemes)
+        console.log('Username: ', user.name)
+
+    }, [])
+
+    /*
+    useEffect(() => {
+        const getMemes = async () => {
+            const memesFromServer = await fetchMyMemes()
+            setMemes(memesFromServer)
+        }
+        getMemes()
+    }, [])
+
+    // Fetch data
+    const fetchMyMemes = async () => {
+        const data = await axios.get(`http://localhost:5001/allMemes?author=${user.name}`) 
+
+        console.log('Data: ', data)
+        console.log('Memes: ', memes)
+        console.log('User: ', user)
+
+        return data;
+    }*/
+
+    // Delete selected meme
+    function deleteMeme(memeID) {
+        if (myMemes.length > 0) {
+            axios 
+                .delete("http://localhost:5001/deleteMeme", {data: {meme: memeID}})
+                .then(data => setMyMemes(data.data))
+                .catch(err => console.log(err))
+        }
+    }
+
+    // Delete selected meme
+    function deleteMeme2(memeID) {
+        axios 
+            .delete("http://localhost:5001/deleteMeme", {data: {meme: memeID}})
+            .then(data => setMyMemes(myMemes.filter( (meme) => meme._id !== memeID) ))
+            .catch(err => console.log(err))
+    }
+
+    const filterAllMemes = (id) => {
+        setOtherMemes(myMemes.filter((meme) => meme._id !== id))
+    }
+
+    //---------------------------
 
     // Upload an image to set a new avatar picture 
     const fileUploadHandler = event => {
@@ -71,13 +151,15 @@ const UserInfos = () => {
             <div className={userInfos.verticalBox}>
 
                 <div className={userInfos.card}>
-                    <h3 className={userInfos.cardTitle}>My memes</h3>
-                    <ImageSlider user={user.name} sliderText={mySliderText} sliderButton={'Editor'}/>
+                    <h3 className={userInfos.cardTitle}>My created memes</h3>
+                    {/* <ImageSlider user={user.name} sliderText={mySliderText} sliderButton={'Editor'} /> */}
+                    <ImageSlider memes={myMemes} sliderText={mySliderText} sliderButton={'Editor'} deleteMeme={deleteMeme}/>
                 </div>
 
                 <div className={userInfos.card}>
-                    <h3 className={userInfos.cardTitle}>Liked or commented memes</h3>
-                    <ImageSlider user={user.name} sliderText={otherSliderText} sliderButton={'Gallery'}/>
+                    <h3 className={userInfos.cardTitle}>Memes I liked or commented</h3>
+                    {/* <ImageSlider user={user.name} sliderText={otherSliderText} sliderButton={'Gallery'}/> */}
+                    <ImageSlider memes={otherMemes} sliderText={otherSliderText} sliderButton={'Gallery'} deleteMeme={deleteMeme2}/>
                 </div>
                 
             </div>
