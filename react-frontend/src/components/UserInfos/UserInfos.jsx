@@ -125,12 +125,9 @@ const UserInfos = () => {
                     />
                     
                 </div>
-                <h3 style={{textAlign: "center"}}>{user.name}</h3>
-                <a href="">Followers</a>
-                <a href="">Following</a>
-                <a href="">Edit Profile</a>
-                
-                <div className={userInfos.button} >Edit Profile</div>
+                <h3 style={{textAlign: "center"}}>User:</h3>
+                <p className={{textAlign: "center"}}> {user.name} </p>
+
             </div>
             <div className={userInfos.verticalBox}>
 

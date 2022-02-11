@@ -39,13 +39,13 @@
     flex-direction: column;
 }
 .card h3 {  
+    margin: 5px;
     font-size: 1.6em;
 }
-.card a {
-    padding: 10px 0px;
-    display: block;
+.card p {
+    margin: 5px;
+    font-size: 1em;
     text-align: center;
-    color: black;
 }
 
 .cardTitle {
@@ -75,24 +75,25 @@
 /* User infos on the left side */
 .imageArea {
     background-color: #343434;
-    height: 150px;
+    height: 300px;
     background-size: cover;
     border-radius: 15px 15px 0 0;
     position: relative;
+    margin-bottom: 30px;
 }
 
 /* User infos on the left side */
 .avatar {
     background-image: url(Wolves.jpg);
     background-size: cover;
-    width: 100px;
-    height: 100px;
+    width: 70%;
+    height: 70%;
     border-radius: 30px;
     position: absolute;
     top: 50%;
     left: 50%;
     /*margin-right: -50%;*/
-    transform: translate(-50%, -40%);
+    transform: translate(-50%, -50%);
 }
 
 /* User infos on the left side */
