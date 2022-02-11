@@ -13,12 +13,26 @@
 
 .tool {
     margin-top: 8px;
-    margin-left: 42px;
+    margin-left: 22px;
     opacity: 75%;
     cursor: pointer;
 }
 
-.tool:hover {
+.toolActive {
+    margin-top: 8px;
+    margin-left: 22px;
+    cursor: pointer;
+    opacity: 100%;
+    outline-offset: 5px;
+    outline: dotted
+}
+
+.toolActive:hover {
+    outline-color: red;
+    transition: outline-color .3s ease-in-out;
+}
+
+.tool:hover, .toolActive:hover {
     opacity: 1;
 }
 
@@ -88,3 +102,6 @@
     transition: max-height .4s;
 }
 
+.hidden {
+    display: none;
+}

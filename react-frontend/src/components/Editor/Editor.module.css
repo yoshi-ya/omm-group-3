@@ -53,6 +53,14 @@
   float: right;
 }
 
+.drawModeLeft {
+    width: 100%;
+}
+
+.drawModeRight {
+    display: none;
+}
+
 .editor {
   margin: auto;
 }
@@ -96,6 +104,11 @@
   font-size: 22px;
   width: 100%;
   float: left;
+}
+
+.memeTitle {
+    width: 100%;
+    margin-bottom: 12px;
 }
 
 @media screen and (max-width: 900px) {

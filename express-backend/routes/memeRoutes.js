@@ -1,5 +1,5 @@
 const Meme = require("../schemas/memeSchema");
-const drawCanvas = require("../canvas")
+const {drawCanvas} = require("../canvas")
 const cors = require("cors");
 const path = require("path")
 
@@ -31,8 +31,9 @@ module.exports = app => {
         Meme
             .findOneAndUpdate(dbFilter, meme, {new: true})
             .then(updatedMeme => {
-                if (updatedMeme) res.send(updatedMeme)
-                else {
+                if (updatedMeme) {
+                    res.send(updatedMeme)
+                } else {
                     new Meme(meme).save().then(newMeme => res.send(newMeme))
                 }
             })
@@ -71,6 +72,7 @@ module.exports = app => {
      */
     app.get("/allMemes", cors(), (req, res) => {
         let dbFilter = req.query.author ? {author: req.query.author} : {author: {$not: /^api$/}}
+        if (req.query.private) dbFilter.private = req.query.private
         Meme
             .find(dbFilter)
             .then(memes => {
@@ -84,10 +86,11 @@ module.exports = app => {
      */
     app.delete("/deleteMeme", cors(), (req, res) => {
         Meme
-            .findOne({_id: req.query.meme})
-            .deleteOne()
+            .findOneAndDelete({_id: req.body.meme})
             .then(result => {
-                res.send(result)
+                if (result) {
+                    res.send(result)
+                }
             })
             .catch(err => console.log(err))
     })

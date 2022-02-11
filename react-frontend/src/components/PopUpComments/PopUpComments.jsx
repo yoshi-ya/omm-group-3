@@ -11,11 +11,13 @@ const PopUpComments = (props) => {
     const { user } = useAuth0()
 
     useEffect(() => {
-        fetchComments()
-            .then(data => {
-                setComments(data.data)
-            })
-            .catch(error => console.log(error))
+        if (props.meme._id) {
+            fetchComments()
+                .then(data => {
+                    setComments(data.data)
+                })
+                .catch(error => console.log(error))
+        }
     }, [props.visible])
 
     const fetchComments = async () => {

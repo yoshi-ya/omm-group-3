@@ -3,10 +3,9 @@
     display: flex;
     justify-content: center;
     align-items: center; 
-    margin: 10px;
     height: 100%;
     width: 100%;
-    
+    height: 100%;
 }
 .emptySlider {
     position: relative;
@@ -24,11 +23,10 @@
     color: #3190A4;
 }
 
-/*--- Vertical inner container with share buttons, images and dots ---*/
-.sliderInner {
+/*--- Vertical inner container with share buttons images ---*/
+.verticalContainer {
     position: relative;
     display: flex;
-    /* justify-content: center;  */
     align-items: center;
     flex-direction: column;   
     width: 100%;
@@ -36,38 +34,42 @@
 }
 
 /*--- Horizontal container with alle memes (one slide for each image) ---*/
-.slides {
+.horizontalContainer {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%; 
-    height: 100%;
-    margin-top: 15px; /* To make a gab between memes and dots */
-}
-
-.slide { /* currently not in use */
-    opacity: 0;
-    transition-duration: 0.5s ease;
-    position: absolute; 
-    margin: 0px 10px; 
-    height: 100%; 
-}
-.slideActive {
-    opacity: 1;
-    transition-duration: 0.5s;
-    margin: 0px 10px; 
-    height: 100%; 
+    /*margin-top: 5px; /* To make a gab between memes and social buttons */
+    /*overflow: hidden;*/
+    margin-bottom: 20px;;
+    height: 100%; /* not necessary ? */
 }
 
 /*--- Image container for one single image ---*/
 .image {
-    height: 210px;
+    height: 300px;
     position: relative; /* Important for positioning of the trash icon */
+    margin: 5px 10px 20px 10px; 
+    /*box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3), 0 4px 20px 0 rgba(0, 0, 0, 0.2);*/
+    box-shadow: 0 3px 10px 0 rgba(0, 41, 49, 0.4), 0 3px 10px 0 rgba(0, 120, 144, 0.6);
+    transition: ease transform 200ms;
 }
+.image:hover{
+    transform:scale(1.05,1.05);
+    -webkit-transform:scale(1.05,1.05);
+    -moz-transform:scale(1.05,1.05);
+    transition: ease transform 200ms;
+  }
 .image:hover .trashIcon {
     opacity: 1;
 }
+
+/* CanvasMeme component */
+.image > *:nth-child(1) {
+    height: 100%;
+}
+/* Dark overlay */
 .image:after {
     content: '';
     position: absolute;
@@ -79,7 +81,7 @@
     -webkit-transition: all 0.5s;
 }
 .image:hover:after {
-    opacity: 0.7;
+    opacity: 0.8;
 }
 
 /*--- Trash icon to delete meme ---*/
@@ -95,68 +97,41 @@
     z-index: 5;
 }
 
-/*--- Images of memes - different classes for different screensizes ---*/
-.imageSmall {
-    height: 210px; /* without fix height pictures and arrows of the slider jump up and down */
-    background-size: cover;
-    border-radius: 5px;
-}
-.imageMedium {
-    height: 160px;
-    background-size: cover;
-    border-radius: 5px; 
-}
-.imageLarge {
-    height: 100%;
-    background-size: cover;
-    border-radius: 5px;
-    position: relative; /* important for black overlay */
-}
-
-
-
-/*--- Image in the middle with border ---*/
-.imageMiddleMedium {
-    height: 180px;
-    background-size: cover;
-    border-radius: 5px;
-    outline-style: solid;
-    outline-width: 6px;
-    outline-color: #565656;
-    margin-bottom: 40px;
-}
-.imageMiddleLarge {
-    height: 230px;
-    background-size: cover;
-    border-radius: 5px;
-    outline-style: solid;
-    outline-width: 6px;
-    outline-color: #565656;
-    margin-bottom: 40px;
-}
-
 /*--- Arrows ---*/
-
 .rightArrow {
     position: absolute;
     top: 50%;
-    right: 10px;
+    right: 30px;
     font-size: 2.6rem;
     color: #343434;
     z-index: 5;
     cursor: pointer;
     user-select: none;
+    transition: ease transform 200ms;
+}
+.rightArrow:hover{
+    transform:scale(1.2,1.2);
+    -webkit-transform:scale(1.2,1.2);
+    -moz-transform:scale(1.2,1.2);
+    transition: ease transform 200ms;
 }
 
 .leftArrow {
     position: absolute;
     top: 50%;
-    left: 10px;
+    left: 30px;
     font-size: 2.6rem;
     color: #343434;
     z-index: 5;
     cursor: pointer;
     user-select: none;
+    transition: ease transform 200ms;
+}
+.leftArrow:hover{
+    transform:scale(1.2,1.2);
+    -webkit-transform:scale(1.2,1.2);
+    -moz-transform:scale(1.2,1.2);
+    transition: ease transform 200ms;
 }
 
 /*--- Slider button for empty sliders ---*/

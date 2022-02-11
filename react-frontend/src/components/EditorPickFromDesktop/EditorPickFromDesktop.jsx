@@ -17,7 +17,7 @@ const EditorPickFromDesktop = (props) => {
         templateFormData.append("image", template)
         templateFormData.append("author", user.name)
         templateFormData.append("name", event.target.name.value)
-        templateFormData.append("private", props.privateTemplate.toString())
+        templateFormData.append("private", props.privateTemplate)
 
         axios({
             method: "post",
@@ -52,7 +52,7 @@ const EditorPickFromDesktop = (props) => {
                         <input type="radio" id="private" name="privacy" value="private"
                                onClick={() => props.setPrivateTemplate(!props.privateTemplate)}
                                checked={props.privateTemplate} readOnly={true}/>
-                        <label htmlFor="private">Private</label>
+                        <label htmlFor="private">private template</label>
                     </div>
                     <div className={styles.row}>
                         <input type="submit" value="upload"/>
