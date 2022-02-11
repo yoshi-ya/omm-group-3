@@ -23,7 +23,7 @@ const Editor = () => {
     const [textSize, setTextSize] = useState(22)
     const [privateTemplate, setPrivateTemplate] = useState(false)
     const [privateMeme, setPrivateMeme] = useState(false)
-    const [mode, setMode] = useState({draw: false, desktop: true, url: false})
+    const [mode, setMode] = useState({draw: false, desktop: true, url: false, camera:false})
     const [isDrawing, setIsDrawing] = useState(false)
     const canvasRef = useRef(0)
     const {isAuthenticated, user} = useAuth0()
@@ -266,7 +266,10 @@ const Editor = () => {
                                                    privateTemplate={privateTemplate}
                                                    templates={templates} setTemplates={setTemplates}
                                                    visible={mode.desktop}/>
-                            <EditorPickFromCamera/>
+                            <EditorPickFromCamera setPrivateTemplate={setPrivateTemplate}
+                                                   privateTemplate={privateTemplate}
+                                                   templates={templates} setTemplates={setTemplates}
+                                                   visible={mode.camera} />
                             <EditorPickFromUrl templates={templates} setTemplates={setTemplates}
                                                visible={mode.url}/>
                             <div className={templates.length > 0 ? styles.wrapper : styles.hidden}>
