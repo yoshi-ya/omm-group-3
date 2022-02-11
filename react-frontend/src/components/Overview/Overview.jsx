@@ -57,16 +57,14 @@ const Overview = (props) => {
         setSharePopUp(true)
     }
 
-    const focusMeme = (i) => {
-        props.memeNumber.current = i;
-        props.active(true)
-    }
-
     if (isAuthenticated) {
         return <div className={styles.container}>
 
-            {props.memesList.map((meme, i) => <div className={styles.item} key={i}>
-                <CanvasMeme meme={meme} focusMeme={focusMeme}/>
+            {props.memesList.map((meme, i) => <div className={styles.item} key={i} onClick={() => {
+                props.memeNumber.current = i;
+                props.active(true)
+            }}>
+                <CanvasMeme meme={meme}/>
                 <div className={styles.createdByBox}>Created by: {meme.author}</div>
                 <div className={styles.iconBox}>
                     <div className={styles.iconBox}>
@@ -93,7 +91,7 @@ const Overview = (props) => {
 
     return (<div className={styles.container}>
         {props.memesList.map((meme, i) => <div className={styles.item} key={i}>
-            <CanvasMeme meme={meme} focusMeme={focusMeme}/>
+            <CanvasMeme meme={meme}/>
         </div>)}
     </div>)
 };

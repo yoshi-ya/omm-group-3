@@ -10,10 +10,9 @@ const GallerySingleView = (props) => {
     const [current, setCurrent] = useState({});
     const [autoPlay, setAutoPlay] = useState(false);
 
-
     useEffect(() => {
         setCurrentMemeIndex(props.memeNumber.current)
-        setCurrent(props.memesList[currentMemeIndex])
+        setCurrent(props.memesList[props.memeNumber.current])
     }, [])
 
     useEffect(() => {

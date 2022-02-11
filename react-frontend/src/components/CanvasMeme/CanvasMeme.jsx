@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import styles from "./CanvasMeme.module.css";
 
 
-const CanvasMeme = ({meme, focusMeme}) => {
+const CanvasMeme = ({meme}) => {
 
     const canvasRef = useRef(0)
 
@@ -34,7 +34,7 @@ const CanvasMeme = ({meme, focusMeme}) => {
 
     return (
         <canvas ref={canvasRef} width={meme.canvasWidth ? meme.canvasWidth : 400} height={meme.canvasHeight ? meme.canvasHeight : 400}
-                className={styles.canvas} onClick={focusMeme}/>);
+                className={styles.canvas}/>);
 };
 
 export default CanvasMeme;
