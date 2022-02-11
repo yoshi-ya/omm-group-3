@@ -12,14 +12,18 @@ const GallerySingleView = (props) => {
 
     useEffect(() => {
         setCurrentMemeIndex(props.memeNumber.current)
-        setCurrent(props.memesList[props.memeNumber.current])
     }, [])
+
+    useEffect(() => {
+        console.log("2")
+        setCurrent(props.memesList[currentMemeIndex])
+    }, [currentMemeIndex])
 
     useEffect(() => {
         toggleVisibility()
         if (autoPlay) {
             const interval = setInterval(() => {
-                setCurrentMemeIndex(nextIndex);
+                setCurrentMemeIndex(nextIndex())
             }, 3000);
             return () => clearInterval(interval);
         }
@@ -79,7 +83,10 @@ const GallerySingleView = (props) => {
                         <div id="previous" className={styles.sliderButtonLeft}
                              onClick={() => setCurrentMemeIndex(previousIndex)}/>
                         <div id="next" className={styles.sliderButtonRight}
-                             onClick={() => setCurrentMemeIndex(nextIndex)}/>
+                             onClick={() => {
+                                 console.log("1")
+                                 setCurrentMemeIndex(nextIndex)
+                             }}/>
                     </div>
                 </div>
             </div>

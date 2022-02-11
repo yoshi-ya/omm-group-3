@@ -40,12 +40,27 @@ module.exports = app => {
             .catch(error => console.log(error))
     })
 
-    app.post("/addTemplate", cors(), upload.single("image"), (req, res) => {
+    app.post("/addTemplateFile", cors(), upload.single("image"), (req, res) => {
         let template = new Template({
             author: req.body.author,
             name: req.body.name,
             date: new Date().toISOString(),
             image: req.file.buffer,
+            private: req.body.private
+        })
+
+        template
+            .save()
+            .then(result => res.send(result))
+            .catch(err => console.error(err))
+    })
+
+    app.post("/addTemplate", cors(), (req, res) => {
+        let template = new Template({
+            author: req.body.author,
+            name: req.body.name,
+            date: new Date().toISOString(),
+            image: req.body.image,
             private: req.body.private
         })
 

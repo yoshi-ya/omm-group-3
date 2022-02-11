@@ -21,7 +21,7 @@ const EditorPickFromDesktop = (props) => {
 
         axios({
             method: "post",
-            url: "http://localhost:5001/addTemplate",
+            url: "http://localhost:5001/addTemplateFile",
             data: templateFormData,
             headers: {"content-type": "multipart/form-data"}
         })
