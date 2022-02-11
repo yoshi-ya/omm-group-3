@@ -4,6 +4,8 @@ import {useAuth0} from '@auth0/auth0-react';
 import userInfos from "./UserInfos.module.css"
 import ImageSlider from '../ImageSlider/ImageSlider'; // For slide-show
 import {encode} from "base64-arraybuffer";
+import Editor from "../Editor/Editor";
+import {Link} from "react-router-dom";
 //import PopUp from '../PopUp/SharePopUp';
 
 const UserInfos = () => {
@@ -80,6 +82,24 @@ const UserInfos = () => {
             .then(setMyMemes(myMemes.filter( (meme) => meme._id !== memeID) ))
             .catch(err => console.log(err))
     }
+    
+
+    // Edit selected meme
+    function editMeme(memeID) {
+
+        // Automaticically link to the editor page (vllt dabei noch das meme als Payload mitgeben, aber wie?)
+        const link = document.createElement('a')
+        link.href = "/editor" 
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+
+        /* Irgendwas mit vllt:
+        getTemplate
+        */
+    }
+
+    
 
     // Upload an image to set a new avatar picture 
     const fileUploadHandler = event => {
@@ -116,24 +136,27 @@ const UserInfos = () => {
             <div className={userInfos.card}>
                 <div className={userInfos.imageArea}>
                     <div className={userInfos.avatar}/>
-                    <input  type='file' name="chooseAvatar" // <div className={userInfos.cameraButton} onClick={handleClick}></div>
+                    <div className={userInfos.avatarButton}>
+                        <input type='file' name="chooseAvatar" // <div className={userInfos.cameraButton} onClick={handleClick}></div>
                             accept="image/png, image/jpg, image/jpeg" required 
                             onChange={fileSelectedHandler} onClick={fileUploadHandler}//e => fileUploadHandler(e) ???
                             //ref={fileInput => this.fileInput = fileInput}
                             ref={inputAvatar}
                             className={userInfos.cameraButton}
-                    />
-                    
+                        />
+                    </div>
                 </div>
+                    
                 <h3 style={{textAlign: "center"}}>User:</h3>
                 <p className={{textAlign: "center"}}> {user.name} </p>
 
             </div>
+
             <div className={userInfos.verticalBox}>
 
                 <div className={userInfos.card}>
                     <h3 className={userInfos.cardTitle}>My created memes</h3>
-                    <ImageSlider memes={myMemes} sliderText={"Let's create a meme!"} sliderButton={'Editor'} deleteMeme={deleteMeme} author={true}/>
+                    <ImageSlider memes={myMemes} sliderText={"Let's create a meme!"} sliderButton={'Editor'} deleteMeme={deleteMeme} editMeme={editMeme} author={true} />
                 </div>
                 
                 <div className={userInfos.card}>

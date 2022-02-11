@@ -5,7 +5,6 @@
     align-items: center; 
     height: 100%;
     width: 100%;
-    height: 100%;
 }
 .emptySlider {
     position: relative;
@@ -30,7 +29,7 @@
     align-items: center;
     flex-direction: column;   
     width: 100%;
-    height: 100%; 
+    height: 100%;
 }
 
 /*--- Horizontal container with alle memes (one slide for each image) ---*/
@@ -40,20 +39,16 @@
     justify-content: center;
     align-items: center;
     width: 100%; 
-    /*margin-top: 5px; /* To make a gab between memes and social buttons */
-    /*overflow: hidden;*/
-    margin-bottom: 20px;;
-    height: 100%; /* not necessary ? */ 
+    height: 100%; 
 }
 
-/*--- Image container for one single image ---*/
 .image {
-    height: 300px;
+    height: 270px;
     position: relative; /* Important for positioning the trash icon */
     margin: 5px 10px 20px 10px; 
-    /*box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3), 0 4px 20px 0 rgba(0, 0, 0, 0.2);*/
-    box-shadow: 0 3px 10px 0 rgba(0, 41, 49, 0.4), 0 3px 10px 0 rgba(0, 120, 144, 0.6);
-    transition: ease transform 200ms;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.4), 0 3px 10px 0 rgba(0, 120, 144, 0.6);
+    
+    /* transition: ease transform 200ms; */
 }
 .image:hover{
     transform:scale(1.05,1.05);
@@ -62,6 +57,9 @@
     transition: ease transform 200ms;
   }
 .image:hover .trashIcon {
+    opacity: 1;
+}
+.image:hover .editIcon {
     opacity: 1;
 }
 
@@ -84,17 +82,50 @@
     opacity: 0.8;
 }
 
+
+.bigPicture{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    z-index: 15;
+} 
+
+.darkOverlay{
+    content: '';
+    position: absolute;
+    top:0; left:0;
+    width: 100vw; height: 100vh;
+    background:rgba(0,0,0,0.6);
+    z-index: 10;
+}
+
+
 /*--- Trash icon to delete meme ---*/
 .trashIcon {
-    background-image: url(trash_white.png);
-    background-size: cover;
-    width: 25px;
-    height: 25px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
     position: absolute;
+    color: whitesmoke;
     bottom: 0; right: 0;
     margin: 0 10px 10px 0;
     opacity: 0;
-    z-index: 5;
+    z-index: 100;
+}
+
+/*--- Edit icon to edit a meme ---*/
+.editIcon {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    color: whitesmoke;
+    bottom: 0; left: 0;
+    margin: 0 0 10px 10px;
+    opacity: 0;
+    z-index: 100;
 }
 
 /*--- Arrows ---*/
