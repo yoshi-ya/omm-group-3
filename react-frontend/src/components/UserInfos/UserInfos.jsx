@@ -2,108 +2,82 @@ import React, {useState, useEffect, useRef} from 'react';
 import axios from "axios";
 import {useAuth0} from '@auth0/auth0-react';
 import userInfos from "./UserInfos.module.css"
-import ShareButtons from '../ShareButtons/ShareButtons'; // For social share icons
 import ImageSlider from '../ImageSlider/ImageSlider'; // For slide-show
-import {Link} from "react-router-dom";
 import {encode} from "base64-arraybuffer";
 //import PopUp from '../PopUp/SharePopUp';
 
 const UserInfos = () => {
 
     const {user} = useAuth0();
-    const inputAvatar= useRef(null);
     const [avatar, setAvatar] = useState(null);
     const [myMemes, setMyMemes] = useState([]);
     const [otherMemes, setOtherMemes] = useState([]);
     const [allMemes, setAllMemes] = useState([]);
-    const votedMemes = [];
-    
-    
-    
+    const inputAvatar= useRef(null);  
 
-    // Get all memes from server that are create by logged in user
+    // Handle state changes of memes that the logged in user has created
+    useEffect(() => {
+        fetchMyMemes()
+        .then(myMemes => {
+            //console.log('Fetched data (my memes): ', myMemes)
+            setMyMemes(myMemes.data) 
+        })
+    }, [])
+    
+    // Handle state changes of all memes in database
+    useEffect(() => {
+        fetchAllMemes()
+        .then(allMemes => {
+            //console.log('Fetched data (all Memes): ', allMemes)
+            setAllMemes(allMemes.data)  
+        })
+    }, [])  
+
+    // Handle state changes of memes that the logged in user has liked
+    useEffect(() => {
+        getVotedMemes()
+        .then(result => {
+            //console.log('Result: ', result)
+            setOtherMemes(result) 
+        })  
+    }, [allMemes])
+
+    
+    // Get all memes from server that are createb by the logged in user
     const fetchMyMemes = async () => {
         return await axios.get(`http://localhost:5001/allMemes?author=${user.name}`)
     }
 
-    // Get all memes from server that are liked or commented by logged in user
+    // Get all memes from server 
     const fetchAllMemes = async () => {
-        return await axios.get('http://localhost:5001/allMemes') //(`http://localhost:5001/allMemes?votes=${user.name}`)
+        return await axios.get('http://localhost:5001/allMemes') 
     }
 
-    
-    // Search fo memes the logged in user voted for
+    // Search for memes that the logged in user has voted for
     const getVotedMemes = async () => {
-        let votedMemesLocal = [];
+        let votedMemes = [];
         let listOfAllMemes = [...allMemes]
-            console.log('listOfAllMemes: ', listOfAllMemes)
+        //console.log('listOfAllMemes: ', listOfAllMemes)
 
-        // Search for the votes of all memes
+        // Loop through the votes of all memes
         for (var i = 0; i < allMemes.length-1; i++) {
-
             let listOfVotes = [...allMemes[i].votes] 
-            console.log('listOfVotes :', listOfVotes)
+            //console.log('listOfVotes :', listOfVotes)
 
-            // Check the names of the votes
+            // Compare the names of the votes with the logged in user
             if (listOfVotes.includes(user.email) || listOfVotes.includes(user.name)) {
                 votedMemes.push(listOfAllMemes[i])
-                votedMemesLocal.push(listOfAllMemes[i])
             }
         }
-        console.log('VotedMemes: ', votedMemes)
-        console.log('votedMemesLocal: ', votedMemesLocal)
-
-        return await votedMemesLocal
+        //console.log('votedMemes: ', votedMemesLocal)
+        return votedMemes
     }
-
-    // Handle state changes of myMemes and otherMemes
-    useEffect(() => {
-        fetchMyMemes()
-        .then(myMemes => {
-            console.log('Fetched data (my memes): ', myMemes)
-            setMyMemes(myMemes.data) 
-        })
-        fetchAllMemes()
-        .then(allMemes => {
-            console.log('Fetched data (all Memes): ', allMemes)
-            setAllMemes(allMemes.data) 
-            //setOtherMemes(getVotedMemes()) 
-        }) 
-        getVotedMemes()
-        .then(result => {
-            setOtherMemes(result)
-        }) 
-        
-        .catch(error => console.log(error))
-
-        console.log('MyMemes: ', myMemes)
-        console.log('OtherMemes: ', otherMemes)
-        console.log('Username: ', user.name)
-
-    }, [])
-
-    /*
-    useEffect(()=>{
-        setOtherMemes(getVotedMemes())
-    }, [])*/
-    
-
 
     // Delete selected meme
     function deleteMeme(memeID) {
-        if (myMemes.length > 0) {
-            axios 
-                .delete("http://localhost:5001/deleteMeme", {data: {meme: memeID}})
-                .then(data => setMyMemes(data.data))
-                .catch(err => console.log(err))
-        }
-    }
-
-    // Delete selected meme
-    function deleteMeme2(memeID) {
         axios 
             .delete("http://localhost:5001/deleteMeme", {data: {meme: memeID}})
-            .then(data => setMyMemes(myMemes.filter( (meme) => meme._id !== memeID) ))
+            .then(setMyMemes(myMemes.filter( (meme) => meme._id !== memeID) ))
             .catch(err => console.log(err))
     }
 
@@ -133,14 +107,11 @@ const UserInfos = () => {
         //setAvatar(event.target.files[0]);
     }
 
-    
-
     const handleClick = () => {
         inputAvatar.current.focus();
      }
 
     return (
-        
         <div className={userInfos.container}>
             <div className={userInfos.card}>
                 <div className={userInfos.imageArea}>
@@ -165,19 +136,18 @@ const UserInfos = () => {
 
                 <div className={userInfos.card}>
                     <h3 className={userInfos.cardTitle}>My created memes</h3>
-                    {/* <ImageSlider user={user.name} sliderText={mySliderText} sliderButton={'Editor'} /> */}
                     <ImageSlider memes={myMemes} sliderText={"Let's create a meme!"} sliderButton={'Editor'} deleteMeme={deleteMeme} author={true}/>
                 </div>
                 
                 <div className={userInfos.card}>
                     <h3 className={userInfos.cardTitle}>Memes I liked or commented</h3>
-                    {/* <ImageSlider user={user.name} sliderText={otherSliderText} sliderButton={'Gallery'}/> */}
-                    <ImageSlider memes={otherMemes} sliderText={"Let's search for some funny memes!"} sliderButton={'Gallery'} deleteMeme={deleteMeme2} author={false}/> {/* votedMemes  or otherMemes*/}
+                    <ImageSlider memes={otherMemes} sliderText={"Let's search for some funny memes!"} sliderButton={'Gallery'} author={false}/>
                 </div>
                 
             </div>
         </div>
     );
 }
+
 export default UserInfos;
 

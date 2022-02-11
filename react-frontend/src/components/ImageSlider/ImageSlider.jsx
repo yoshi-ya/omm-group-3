@@ -1,44 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import imageSlider from './ImageSlider.module.css';
-import {encode} from "base64-arraybuffer";
-import axios from "axios";
 import {Link} from "react-router-dom";
 import ShareButtons from '../ShareButtons/ShareButtons'; // Social share icons
-import CanvasMeme from '../CanvasMeme/CanvasMeme'; // An actual meme
-import {FaArrowAltCircleRight, FaArrowAltCircleLeft} from 'react-icons/fa'; // Icons
+import CanvasMeme from '../CanvasMeme/CanvasMeme'; // Actual memes
+import {FaArrowAltCircleRight, FaArrowAltCircleLeft} from 'react-icons/fa'; // Arrow Icons
 
 const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, author}) => {
 
     const [slideIndex, setSlideIndex] = useState(0)
-    /*
-    const [memes, setMemes] = useState([])
-
-    const fetchData = async () => {
-        return await axios.get(`http://localhost:5001/allMemes?author=${user}`)
-    }
-
-    useEffect(() => {
-        fetchData()
-        .then(data => {
-            console.log(data)
-            setMemes(data.data) })
-        .catch(error => console.log(error))
-        console.log('Memes: ', memes)
-        console.log('User: ', user)
-    }, [])
-
-    
-    // Delete selected meme
-    function deleteMeme(memeID) {
-        if (memes.length > 0) {
-            axios 
-                .delete("http://localhost:5001/deleteMeme", {data: {meme: memeID}})
-                .then(data => setMemes(data.data))
-                .catch(err => console.log(err))
-        }
-    }*/
-
-    
 
     // Go further to next meme
     const nextSlide = () => {
@@ -50,9 +19,9 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, author}) => {
         setSlideIndex(slideIndex !== 0 ? slideIndex - 1 : memes.length - 1)
     }
 
-    const moveDot = index => {
+    /*const moveDot = index => {
         setSlideIndex(index)
-    }
+    }*/
 
     /* Button in empty sliders with link to gallery/editor */
     function showButton(sliderButton) {
@@ -65,28 +34,28 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, author}) => {
 
     /* Show 1-3 memes next to each other */
     if (memes.length > 0 && memes.length <= 3) 
-            return (
-                <div className={imageSlider.slider}>
-                    <div className={imageSlider.verticalContainer}>
+        return (
+            <div className={imageSlider.slider}>
+                <div className={imageSlider.verticalContainer}>
 
-                        <ShareButtons slideIndex={slideIndex}/>
-                        <div className={imageSlider.horizontalContainer}>
-                            {memes.map((meme, i) => {
-                                console.log('Memes: ', memes)
-                                return (
-                                    <div className={imageSlider.slideActive} key={meme._id}>
-                                        <div className={imageSlider.image}>
-                                            <CanvasMeme meme={meme} />{ /* meme = memes[i]} */} 
-                                            { author ? <div className={imageSlider.trashIcon} onClick={() => deleteMeme(meme._id)}/> : "" }
-                                        </div>
+                    <ShareButtons slideIndex={slideIndex}/>
+                    <div className={imageSlider.horizontalContainer}>
+                        {memes.map((meme, i) => {
+                            console.log('Memes: ', memes)
+                            return (
+                                <div className={imageSlider.slideActive} key={meme._id}>
+                                    <div className={imageSlider.image}>
+                                        <CanvasMeme meme={meme} />
+                                        { author ? <div className={imageSlider.trashIcon} onClick={() => deleteMeme(meme._id)}/> : "" }
                                     </div>
-                                )}
+                                </div>
                             )}
-                        </div>
-
+                        )}
                     </div>
+
                 </div>
-            )
+            </div>
+        )
  
             
     /* Show 1-3 memes next to each other - with arrows on the right/left to slide to the next/previous image */
