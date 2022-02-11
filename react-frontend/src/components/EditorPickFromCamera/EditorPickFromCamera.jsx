@@ -2,7 +2,7 @@ import React, {useRef, useEffect, useState} from 'react';
 import axios from 'axios';
 import styles from '../Editor/Editor.module.css';
 
-const PickFromCamera = () =>{
+const EditorPickFromCamera = () =>{
 
     const videoRef = useRef(null);
     const photoRef = useRef(null);
@@ -63,4 +63,4 @@ const PickFromCamera = () =>{
         </div>
         )
 }
-export default PickFromCamera;
+export default EditorPickFromCamera;

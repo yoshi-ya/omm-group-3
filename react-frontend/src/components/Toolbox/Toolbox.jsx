@@ -50,8 +50,8 @@ const Toolbox = (props) => {
             <span className={styles.tooltipText}>Pick from files</span>
         </div>
         <div className={styles.tooltip}>
-                <img className={styles.tool} src={cameraIcon} alt="uploadIcon"/>
-            <span className={styles.tooltipText}>Pick from camera</span>
+                <img className={styles.tool} src={cameraIcon} alt="cameraIcon"/>
+            <span className={styles.tooltipText}>Use Webcam</span>
         </div>
         <div className={styles.tooltip}>
             <div onClick={() => props.setMode({

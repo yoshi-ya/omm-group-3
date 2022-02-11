@@ -6,6 +6,7 @@ import EditorPickFromDesktop from "../EditorPickFromDesktop/EditorPickFromDeskto
 import EditorPickFromUrl from "../EditorPickFromUrl/EditorPickFromUrl";
 import axios from "axios";
 import {encode} from "base64-arraybuffer";
+import EditorPickFromCamera from '../EditorPickFromCamera/EditorPickFromCamera';
 
 
 const Editor = () => {
@@ -198,6 +199,7 @@ const Editor = () => {
                                                    privateTemplate={privateTemplate}
                                                    templates={templates} setTemplates={setTemplates}
                                                    visible={mode.desktop}/>
+                            <EditorPickFromCamera/>
                             <EditorPickFromUrl templates={templates} setTemplates={setTemplates}
                                                visible={mode.url}/>
                             <h2>Editor</h2>
