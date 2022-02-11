@@ -17,7 +17,6 @@
 .container > *:nth-child(2) {
     flex: 1 1 75%;
     min-width: 42ch;
-    width: 100%;
     height: 100%;
 }
 
@@ -33,70 +32,54 @@
     background-color:whitesmoke;
     margin: 8px;
     border-radius: 15px;
-    height: 100%;
+    height: 49%;
     width: 100%; /* Don't delete - it's a parent of other elements that need a set width */
     display: flex;
     flex-direction: column;
+    padding-bottom: 20px;
+    box-sizing: border-box;
 }
 .card h3 {  
+    margin: 10px 20px 0px 20px;
     font-size: 1.6em;
 }
-.card a {
-    padding: 10px 0px;
-    display: block;
+.card p {
+    margin: 5px;
+    font-size: 1em;
     text-align: center;
-    color: black;
 }
 
 .cardTitle {
     margin: 15px 0 0 25px;;
 }
 
-/* currently not in use: 
-
-/* Headline of card 
-.firstRow {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-/* Text 
-.firstRow > *:nth-child(1) {
-    flex: 1 1; 
-    margin-left: 20px; 
-}
-/* Share buttons 
-.firstRow > *:nth-child(2) {
-    flex: 1 1; 
-    margin-right: 20px;
-}*/
-
 /* User infos on the left side */
 .imageArea {
     background-color: #343434;
-    height: 150px;
+    height: 300px;
     background-size: cover;
     border-radius: 15px 15px 0 0;
     position: relative;
+    margin-bottom: 30px;
 }
 
 /* User infos on the left side */
 .avatar {
     background-image: url(Wolves.jpg);
     background-size: cover;
-    width: 100px;
-    height: 100px;
+    width: 70%;
+    height: 70%;
     border-radius: 30px;
     position: absolute;
     top: 50%;
     left: 50%;
     /*margin-right: -50%;*/
-    transform: translate(-50%, -40%);
+    transform: translate(-50%, -50%);
 }
 
 /* User infos on the left side */
 .cameraButton{
+    cursor: pointer;
     background-image: url(camera.png);
     background-size: cover;
     width: 25px;
@@ -107,17 +90,18 @@
 }
 
 /*---- Button ------------------------------------------*/
-
-.button {
+.avatarButton {
+    position:absolute;
+    bottom: 0;
+    right: 0;
     background-color: #666666;
-    min-width: 100px;
-    width: 30%;
-    line-height: 1.5rem;
-    overflow: hidden;
+    min-width: 20px;
+    width: 10%;
+    line-height: 2rem;
     color: white;
     text-align: center;
     padding: 4px 8px;
-    margin: 20px auto;
+    margin: 10px;
     border-radius: 5px;
     outline: 0;
     text-transform: uppercase;
@@ -125,9 +109,10 @@
     box-shadow: 0px 2px 2px grey;
     transition: ease background-color 250ms;
 }
-.button:hover {
+.avatarButton:hover {
     background-color: #454545;
 }
+
 
 
 
