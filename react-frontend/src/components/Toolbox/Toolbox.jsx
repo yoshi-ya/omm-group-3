@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styles from "./Toolbox.module.css";
 import drawingIcon from "./drawing.png";
 import uploadIcon from "./upload.png";
+import cameraIcon from "./camera.png";
 import urlIcon from "./url.png";
 import randomIcon from "./random.png";
 import browseIcon from "./browse.png";
@@ -32,7 +33,8 @@ const Toolbox = (props) => {
             <div onClick={() => props.setMode({
                 draw: !props.mode.draw,
                 desktop: !props.mode.desktop,
-                url: false
+                url: false,
+                camera: false
             })}>
                 <img className={props.mode.draw ? styles.toolActive : styles.tool} src={drawingIcon} alt="drawingIcon"/>
             </div>
@@ -42,7 +44,8 @@ const Toolbox = (props) => {
             <div onClick={() => props.setMode({
                 draw: false,
                 desktop: true,
-                url: false
+                url: false,
+                camera: false
             })}>
                 <img className={styles.tool} src={uploadIcon} alt="uploadIcon"/>
             </div>
@@ -50,9 +53,21 @@ const Toolbox = (props) => {
         </div>
         <div className={props.mode.draw ? styles.hidden : styles.tooltip}>
             <div onClick={() => props.setMode({
+                    draw: false,
+                    desktop: false,
+                    url: false,
+                    camera: true
+                })}>
+                <img className={styles.tool} src={cameraIcon} alt="cameraIcon"/>
+                </div>
+            <span className={styles.tooltipText}>Use Webcam</span>
+        </div>
+        <div className={props.mode.draw ? styles.hidden : styles.tooltip}>
+            <div onClick={() => props.setMode({
                 draw: false,
                 desktop: false,
-                url: true
+                url: true,
+                camera: false
             })}>
                 <img className={styles.tool} src={urlIcon} alt="urlIcon"/>
             </div>
@@ -63,7 +78,8 @@ const Toolbox = (props) => {
                 props.setMode({
                     draw: false,
                     desktop: true,
-                    url: false
+                    url: false,
+                    camera: false
                 })
                 props.randomTemplate()
             }}>
@@ -83,7 +99,8 @@ const Toolbox = (props) => {
                             props.setMode({
                                 draw: false,
                                 desktop: true,
-                                url: false
+                                url: false,
+                                camera: false
                             })
                             setCollapsed(true)
                         }}

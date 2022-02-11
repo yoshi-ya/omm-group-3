@@ -6,6 +6,7 @@ import EditorPickFromDesktop from "../EditorPickFromDesktop/EditorPickFromDeskto
 import EditorPickFromUrl from "../EditorPickFromUrl/EditorPickFromUrl";
 import axios from "axios";
 import {encode} from "base64-arraybuffer";
+import EditorPickFromCamera from '../EditorPickFromCamera/EditorPickFromCamera';
 
 
 const Editor = () => {
@@ -22,7 +23,7 @@ const Editor = () => {
     const [textSize, setTextSize] = useState(22)
     const [privateTemplate, setPrivateTemplate] = useState(false)
     const [privateMeme, setPrivateMeme] = useState(false)
-    const [mode, setMode] = useState({draw: false, desktop: true, url: false})
+    const [mode, setMode] = useState({draw: false, desktop: true, url: false, camera:false})
     const [isDrawing, setIsDrawing] = useState(false)
     const canvasRef = useRef(0)
     const {isAuthenticated, user} = useAuth0()
@@ -118,6 +119,11 @@ const Editor = () => {
         setXPositions(result)
     }
 
+    if (!isAuthenticated) {
+        return (<div>
+            Please log in to create and upload memes.
+        </div>)
+    }
     const setYForText = (index, yPos) => {
         let result = [...yPositions]
         result[index] = {y: parseInt(yPos)}
@@ -260,6 +266,10 @@ const Editor = () => {
                                                    privateTemplate={privateTemplate}
                                                    templates={templates} setTemplates={setTemplates}
                                                    visible={mode.desktop}/>
+                            <EditorPickFromCamera setPrivateTemplate={setPrivateTemplate}
+                                                   privateTemplate={privateTemplate}
+                                                   templates={templates} setTemplates={setTemplates}
+                                                   visible={mode.camera} />
                             <EditorPickFromUrl templates={templates} setTemplates={setTemplates}
                                                visible={mode.url}/>
                             <div className={templates.length > 0 ? styles.wrapper : styles.hidden}>

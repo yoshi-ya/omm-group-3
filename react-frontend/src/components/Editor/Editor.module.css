@@ -1,56 +1,56 @@
 .outerContainer {
-    display: flex;
-    justify-content: center;
-    height: 100%;
+  display: flex;
+  justify-content: center;
+  height: 100%;
 }
 
 .editorContainer {
-    justify-content: center;
-    width: 94vw;
-    background-color: whitesmoke;
-    margin: 8px;
-    border-radius: 15px;
-    height: 100%;
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: flex-start;
+  justify-content: center;
+  width: 94vw;
+  background-color: whitesmoke;
+  margin: 8px;
+  border-radius: 15px;
+  height: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
 }
 
 .canvas {
-    border: 2px solid black;
-    display: block;
-    margin: 14px auto;
+  border: 2px solid black;
+  display: block;
+  margin: 14px auto;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 .splitView {
-    display: inline-block;
-    width: 100%;
-    height: 100%;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
 }
 
 .splitLeft {
-    width: 50%;
-    height: 100%;
-    float: left;
-    position: sticky;
-    top: 102px;
-    overflow: scroll;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+  width: 50%;
+  height: 100%;
+  float: left;
+  position: sticky;
+  top: 102px;
+  overflow: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .splitLeft::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .splitRight {
-    width: 50%;
-    height: 100%;
-    float: right;
+  width: 50%;
+  height: 100%;
+  float: right;
 }
 
 .drawModeLeft {
@@ -62,47 +62,48 @@
 }
 
 .editor {
-    margin: auto;
+  margin: auto;
 }
 
 .wrapper {
-    display: block;
-    border-top: 1px solid black;
-    padding: 8px;
+  display: block;
+  border-top: 1px solid black;
+  padding: 8px;
 }
 
 .row {
-    margin-top: 16px;
-    display: inline-block;
-    width: 100%;
+  margin-top: 16px;
+  display: inline-block;
+  width: 100%;
 }
 
 .rowCenter {
-    text-align: center;
-    width: 100%;
+  text-align: center;
+  width: 100%;
 }
 
-.rowCenter button, .rowCenter input {
-    margin-top: 12px;
-    padding: 12px;
+.rowCenter button,
+.rowCenter input {
+  margin-top: 12px;
+  padding: 12px;
 }
 
 .item {
-    float: left;
+  float: left;
 }
 
 .row input {
-    margin-right: 12px
+  margin-right: 12px;
 }
 
 .row span {
-    padding-right: 4px;
+  padding-right: 4px;
 }
 
 .title {
-    font-size: 22px;
-    width: 100%;
-    float: left;
+  font-size: 22px;
+  width: 100%;
+  float: left;
 }
 
 .memeTitle {
@@ -111,22 +112,22 @@
 }
 
 @media screen and (max-width: 900px) {
-    .splitView {
-        width: 100%;
-        height: 100%;
-    }
+  .splitView {
+    width: 100%;
+    height: 100%;
+  }
 
-    .splitLeft {
-        float: none;
-        width: 100%;
-        height: auto;
-        position: relative;
-        top: 0;
-    }
+  .splitLeft {
+    float: none;
+    width: 100%;
+    height: auto;
+    position: relative;
+    top: 0;
+  }
 
-    .splitRight {
-        float: none;
-        width: 100%;
-        height: auto;
-    }
+  .splitRight {
+    float: none;
+    width: 100%;
+    height: auto;
+  }
 }
