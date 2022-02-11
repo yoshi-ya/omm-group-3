@@ -1,5 +1,6 @@
 const cors = require("cors");
 const Meme = require("../schemas/memeSchema");
+const {drawApiMeme} = require("../canvas");
 
 
 module.exports = app => {
@@ -10,31 +11,8 @@ module.exports = app => {
      * database, and a list of URLs to respective SingleViews is returned
      */
     app.post("/createMeme", cors(), async (req, res) => {
-        let listOfURLs = []
-        for (let memeData of req.body.data) {
-            let meme = new Meme({
-                author: "api",
-                date: new Date().toISOString(),
-                template: memeData.template,
-                text1: memeData.text1,
-                text2: memeData.text2,
-                text3: memeData.text3,
-                text4: memeData.text4,
-                color: memeData.color,
-                size: memeData.size,
-                transparency: memeData.transparency,
-                font: memeData.font
-            })
-
-            await meme
-                .save()
-                .catch(err => console.error(err))
-
-            // replace path to singleView
-            listOfURLs.push(`${req.protocol}://${req.get('host')}${req.originalUrl}/singleView/${meme._id}`)
-        }
-
-        res.send({data: listOfURLs})
+        let data = await drawApiMeme(req.body)
+        res.send(data)
     })
 
     /**

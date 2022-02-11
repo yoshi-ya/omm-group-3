@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const logger = require('./logger.js');
 const connectToDB = require('./db');
 const userUpload = require('./routes/user');
@@ -18,7 +17,7 @@ app.use((req, res, next) =>{
 
 app.use(express.json({limit: '10MB'}));
 app.use(express.urlencoded({extended: true}));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 app.use(logger)
 require('./routes/commentRoutes.js')(app)
 require('./routes/memeRoutes.js')(app)

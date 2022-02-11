@@ -28,4 +28,29 @@ const drawCanvas = async (canvasData) => {
     }
 }
 
-module.exports = drawCanvas
+const drawApiMeme = async (data) => {
+    const listOfMemes = []
+    const canvas = createCanvas(400, 400)
+    const context = canvas.getContext('2d')
+    context.fillStyle = "black"
+    context.fillRect(0, 0, 400, 400)
+    for (let i = 0; i < data.texts.length; i++) {
+        await loadImage(data.template)
+            .then(image => {
+                context.drawImage(image, 50, 50, 300, 300)
+                context.font = `${data.size}px Comic Sans MS`
+                context.fillStyle = data.color
+                context.textAlign = "center"
+                for (let j = 0; j < data.texts[i].length; j++) {
+                    context.fillText(data.texts[i][j], 200, 200 + i*150)
+                }
+                let pathToMeme = `${__dirname}/public/uploads/meme_${i}.png`
+                let buffer = canvas.toBuffer('image/png')
+                fs.writeFileSync(pathToMeme, buffer)
+                listOfMemes.push(`http://localhost:5001/uploads/meme_${i}.png`)
+            })
+    }
+    return {data: listOfMemes}
+}
+
+module.exports = {drawCanvas, drawApiMeme}
