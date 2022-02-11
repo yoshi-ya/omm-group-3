@@ -30,22 +30,22 @@ const drawCanvas = async (canvasData) => {
 
 const drawApiMeme = async (data) => {
     const listOfMemes = []
-    const canvas = createCanvas(400, 400)
-    const context = canvas.getContext('2d')
-    context.fillStyle = "black"
-    context.fillRect(0, 0, 400, 400)
     for (let i = 0; i < data.texts.length; i++) {
+        const canvas = createCanvas(400, 400)
+        const context = canvas.getContext('2d')
+        context.fillStyle = "black"
+        context.fillRect(0, 0, 400, 400)
         await loadImage(data.template)
             .then(image => {
                 context.drawImage(image, 50, 50, 300, 300)
-                context.font = `${data.size}px Comic Sans MS`
-                context.fillStyle = data.color
+                context.font = `${data.texts[i].size || 22}px Comic Sans MS`
+                context.fillStyle = data.texts[i].color || "white"
                 context.textAlign = "center"
-                for (let j = 0; j < data.texts[i].length; j++) {
-                    context.fillText(data.texts[i][j], 200, 200 + i*150)
+                for (let j = 0; j < data.texts[i].captions.length; j++) {
+                    context.fillText(data.texts[i].captions[j].text, data.texts[i].captions[j].x || 200, data.texts[i].captions[j].y || 40 + j*100)
                 }
                 let pathToMeme = `${__dirname}/public/uploads/meme_${i}.png`
-                let buffer = canvas.toBuffer('image/png')
+                const buffer = canvas.toBuffer('image/png')
                 fs.writeFileSync(pathToMeme, buffer)
                 listOfMemes.push(`http://localhost:5001/uploads/meme_${i}.png`)
             })
