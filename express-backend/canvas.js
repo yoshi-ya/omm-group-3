@@ -17,7 +17,10 @@ const drawCanvas = async (canvasData) => {
             .then(image => {
                 context.drawImage(image, canvasData.templates[i].x, canvasData.templates[i].y, canvasData.templates[i].width, canvasData.templates[i].height)
                 if (i === canvasData.templates.length - 1) {
-                    context.font = `${canvasData.size}px Comic Sans MS`
+                    context.font = `${canvasData.size}px Impact`
+                    context.shadowColor = "#000"
+                    context.shadowOffsetX = 2
+                    context.shadowOffsetY = 2
                     context.fillStyle = canvasData.color
                     context.textAlign = "center"
                     for (let j = 0; j < canvasData.texts.length; j++) {
@@ -40,7 +43,10 @@ const drawApiMeme = async data => {
         await loadImage(data.template)
             .then(async image => {
                 context.drawImage(image, 50, 50, 300, 300)
-                context.font = `${data.texts[i].size || 22}px Comic Sans MS`
+                context.font = `${data.texts[i].size || 22}px Impact`
+                context.shadowColor = "#000"
+                context.shadowOffsetX = shadowOffset
+                context.shadowOffsetY = shadowOffset
                 context.fillStyle = data.texts[i].color || "white"
                 context.textAlign = "center"
                 for (let j = 0; j < data.texts[i].captions.length; j++) {
