@@ -3,18 +3,16 @@ import axios from "axios";
 import {useAuth0} from '@auth0/auth0-react';
 import userInfos from "./UserInfos.module.css"
 import ImageSlider from '../ImageSlider/ImageSlider';
-import {encode} from "base64-arraybuffer";
 import Editor from "../Editor/Editor";
 
 
 const UserInfos = () => {
 
     const {user} = useAuth0();
-    const [avatar, setAvatar] = useState("https://via.placeholder.com/200?text=no%20profile%20picture");
+    const [avatar, setAvatar] = useState(user.picture);
     const [myMemes, setMyMemes] = useState([]);
     const [otherMemes, setOtherMemes] = useState([]);
     const [allMemes, setAllMemes] = useState([]);
-    const inputAvatar = useRef(null);
 
     // Handle state changes of memes that the logged in user has created
     useEffect(() => {
@@ -80,31 +78,6 @@ const UserInfos = () => {
             .delete("http://localhost:5001/deleteMeme", {data: {meme: memeID}})
             .then(setMyMemes(myMemes.filter((meme) => meme._id !== memeID)))
             .catch(err => console.log(err))
-    }
-
-    // Upload an image to set a new avatar picture 
-    const fileUploadHandler = event => {
-        event.preventDefault();
-        let newAvatar = event.target.template.files[0]
-        const avatarFormData = new FormData();
-        avatarFormData.append("image", newAvatar)
-
-        axios.post('', avatarFormData)
-            .then(res => {
-                console.log(res);
-                setAvatar([avatar, {image: `data:image/png;base64,${encode(res.data.image.data)}`}])
-            })
-            .catch(error => console.log(error))
-    }
-
-    // Select an image from the desktop
-    const fileSelectedHandler = (event) => {
-        console.log(event.target.files[0]);
-        //setAvatar(event.target.files[0]);
-    }
-
-    const handleClick = () => {
-        inputAvatar.current.focus();
     }
 
     return (<div className={userInfos.container}>
