@@ -94,9 +94,7 @@ const UserInfos = () => {
         link.click()
         document.body.removeChild(link)
 
-        /* Irgendwas mit vllt:
-        getTemplate
-        */
+    
     }
 
     
