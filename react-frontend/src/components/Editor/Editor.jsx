@@ -28,6 +28,17 @@ const Editor = () => {
     const canvasRef = useRef(0)
     const {isAuthenticated, user} = useAuth0()
 
+    const clear = () => {
+        setTemplates([])
+    }
+
+    useEffect(() => {
+         if (canvasRef.current) {
+             const context = canvasRef.current.getContext("2d")
+             context.fillStyle = "black"
+             context.fillRect(0, 0, canvasWidth, canvasHeight)
+         }
+    }, [templates])
 
     useEffect(() => {
         if (mode.draw) {
@@ -93,7 +104,7 @@ const Editor = () => {
     }
 
     const addTextBox = () => {
-        if (texts.length < 4) setTexts([...texts, {text: ""}])
+        if (texts.length < 4 && templates.length > 0) setTexts([...texts, {text: ""}])
     }
 
     const removeTextBox = () => {
@@ -238,7 +249,7 @@ const Editor = () => {
     return (<>
         <Toolbox setMode={setMode} mode={mode} randomTemplate={getRandomTemplate}
                  getTemplate={getTemplate} addCaption={addTextBox} removeCaption={removeTextBox}
-                 download={download} save={save}/>
+                 download={download} save={save} clear={clear}/>
         <div className={styles.outerContainer}>
             <div className={styles.editorContainer}>
                 <div className={styles.splitView}>
