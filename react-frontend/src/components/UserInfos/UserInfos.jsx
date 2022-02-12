@@ -82,22 +82,6 @@ const UserInfos = () => {
             .then(setMyMemes(myMemes.filter( (meme) => meme._id !== memeID) ))
             .catch(err => console.log(err))
     }
-    
-
-    // Edit selected meme
-    function editMeme(memeID) {
-
-        // Automaticically link to the editor page (vllt dabei noch das meme als Payload mitgeben, aber wie?)
-        const link = document.createElement('a')
-        link.href = "/editor" 
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-
-    
-    }
-
-    
 
     // Upload an image to set a new avatar picture 
     const fileUploadHandler = event => {
@@ -154,7 +138,7 @@ const UserInfos = () => {
 
                 <div className={userInfos.card}>
                     <h3 className={userInfos.cardTitle}>My created memes</h3>
-                    <ImageSlider memes={myMemes} sliderText={"Let's create a meme!"} sliderButton={'Editor'} deleteMeme={deleteMeme} editMeme={editMeme} author={true} />
+                    <ImageSlider memes={myMemes} sliderText={"Let's create a meme!"} sliderButton={'Editor'} deleteMeme={deleteMeme} author={true} />
                 </div>
                 
                 <div className={userInfos.card}>

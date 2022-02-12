@@ -9,7 +9,7 @@ import {FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa'; // 
 import {BsFillTrashFill} from 'react-icons/bs'; // Trash icon
 import {RiEditFill} from 'react-icons/ri'; // Edit icon  
 
-const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, editMeme, author}) => {
+const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, author}) => {
 
     const [slideIndex, setSlideIndex] = useState(0)
     const [isClicked, setIsClicked] = useState(false)
