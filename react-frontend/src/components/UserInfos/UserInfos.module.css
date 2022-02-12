@@ -40,7 +40,7 @@
     box-sizing: border-box;
 }
 .card h3 {  
-    margin: 10px 20px 0px 20px;
+    margin: 10px 20px 20px 20px;
     font-size: 1.6em;
 }
 .card p {
@@ -63,7 +63,7 @@
     margin-bottom: 30px;
 }
 
-/* User infos on the left side */
+/* Avatar picture */
 .avatar {
     background-image: url(Wolves.jpg);
     background-size: cover;
@@ -73,11 +73,10 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    /*margin-right: -50%;*/
     transform: translate(-50%, -50%);
 }
 
-/* User infos on the left side */
+/* Camera button */
 .cameraButton{
     cursor: pointer;
     background-image: url(camera.png);
@@ -90,14 +89,12 @@
 }
 
 /*---- Button ------------------------------------------*/
-.avatarButton {
-    position:absolute;
-    bottom: 0;
-    right: 0;
+.button {
+    position: relative;
     background-color: #666666;
     min-width: 20px;
-    width: 10%;
-    line-height: 2rem;
+    width: 30%;
+    line-height: 1.7rem;
     color: white;
     text-align: center;
     padding: 4px 8px;
@@ -109,7 +106,7 @@
     box-shadow: 0px 2px 2px grey;
     transition: ease background-color 250ms;
 }
-.avatarButton:hover {
+.button:hover {
     background-color: #454545;
 }
 

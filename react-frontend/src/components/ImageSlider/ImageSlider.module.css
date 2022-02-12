@@ -41,25 +41,28 @@
     width: 100%; 
     height: 100%; 
 }
-
 .image {
     height: 270px;
     position: relative; /* Important for positioning the trash icon */
-    margin: 5px 10px 20px 10px; 
+    margin: 20px 10px 20px 10px;
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.4), 0 3px 10px 0 rgba(0, 120, 144, 0.6);
-    
     /* transition: ease transform 200ms; */
 }
+
 .image:hover{
+    box-shadow: 0 5px 10px 0 rgba(0, 85, 102, 0.7), 0 6px 20px 0 rgba(0, 152, 182, 0.9);
     transform:scale(1.05,1.05);
     -webkit-transform:scale(1.05,1.05);
     -moz-transform:scale(1.05,1.05);
     transition: ease transform 200ms;
-  }
+}
 .image:hover .trashIcon {
     opacity: 1;
 }
 .image:hover .editIcon {
+    opacity: 1;
+}
+.image:hover .shareIcons {
     opacity: 1;
 }
 
@@ -73,7 +76,7 @@
     position: absolute;
     width: 100%; height: 100%;
     top:0; left:0;
-    background:rgba(0,0,0,0.6);
+    background:rgba(0,0,0,0.5);
     opacity: 0;
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
@@ -81,7 +84,6 @@
 .image:hover:after {
     opacity: 0.8;
 }
-
 
 .bigPicture{
     position: absolute;
@@ -127,6 +129,16 @@
     opacity: 0;
     z-index: 20;
 }
+
+/*--- Share icons for sharing a meme ---*/
+.shareIcons {
+    position: absolute;
+    top: 0; left: 20%;
+    transform: translateY(-35px);
+    opacity: 0;
+    z-index: 20;
+}
+
 
 /*--- Arrows ---*/
 .rightArrow {

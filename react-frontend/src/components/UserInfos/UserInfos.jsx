@@ -4,18 +4,18 @@ import {useAuth0} from '@auth0/auth0-react';
 import userInfos from "./UserInfos.module.css"
 import ImageSlider from '../ImageSlider/ImageSlider'; // For slide-show
 import {encode} from "base64-arraybuffer";
-import Editor from "../Editor/Editor";
-import {Link} from "react-router-dom";
-//import PopUp from '../PopUp/SharePopUp';
 
 const UserInfos = () => {
 
     const {user} = useAuth0();
-    const [avatar, setAvatar] = useState(null);
     const [myMemes, setMyMemes] = useState([]);
     const [otherMemes, setOtherMemes] = useState([]);
     const [allMemes, setAllMemes] = useState([]);
+
+    const [avatar, setAvatar] = useState(null);
     const inputAvatar= useRef(null);  
+    const imageInput = document.querySelector('#imageInput')
+    var uploadedAvatar = ""; // Store the image
 
     // Handle state changes of memes that the logged in user has created
     useEffect(() => {
@@ -82,7 +82,6 @@ const UserInfos = () => {
             .then(setMyMemes(myMemes.filter( (meme) => meme._id !== memeID) ))
             .catch(err => console.log(err))
     }
-    
 
     // Edit selected meme
     function editMeme(memeID) {
@@ -93,36 +92,35 @@ const UserInfos = () => {
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
-
-    
     }
-
-    
 
     // Upload an image to set a new avatar picture 
     const fileUploadHandler = event => {
         event.preventDefault();
-        let newAvatar = event.target.template.files[0]
-        const avatarFormData = new FormData();
-        avatarFormData.append("image", newAvatar)
+        //let newAvatar = event.target.template.files[0]
 
-        axios.post('', avatarFormData)
-            .then(res => {
-                console.log(res);
+        const avatarFormData = new FormData(); // Default javascript object
+        avatarFormData.append("avatar", avatar, avatar.name) // eventuell - name property
+
+        axios.post("http://localhost:5001/addTemplate", avatarFormData) // url ???
+            .then( (res) => {
+                //console.log(res);
                 setAvatar([avatar, {image: `data:image/png;base64,${encode(res.data.image.data)}`}])
             })
             .catch(error => console.log(error))
     }
 
-    /*function showPopup() {
-        return <PopUp/>;
-        <div className={userInfos.button} onClick={showPopup}>Followers</div>
-    }*/
-
     // Select an image from the desktop
     const fileSelectedHandler = (event) => {
-        console.log(event.target.files[0]);
-        //setAvatar(event.target.files[0]);
+        setAvatar(event.target.files[0]);
+        console.log(imageInput.value)
+
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+            uploadedAvatar = reader.result;
+            document.querySelector("#userInfos.avatar").style.backgroundImage = `url(${uploadedAvatar})`;
+        });
+        reader.readAsDataURL(this.files[0]);
     }
 
     const handleClick = () => {
@@ -132,21 +130,23 @@ const UserInfos = () => {
     return (
         <div className={userInfos.container}>
             <div className={userInfos.card}>
+
                 <div className={userInfos.imageArea}>
-                    <div className={userInfos.avatar}/>
-                    <div className={userInfos.avatarButton}>
-                        <input type='file' name="chooseAvatar" // <div className={userInfos.cameraButton} onClick={handleClick}></div>
-                            accept="image/png, image/jpg, image/jpeg" required 
-                            onChange={fileSelectedHandler} onClick={fileUploadHandler}//e => fileUploadHandler(e) ???
-                            //ref={fileInput => this.fileInput = fileInput}
-                            ref={inputAvatar}
-                            className={userInfos.cameraButton}
-                        />
-                    </div>
+                    <div className={userInfos.avatar} id="displayImage"/>
                 </div>
                     
                 <h3 style={{textAlign: "center"}}>User:</h3>
                 <p className={{textAlign: "center"}}> {user.name} </p>
+
+                <div className={userInfos.button} onClick={fileUploadHandler} >Button</div> 
+                <input type='file' name="chooseAvatar" // <div className={userInfos.cameraButton} onClick={handleClick}></div>
+                    accept="image/png, image/jpg, image/jpeg" required
+                    //ref={fileInput => this.fileInput = fileInput}
+                    ref={inputAvatar}
+                    onChange={fileSelectedHandler} //e => fileUploadHandler(e) ???
+                    id="imageInput"
+                />
+                
 
             </div>
 
