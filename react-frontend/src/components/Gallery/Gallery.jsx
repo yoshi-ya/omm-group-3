@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import SingleView from '../GallerySingleView/GallerySingleView'
 import Overview from "../Overview/Overview";
+import Graphs from "../Graphs/Graphs";
 import axios from "axios";
 import styles from './Gallery.module.css'
 import filterimg from './filter.png'
@@ -165,6 +166,7 @@ const Gallery = () => {
             <img src={filterimg} className={styles.icons} alt="filterimg" onClick={()=> setShowFilterBool(!showfilterbool)}/>
             {showFilter()}
         </div>
+        <Graphs memesList={allMemes} setMemes={setAllMemes} memeNumber={memeNumber}/>
         {!singleViewActive ?
         <Overview memesList={allMemes} setMemes={setAllMemes} memeNumber={memeNumber} active={setSingleViewActive}/> :
         <SingleView memesList={allMemes} memeNumber={memeNumber}
