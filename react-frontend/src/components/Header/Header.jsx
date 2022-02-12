@@ -31,7 +31,8 @@ const Header = () => {
                 <Route path="/" element={<Gallery/>}/>
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/view/:id" element={<SingleView/>}/>
-                <Route path="/editor" element={<Editor/>}/>
+                <Route exact path="/editor" element={<Editor/>}/>
+                <Route path="/editor/:id" element={<Editor/>}/>
             </Routes>
         </div>
     </Router>);

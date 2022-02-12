@@ -9,6 +9,7 @@ import {encode} from "base64-arraybuffer";
 import EditorPickFromCamera from '../EditorPickFromCamera/EditorPickFromCamera';
 import audioIcon from "./audio.png"
 import microphoneIcon from "./microphone.png"
+import {useParams} from "react-router-dom";
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 const recognition = new SpeechRecognition()
@@ -30,8 +31,73 @@ const Editor = () => {
     const [mode, setMode] = useState({draw: false, desktop: true, url: false, camera: false})
     const [isDrawing, setIsDrawing] = useState(false)
     const canvasRef = useRef(0)
+    const [name, setName] = useState("")
     const {isAuthenticated, user} = useAuth0()
     const mic = useRef(null)
+    const {id} = useParams()
+
+
+    useEffect(() => {
+        if (id) {
+            axios
+                .get(`http://localhost:5001/fetchMeme?id=${id}`)
+                .then(result => {
+                    let editMeme = result.data
+                    setTemplates(editMeme.templates)
+                    setTexts(editMeme.texts)
+                    setCanvasWidth(editMeme.canvasWidth)
+                    setCanvasHeight(editMeme.canvasHeight)
+                    setName(editMeme.name)
+                    setPrivateMeme(Boolean(editMeme.private))
+                    setTextColor(editMeme.color)
+                    setTextSize(editMeme.size)
+                })
+                .catch(error => console.log(error))
+        }
+    }, [])
+
+    useEffect(() => {
+        if (canvasRef.current) {
+            const context = canvasRef.current.getContext("2d")
+            context.fillStyle = "black"
+            context.fillRect(0, 0, canvasWidth, canvasHeight)
+        }
+    }, [templates])
+
+    useEffect(() => {
+        if (mode.draw) {
+            const context = canvasRef.current.getContext("2d")
+            context.fillStyle = "black"
+            context.fillRect(0, 0, canvasWidth, canvasHeight)
+            context.scale(1, 1);
+            context.lineCap = "round";
+            context.strokeStyle = "white";
+            context.lineWidth = 3;
+        }
+    }, [canvasRef, mode])
+
+    useEffect(() => {
+        if (templates.length > 0 && !mode.draw) {
+            const context = canvasRef.current.getContext("2d")
+            context.fillStyle = "black"
+            context.fillRect(0, 0, canvasWidth, canvasHeight)
+            for (let i = 0; i < templates.length; i++) {
+                const templateImage = new Image()
+                templateImage.src = templates[i].url
+                templateImage.onload = () => {
+                    context.drawImage(templateImage, templateConfigs[i].x, templateConfigs[i].y, templateConfigs[i].width, templateConfigs[i].height)
+                    if (i === templates.length - 1) {
+                        context.font = `${textSize}px Comic Sans MS`
+                        context.fillStyle = textColor
+                        context.textAlign = "center"
+                        for (let j = 0; j < texts.length; j++) {
+                            context.fillText(texts[j].text, xPositions[j].x, yPositions[j].y)
+                        }
+                    }
+                }
+            }
+        }
+    }, [mode, templates, texts, canvasRef, canvasWidth, canvasHeight, xPositions, yPositions, templateConfigs, textColor, textSize]);
 
 
     const clear = () => {
@@ -59,51 +125,6 @@ const Editor = () => {
             recognition.stop()
         }
     }
-
-    useEffect(() => {
-        if (canvasRef.current) {
-            const context = canvasRef.current.getContext("2d")
-            context.fillStyle = "black"
-            context.fillRect(0, 0, canvasWidth, canvasHeight)
-        }
-    }, [templates])
-
-    useEffect(() => {
-        if (mode.draw) {
-            const context = canvasRef.current.getContext("2d")
-            context.fillStyle = "black"
-            context.fillRect(0, 0, canvasWidth, canvasHeight)
-            context.scale(1, 1);
-            context.lineCap = "round";
-            context.strokeStyle = "white";
-            context.lineWidth = 3;
-        }
-    }, [canvasRef, mode])
-
-    useEffect(() => {
-        console.log(texts)
-        if (templates.length > 0 && !mode.draw) {
-            const context = canvasRef.current.getContext("2d")
-            context.fillStyle = "black"
-            context.fillRect(0, 0, canvasWidth, canvasHeight)
-            for (let i = 0; i < templates.length; i++) {
-                const templateImage = new Image()
-                templateImage.src = templates[i].image
-                templateImage.onload = () => {
-                    context.drawImage(templateImage, templateConfigs[i].x, templateConfigs[i].y, templateConfigs[i].width, templateConfigs[i].height)
-                    if (i === templates.length - 1) {
-                        context.font = `${textSize}px Comic Sans MS`
-                        context.fillStyle = textColor
-                        context.textAlign = "center"
-                        for (let j = 0; j < texts.length; j++) {
-                            context.fillText(texts[j].text, xPositions[j].x, yPositions[j].y)
-                        }
-                    }
-                }
-            }
-        }
-    }, [mode, templates, texts, canvasRef, canvasWidth, canvasHeight, xPositions, yPositions, templateConfigs, textColor, textSize]);
-
 
     const startDrawing = ({nativeEvent}) => {
         if (mode.draw) {
@@ -184,7 +205,7 @@ const Editor = () => {
             .get("http://localhost:5001/anyTemplate")
             .then(data => {
                 if (templates.length < 3) {
-                    setTemplates([...templates, {image: `data:image/png;base64,${encode(data.data.image.data)}`}])
+                    setTemplates([...templates, {url: `data:image/png;base64,${encode(data.data.image.data)}`}])
                 }
             })
             .catch(error => console.log(error))
@@ -195,18 +216,17 @@ const Editor = () => {
             .get(`http://localhost:5001/template?name=${name}`)
             .then(data => {
                 if (templates.length < 3) {
-                    setTemplates([...templates, {image: `data:image/png;base64,${encode(data.data.image.data)}`}])
+                    setTemplates([...templates, {url: `data:image/png;base64,${encode(data.data.image.data)}`}])
                 }
             })
             .catch(error => console.log(error))
     }
 
     const exportCanvas = () => {
-        let name = document.getElementById("title").value
         let templateData = []
         templates.forEach((template, index) => {
             templateData.push({
-                url: template.image,
+                url: template.url,
                 x: templateConfigs[index].x,
                 y: templateConfigs[index].y,
                 width: templateConfigs[index].width,
@@ -260,7 +280,7 @@ const Editor = () => {
         if (mode.draw && templates.length < 3) {
             // set drawing as template
             let imageURL = canvasRef.current.toDataURL()
-            setTemplates([...templates, {image: imageURL}])
+            setTemplates([...templates, {url: imageURL}])
             setMode({draw: false, desktop: true, url: false, camera: false})
         } else {
             let canvasConfig = exportCanvas()
@@ -296,7 +316,7 @@ const Editor = () => {
                         <div
                             className={mode.draw || mode.camera ? styles.hidden : styles.rowCenter}>
                             <form>
-                                <input id="title" type="text" placeholder="meme title"/>
+                                <input type="text" placeholder="meme title" value={name} onChange={e => setName(e.target.value)}/>
                                 <div className={styles.memeTitle}>
                                     <input id="private-meme" type="radio"
                                            onClick={() => setPrivateMeme(!privateMeme)}

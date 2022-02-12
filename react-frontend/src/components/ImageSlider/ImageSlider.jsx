@@ -66,12 +66,11 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, editMeme, aut
                     <ShareButtons slideIndex={slideIndex}/>
                     <div className={imageSlider.horizontalContainer}>
                         {memes.map((meme, i) => {
-                            console.log('Memes: ', memes)
                             return (
                                 <div className={imageSlider.image} key={meme._id}>
                                     <CanvasMeme meme={meme} />
                                     { author ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(meme._id)} /> : "" }
-                                    { author ? <RiEditFill className={imageSlider.editIcon} onClick={() => editMeme(meme._id)} /> : "" } 
+                                    <Link to={`/editor/${meme._id}`}><RiEditFill className={imageSlider.editIcon}/></Link>
                                 </div>
                             )}
                         )}
@@ -94,7 +93,6 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, editMeme, aut
                         {!isClicked ? <ShareButtons url={"www.memegenerator.de/" + `data:image/png;base64,${encode(selectedMeme)}`} /> : "" } 
                         
                         {memes.map((meme, i) => {
-                            console.log('Memes: ', memes)
                             // For slider functionality: determine the indecies of the 3 visible images
                             let firstIndex = slideIndex;
                             let secondIndex = slideIndex + 1;
@@ -125,7 +123,7 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, editMeme, aut
 
                                             <CanvasMeme meme={memes[firstIndex]} />
                                             { author && !isClicked ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[firstIndex]._id)} /> : "" }
-                                            { author && !isClicked ? <RiEditFill className={imageSlider.editIcon} onClick={() => editMeme(memes[firstIndex]._id)} /> : "" } 
+                                            <Link to={`/editor/${meme._id}`}><RiEditFill className={imageSlider.editIcon}/></Link>
                                         </div>
                                         
                                         
@@ -133,13 +131,13 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, editMeme, aut
                                         <div className={imageSlider.image} key={memes[secondIndex]._id} >
                                             <CanvasMeme meme={memes[secondIndex]} />
                                             { author ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[secondIndex]._id)}/> : "" }
-                                            { author ? <RiEditFill className={imageSlider.editIcon} onClick={() => editMeme(memes[secondIndex]._id)} /> : "" } 
+                                            <Link to={`/editor/${meme._id}`}><RiEditFill className={imageSlider.editIcon}/></Link>
                                         </div>
 
                                         <div className={imageSlider.image} key={memes[thirdIndex]._id} > 
                                             <CanvasMeme meme={memes[thirdIndex]} />
                                             { author ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[thirdIndex]._id)} /> : "" }
-                                            { author ? <RiEditFill className={imageSlider.editIcon} onClick={() => editMeme(memes[thirdIndex]._id)} /> : "" } 
+                                            <Link to={`/editor/${meme._id}`}><RiEditFill className={imageSlider.editIcon}/></Link>
                                         </div>
 
                                     </div>
