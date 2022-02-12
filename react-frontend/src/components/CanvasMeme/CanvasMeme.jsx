@@ -18,7 +18,10 @@ const CanvasMeme = ({meme}) => {
                 templateImage.onload = () => {
                     context.drawImage(templateImage, meme.templates[i].x, meme.templates[i].y, meme.templates[i].width, meme.templates[i].height)
                     if (i === meme.templates.length - 1) {
-                        context.font = `${meme.size}px Comic Sans MS`
+                        context.font = `${meme.size}px Impact`
+                        context.shadowColor = "#000"
+                        context.shadowOffsetX = 2
+                        context.shadowOffsetY = 2
                         context.fillStyle = meme.color
                         context.textAlign = "center"
                         for (let j = 0; j < meme.texts.length; j++) {
