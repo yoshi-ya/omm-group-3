@@ -68,6 +68,7 @@ const Overview = (props) => {
                     <CanvasMeme meme={meme}/>
                 </div>
                 <div className={styles.createdByBox}>Created by: {meme.author}</div>
+                <div className={styles.createdByBox}>Name: {meme.name}</div>
                 <div className={styles.iconBox}>
                     <div className={styles.iconBox}>
                         <span>{meme.votes.length}</span>

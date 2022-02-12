@@ -26,6 +26,7 @@ const Editor = () => {
     }, {x: 80, y: 80, width: 300, height: 300}, {x: 120, y: 120, width: 300, height: 300}])
     const [textColor, setTextColor] = useState("#fff")
     const [textSize, setTextSize] = useState(22)
+    const [shadowOffset, setShadowOffset] = useState(2)
     const [privateTemplate, setPrivateTemplate] = useState(false)
     const [privateMeme, setPrivateMeme] = useState(false)
     const [mode, setMode] = useState({draw: false, desktop: true, url: false, camera: false})
@@ -87,8 +88,11 @@ const Editor = () => {
                 templateImage.onload = () => {
                     context.drawImage(templateImage, templateConfigs[i].x, templateConfigs[i].y, templateConfigs[i].width, templateConfigs[i].height)
                     if (i === templates.length - 1) {
-                        context.font = `${textSize}px Comic Sans MS`
+                        context.font = `${textSize}px Impact`
                         context.fillStyle = textColor
+                        context.shadowColor = "#000"
+                        context.shadowOffsetX = shadowOffset
+                        context.shadowOffsetY = shadowOffset
                         context.textAlign = "center"
                         for (let j = 0; j < texts.length; j++) {
                             context.fillText(texts[j].text, xPositions[j].x, yPositions[j].y)
