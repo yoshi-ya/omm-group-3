@@ -2,6 +2,8 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Line} from 'react-chartjs-2';
 import axios from 'axios';
 import {useAuth0} from "@auth0/auth0-react";
+import styles from "./Graphs.module.css";
+
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -55,8 +57,10 @@ const Graphs = (props) => {
     
 
 return(
+    <div className={styles.graph}> 
         <Line
             datasetIdKey='id'
+            
             data={{
             labels: memeNames,
             datasets: [
@@ -69,14 +73,19 @@ return(
                 {
                   id: 2,
                   label: '# of comments',
-                  data: [3, 2, 1],
+                  data: [3, 2, 0, 1, 2, 1, 0, 0, 2],
                   backgroundColor: 'red'
                 },
               ],
+              options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
  }} 
-        height={400}
-        width={600}
-/>
+ 
+       
+    
+/></div>
     )
 }
 export default Graphs;
