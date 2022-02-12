@@ -60,11 +60,13 @@ const Overview = (props) => {
     if (isAuthenticated) {
         return <div className={styles.container}>
 
-            {props.memesList.map((meme, i) => <div className={styles.item} key={i} onClick={() => {
+            {props.memesList.map((meme, i) => <div className={styles.item} key={i}>
+                <div onClick={() => {
                 props.memeNumber.current = i;
                 props.active(true)
-            }}>
-                <CanvasMeme meme={meme}/>
+                }}>
+                    <CanvasMeme meme={meme}/>
+                </div>
                 <div className={styles.createdByBox}>Created by: {meme.author}</div>
                 <div className={styles.createdByBox}>Name: {meme.name}</div>
                 <div className={styles.iconBox}>
