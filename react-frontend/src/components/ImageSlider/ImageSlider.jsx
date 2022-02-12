@@ -68,7 +68,7 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, editMeme, aut
                         {memes.map((meme, i) => {
                             console.log('Memes: ', memes)
                             return (
-                                <div className={imageSlider.slideActive} key={meme._id}>
+                                <div className={imageSlider.image} key={meme._id}>
                                     <CanvasMeme meme={meme} />
                                     { author ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(meme._id)} /> : "" }
                                     { author ? <RiEditFill className={imageSlider.editIcon} onClick={() => editMeme(meme._id)} /> : "" } 
@@ -122,6 +122,7 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, editMeme, aut
                                             key={memes[firstIndex]._id} 
                                             onClick={() => selectMeme(memes[firstIndex].id)}
                                             onDoubleClick={() => setIsClicked(!isClicked)} >
+
                                             <CanvasMeme meme={memes[firstIndex]} />
                                             { author && !isClicked ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[firstIndex]._id)} /> : "" }
                                             { author && !isClicked ? <RiEditFill className={imageSlider.editIcon} onClick={() => editMeme(memes[firstIndex]._id)} /> : "" } 
@@ -131,7 +132,7 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, editMeme, aut
 
                                         <div className={imageSlider.image} key={memes[secondIndex]._id} >
                                             <CanvasMeme meme={memes[secondIndex]} />
-                                            { author ? <BsFillTrashFill className={imageSlider.trashIcon} /> : "" }
+                                            { author ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[secondIndex]._id)}/> : "" }
                                             { author ? <RiEditFill className={imageSlider.editIcon} onClick={() => editMeme(memes[secondIndex]._id)} /> : "" } 
                                         </div>
 
