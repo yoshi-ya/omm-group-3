@@ -7,7 +7,11 @@ import EditorPickFromUrl from "../EditorPickFromUrl/EditorPickFromUrl";
 import axios from "axios";
 import {encode} from "base64-arraybuffer";
 import EditorPickFromCamera from '../EditorPickFromCamera/EditorPickFromCamera';
+import audioIcon from "./audio.png"
+import microphoneIcon from "./microphone.png"
 
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+const recognition = new SpeechRecognition()
 
 const Editor = () => {
     const [templates, setTemplates] = useState([])
@@ -27,17 +31,41 @@ const Editor = () => {
     const [isDrawing, setIsDrawing] = useState(false)
     const canvasRef = useRef(0)
     const {isAuthenticated, user} = useAuth0()
+    const mic = useRef(null)
+
 
     const clear = () => {
         setTemplates([])
     }
 
+    const tts = (text) => {
+        let tts = new SpeechSynthesisUtterance()
+        tts.text = text
+        window.speechSynthesis.speak(tts)
+    }
+
+    const stt = (index) => {
+        recognition.interimResults = true
+        recognition.lang = "en-US"
+        recognition.start()
+        recognition.onresult = e => {
+            const transcript = Array.from(e.results)
+                .map(result => result[0])
+                .map(result => result.transcript)
+                .join('')
+            setText(index, transcript)
+        }
+        recognition.onend = () => {
+            recognition.stop()
+        }
+    }
+
     useEffect(() => {
-         if (canvasRef.current) {
-             const context = canvasRef.current.getContext("2d")
-             context.fillStyle = "black"
-             context.fillRect(0, 0, canvasWidth, canvasHeight)
-         }
+        if (canvasRef.current) {
+            const context = canvasRef.current.getContext("2d")
+            context.fillStyle = "black"
+            context.fillRect(0, 0, canvasWidth, canvasHeight)
+        }
     }, [templates])
 
     useEffect(() => {
@@ -53,6 +81,7 @@ const Editor = () => {
     }, [canvasRef, mode])
 
     useEffect(() => {
+        console.log(texts)
         if (templates.length > 0 && !mode.draw) {
             const context = canvasRef.current.getContext("2d")
             context.fillStyle = "black"
@@ -253,16 +282,19 @@ const Editor = () => {
         <div className={styles.outerContainer}>
             <div className={styles.editorContainer}>
                 <div className={styles.splitView}>
-                    <div className={mode.draw || mode.camera ? styles.drawModeLeft : styles.splitLeft}>
+                    <div
+                        className={mode.draw || mode.camera ? styles.drawModeLeft : styles.splitLeft}>
                         <EditorPickFromCamera setPrivateTemplate={setPrivateTemplate}
                                               privateTemplate={privateTemplate}
                                               templates={templates} setTemplates={setTemplates}
                                               visible={mode.camera} setMode={setMode}/>
                         <canvas id="canvas" ref={canvasRef} width={canvasWidth}
                                 height={canvasHeight}
-                                className={mode.camera ? styles.hidden : styles.canvas} onMouseDown={startDrawing}
+                                className={mode.camera ? styles.hidden : styles.canvas}
+                                onMouseDown={startDrawing}
                                 onMouseUp={finishDrawing} onMouseMove={draw}/>
-                        <div className={mode.draw || mode.camera ? styles.hidden : styles.rowCenter}>
+                        <div
+                            className={mode.draw || mode.camera ? styles.hidden : styles.rowCenter}>
                             <form>
                                 <input id="title" type="text" placeholder="meme title"/>
                                 <div className={styles.memeTitle}>
@@ -339,34 +371,41 @@ const Editor = () => {
                                 key={index + 1}>
                                 <span className={styles.title}>{`Caption ${index + 1}`}</span>
                                 <div className={styles.row}>
-                                    <input className={styles.item} type="text"
-                                           placeholder={`text ${index + 1}`}
-                                           onChange={e => setText(index, e.target.value)}/>
-                                    <span className={styles.item}>x</span>
-                                    <input className={styles.item} type="number"
-                                           value={xPositions[index].x}
-                                           onChange={e => setXForText(index, e.target.value)}/>
-                                    <span className={styles.item}>y</span>
-                                    <input className={styles.item} type="number"
-                                           value={yPositions[index].y}
-                                           onChange={e => setYForText(index, e.target.value)}/>
+                                    <div className={styles.audio}>
+                                        <input className={styles.item} type="text"
+                                               placeholder={`text ${index + 1}`}
+                                               onChange={e => setText(index, e.target.value)}
+                                               value={texts[index].text}
+                                        />
+                                        <button className={styles.item}
+                                                onClick={() => tts(texts[index].text)}>
+                                            <img className={styles.item} src={audioIcon} alt="tts"/>
+                                        </button>
+                                        <button className={styles.item} ref={mic}
+                                                onClick={() => stt(index)}>
+                                        <img className={styles.item} src={microphoneIcon}
+                                             alt="stt"/>
+                                    </button>
                                 </div>
+                                <span className={styles.item}>x</span>
+                                <input className={styles.item} type="number"
+                                       value={xPositions[index].x}
+                                       onChange={e => setXForText(index, e.target.value)}/>
+                                <span className={styles.item}>y</span>
+                                <input className={styles.item} type="number"
+                                       value={yPositions[index].y}
+                                       onChange={e => setYForText(index, e.target.value)}/>
+                            </div>
                                 <div className={styles.row}>
-                                    <button className={styles.item} onClick={() => {
-                                        setXForText(index, canvasWidth / 2)
-                                        setYForText(index, canvasHeight / 2)
-                                    }}>center
-                                    </button>
-                                    <button className={styles.item} onClick={() => {
-                                        setXForText(index, canvasWidth / 2)
-                                    }}>center X
-                                    </button>
-                                    <button className={styles.item} onClick={() => {
-                                        setYForText(index, canvasHeight / 2)
-                                    }}>center Y
-                                    </button>
+                                <button className={styles.item} onClick={() => {setXForText(index, canvasWidth / 2)
+                                setYForText(index, canvasHeight / 2)}}>center
+                                </button>
+                                <button className={styles.item} onClick={() => {setXForText(index, canvasWidth / 2)}}>center X
+                                </button>
+                                <button className={styles.item} onClick={() => {setYForText(index, canvasHeight / 2)}}>center Y
+                                </button>
                                 </div>
-                            </div>)}
+                                </div>)}
                             <div className={templates.length > 0 ? styles.wrapper : styles.hidden}>
                                 <span className={styles.title}>Canvas</span>
                                 <div className={styles.row}>
