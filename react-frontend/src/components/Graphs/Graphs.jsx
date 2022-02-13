@@ -5,26 +5,11 @@ import {useAuth0} from "@auth0/auth0-react";
 import styles from "./Graphs.module.css";
 
 import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-    } from 'chart.js';
+    Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend,
+} from 'chart.js';
 
 
-ChartJS.register(
-        CategoryScale,
-        LinearScale,
-        PointElement,
-        LineElement,
-        Title,
-        Tooltip,
-        Legend
-        );
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 /**
  * Draws the main Graph
@@ -44,24 +29,33 @@ const Graphs = (props) => {
     const numOfVotes = votes.map(votes => votes.length);
 
 
-    useEffect(() =>{
-        if(props && props.memesList && memeIDs === []){
-        setMemeIDs(props.memesList.map(meme => meme._id))
+    useEffect(() => {
+        if (props && props.memesList && memeIDs === []) {
+            setMemeIDs(props.memesList.map(meme => meme._id))
         }
-    }
-    ,[])
-    
+    }, [])
+
+    useEffect(() => {
+        if (memes && memes.length > 0) {
+            let numberOfComments = []
+            for (let i = 0; i < memes.length; i++) {
+                numberOfComments = [...numberOfComments, comments.filter(comment => comment.meme === memes[i]._id).length]
+            }
+            setNumOfComments(numberOfComments)
+        }
+    }, [memes])
+
     /**
      * fetch the current comments from all memes on component load
      */
     useEffect(() => {
-            fetchComments()
-                .then(data => {
-                    setComments(data.data)
-                    setMemes(props.memesList)
-                })
-                .catch(error => console.log(error))
-    }, [props.visible])
+        fetchComments()
+            .then(data => {
+                setComments(data.data)
+                setMemes(props.memesList)
+            })
+            .catch(error => console.log(error))
+    }, [props.visible, props.memesList])
 
     /**
      * fetches all comments from the backend
@@ -71,49 +65,27 @@ const Graphs = (props) => {
         return await axios.get(`http://localhost:5001/allCommentsFromAll`)
     }
 
-    const readCommentsForMeme = () =>{
-        console.log(memes)
-        if(memes !== []){
-        for(let i = 0; i< memes.length; i++){
-            numOfComments.push(comments.filter(comment => comment.meme === memes[i]._id).length)
-        }}
-    }
-    readCommentsForMeme();
+    /**
+     * draw the graph with current votes of every meme and the (hardcoded) comments
+     */
+    return (<div className={styles.graph}>
+            <Line
+                datasetIdKey='id'
+
+                data={{
+                    labels: memeNames, datasets: [{
+                        id: 1, label: '# of votes', data: numOfVotes, backgroundColor: '#ff4f84'
+                    }, {
+                        id: 2,
+                        label: '# of comments',
+                        data: numOfComments,
+                        backgroundColor: '#844fff'
+                    },], options: {
+                        responsive: true, maintainAspectRatio: false
+                    }
+                }}
 
 
-/**
- * draw the graph with current votes of every meme and the (hardcoded) comments
- */
-return(
-    <div className={styles.graph}>
-        <Line
-            datasetIdKey='id'
-
-            data={{
-            labels: memeNames,
-            datasets: [
-                {
-                  id: 1,
-                  label: '# of votes',
-                  data: numOfVotes,
-                  backgroundColor: '#ff4f84'
-                },
-                {
-                  id: 2,
-                  label: '# of comments',
-                  data: numOfComments,
-                  backgroundColor: '#844fff'
-                },
-              ],
-              options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
- }}
-
-
-
-/></div>
-    )
+            /></div>)
 }
 export default Graphs;

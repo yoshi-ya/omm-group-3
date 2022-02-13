@@ -196,7 +196,7 @@ const Gallery = () => {
         </div>
         {!singleViewActive ? (
         <>
-        <Graphs memesList={allMemes} setMemes={setAllMemes} memeNumber={memeNumber}/>
+        <Graphs memesList={allMemes} setMemes={setAllMemes} memeNumber={memeNumber} visible={singleViewActive}/>
         <Overview memesList={allMemes} setMemes={setAllMemes} memeNumber={memeNumber} active={setSingleViewActive}/> </>)
          : <SingleView memesList={allMemes} memeNumber={memeNumber}
                     active={setSingleViewActive}/>}</div>
