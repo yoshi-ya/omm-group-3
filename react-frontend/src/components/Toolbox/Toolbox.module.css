@@ -23,8 +23,9 @@
     margin-left: 22px;
     cursor: pointer;
     opacity: 100%;
-    outline-offset: 5px;
-    outline: #40eb4e dotted;
+    outline-offset: 2px;
+    background: greenyellow;
+    outline: green dashed 1px;
 }
 
 .toolActive:hover {

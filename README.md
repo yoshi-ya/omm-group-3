@@ -6,6 +6,7 @@
 
 * Project setup
 * API documentation
+* Automated Tests
 
 ## Project setup
 
@@ -182,3 +183,13 @@ request URL: http://localhost:5001/retrieveMemes?limit=2&sort=oldest
   }
 ]
 ```
+
+## Automated Tests
+
+We provided 5 automated tests under `/__tests__/test.js`
+
+To run the test-suite, navigate inside `/express-backend` and type the following command
+
+````shell
+npm test
+````

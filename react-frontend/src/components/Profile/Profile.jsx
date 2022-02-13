@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import UserInfos from '../UserInfos/UserInfos'
 
+
 const Profile = () => {
     const {isAuthenticated} = useAuth0();
 

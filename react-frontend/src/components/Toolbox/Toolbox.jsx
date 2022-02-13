@@ -48,7 +48,7 @@ const Toolbox = (props) => {
                 url: false,
                 camera: false
             })}>
-                <img className={styles.tool} src={uploadIcon} alt="uploadIcon"/>
+                <img className={props.mode.desktop ? styles.toolActive : styles.tool} src={uploadIcon} alt="uploadIcon"/>
             </div>
             <span className={styles.tooltipText}>Pick from files</span>
         </div>
@@ -59,7 +59,7 @@ const Toolbox = (props) => {
                     url: false,
                     camera: true
                 })}>
-                <img className={styles.tool} src={cameraIcon} alt="cameraIcon"/>
+                <img className={props.mode.camera ? styles.toolActive : styles.tool} src={cameraIcon} alt="cameraIcon"/>
                 </div>
             <span className={styles.tooltipText}>Use Webcam</span>
         </div>
@@ -70,7 +70,7 @@ const Toolbox = (props) => {
                 url: true,
                 camera: false
             })}>
-                <img className={styles.tool} src={urlIcon} alt="urlIcon"/>
+                <img className={props.mode.url ? styles.toolActive : styles.tool} src={urlIcon} alt="urlIcon"/>
             </div>
             <span className={styles.tooltipText}>Pick from URL</span>
         </div>
