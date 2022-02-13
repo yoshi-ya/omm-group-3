@@ -26,7 +26,12 @@ ChartJS.register(
         Legend
         );
 
-        
+/**
+ * Draws the main Graph
+ * Library: https://www.chartjs.org/docs/latest/
+ * @param {*} props 
+ * @returns 
+ */       
 
 const Graphs = (props) => {
 
@@ -41,7 +46,9 @@ const Graphs = (props) => {
     const memeComments = [];
     console.log(memeIds)
 
-
+    /**
+     * fetch the current comments from all memes on component load
+     */
     useEffect(() => {
             fetchComments()
                 .then(data => {
@@ -51,11 +58,17 @@ const Graphs = (props) => {
                 .catch(error => console.log(error))
     }, [props.visible])
 
+    /**
+     * fetches all comments from the backend
+     * @returns the current comments
+     */
     const fetchComments = async () => {
         return await axios.get(`http://localhost:5001/allCommentsFromAll`)
     }
     
-
+/**
+ * draw the graph with current votes of every meme and the (hardcoded) comments
+ */
 return(
     <div className={styles.graph}> 
         <Line

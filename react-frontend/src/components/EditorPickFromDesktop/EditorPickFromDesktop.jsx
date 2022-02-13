@@ -5,11 +5,19 @@ import {encode} from "base64-arraybuffer";
 import styles from "./EditorPickFromDesktop.module.css"
 
 
-
+/**
+ * Allows the User to pick a picture from the desktop
+ * @param {*} props 
+ * @returns 
+ */
 const EditorPickFromDesktop = (props) => {
 
     const {user} = useAuth0()
 
+    /**
+     * sends the uploaded image to the backend to use as template
+     * @param {*} event 
+     */
     const uploadTemplate = event => {
         event.preventDefault()
         let template = event.target.template.files[0]

@@ -6,6 +6,10 @@ const EditorPickFromUrl = (props) => {
 
     const [imageURL, setImageURL] = useState("");
 
+    /**
+     * checks if picked URL is actually an URL
+     * @returns 
+     */
     const isValidUrl = () => {
         try {
             let url = new URL(imageURL)
@@ -15,6 +19,9 @@ const EditorPickFromUrl = (props) => {
         }
     }
 
+    /**
+     * adds the picked image URL to the current templates
+     */
     const pickFromUrl = () => {
         if (isValidUrl() && props.templates.length < 3) {
             props.setTemplates([...props.templates, {image: imageURL}])

@@ -7,7 +7,11 @@ const MovableTextBox = ({ moveRef, setStyle }) => {
   React.useEffect(() => {
     setRenderMovable(true);
   }, []);
-
+  
+  /**
+   * handle dragging of the textboxes
+   * @param {} e 
+   */
   const handleDrag = e => {
     setStyle(e.transform);
   };

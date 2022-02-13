@@ -4,8 +4,18 @@ import {useNavigate} from 'react-router-dom';
 import MovableTextBox from '../MovableTextBox/MovableTextBox';
 import axios from 'axios';
 
+/**
+ * Meme generation with Imgflip API
+ * Source: https://www.youtube.com/watch?v=SMzAcBEc6Zk&t=2113s
+ * @returns 
+ */
+
 export const Meme = () => {
 
+    const navigate = useNavigate();
+
+    const moveRef = React.useRef(null);
+    const [style, setStyle] = React.useState("");
     const [memes, setMemes] = useState([]);
     const [memeIndex, setMemeIndex] = useState(0);
     const [texts, setTexts] = useState(() => {
@@ -13,19 +23,48 @@ export const Meme = () => {
         const iniVal = JSON.parse(saved);
         return iniVal || [];
     });
-    const [template, setTemplate] = useState("");
+
+    /**
+     * fetches the memes from Imgflip api and saves the array in state
+     */
+    useEffect(() => {
+        fetch('https://api.imgflip.com/get_memes').then(res => {
+            res.json().then(res => {
+                console.log(res);
+                const _memes = res.data.memes;
+                shuffleMemes(_memes);
+                setMemes(_memes);
+            });
+        });
+    }, []);
+
+    /**
+     * create empty boxes depending on the number of texts of the meme
+     */
+    useEffect(() => {
+        if (memes.length) {
+            setTexts(Array(memes[memeIndex].box_count).fill(''));
+        }
+    }, [memeIndex, memes])
 
 
-    const moveRef = React.useRef(null);
-    const [style, setStyle] = React.useState("");
+    useEffect(() => {
+        console.log(texts);
+    }, [texts])
 
 
-    const navigate = useNavigate();
-
+    /**
+     * save the captions in the local storage
+     */
     useEffect(() => {
         localStorage.setItem('Captions', JSON.stringify(texts));
     }, [texts])
 
+    /**
+     * updates the texts live
+     * @param {} e 
+     * @param {*} index 
+     */
     const updateTexts = (e, index) => {
         const text = e.target.value || '';
         setTexts(texts.map((c, i) => {
@@ -37,6 +76,9 @@ export const Meme = () => {
         }))
     }
 
+    /**
+     * generate the meme with the help of imgflip API
+     */
     const generateMeme = () => {
         const posText1 = document.getElementById("text1");
         const xpos = posText1.getBoundingClientRect().x;
@@ -74,7 +116,6 @@ export const Meme = () => {
      * @param {event} param0
      */
     const handleNewMeme = () => {
-        // event.preventDefault();
         const memeURL = localStorage.getItem('MemeURL');
         const meme = {
             template: memeURL, text1: texts[1], text2: texts[2]
@@ -84,6 +125,10 @@ export const Meme = () => {
         })
     }
 
+    /**
+     * creates a random array with the fetched memes
+     * @param {*} array 
+     */
     const shuffleMemes = (array) => {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * i);
@@ -93,27 +138,6 @@ export const Meme = () => {
         }
     };
 
-    useEffect(() => {
-        fetch('https://api.imgflip.com/get_memes').then(res => {
-            res.json().then(res => {
-                console.log(res);
-                const _memes = res.data.memes;
-                shuffleMemes(_memes);
-                setMemes(_memes);
-            });
-        });
-    }, []);
-
-    useEffect(() => {
-        if (memes.length) {
-            setTexts(Array(memes[memeIndex].box_count).fill(''));
-        }
-    }, [memeIndex, memes])
-
-
-    useEffect(() => {
-        console.log(texts);
-    }, [texts])
 
     return (memes.length ? <div>
             <button onClick={generateMeme} className={styles.generate}>Generate</button>
