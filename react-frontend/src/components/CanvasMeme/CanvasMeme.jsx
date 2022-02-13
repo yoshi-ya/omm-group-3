@@ -9,8 +9,19 @@ const CanvasMeme = ({meme}) => {
 
     const canvasRef = useRef(0)
     const [comments, setComments] = useState([]);
-   // const numOfVotes = Object.keys(meme.votes).length
-    const numOfVotes = meme.votes.length;
+    const [numOfVotes, setNumOfVotes] = useState(0);
+
+    useEffect(() =>{
+        if(meme && meme.votes){ setNumOfVotes(meme.votes.length)
+            localStorage.setItem('votes', meme.votes.length)
+}
+            
+        else{
+            setNumOfVotes(localStorage.getItem('votes'));
+        }
+    
+       
+},[])
 
     useEffect(() => {
         if (meme._id) {
