@@ -2,7 +2,7 @@ const request = require("supertest");
 const server = 'http://localhost:5001'
 
 // ID of the meme used to test
-const testId = '6202a0ea093088997f95b710'
+const testId = '62095434d95325415cacb962'
 const testUser = 'Test User'
 const testComment = 'This is a test comment'
 
