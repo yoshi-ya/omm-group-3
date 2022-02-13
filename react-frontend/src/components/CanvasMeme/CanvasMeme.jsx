@@ -41,9 +41,7 @@ return (
         <div>
         <canvas ref={canvasRef} width={meme.canvasWidth ? meme.canvasWidth : 400} height={meme.canvasHeight ? meme.canvasHeight : 400}
                 className={styles.canvas}/>
-                
-        <div className={styles.smallgraph}> 
-        </div> </div>
+        </div>
                 );
                 
 };

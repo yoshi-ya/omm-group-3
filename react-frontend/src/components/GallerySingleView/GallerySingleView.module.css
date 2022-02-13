@@ -1,124 +1,132 @@
 .wrapper {
-    height: calc(100vh - 112px);
-    min-height: calc(364px + 112px);
-    position: relative;
+  height: calc(100vh - 112px);
+  min-height: calc(364px + 112px);
+  position: relative;
+}
+
+.smallgraph {
+  position: relative;
+  padding-top: 2vw;
 }
 
 .memeWrapper {
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .meme {
-    width: 364px;
-    height: 364px;
-    border: 1px solid #0D5C64;
+  width: 364px;
+  height: 364px;
+  border: 1px solid #0d5c64;
 }
 
 .sliderButtonsWrapper {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 .sliderButtons {
-    width: calc(112px + 10px);
-    display: inline-block;
-    margin-top: 12px;
+  width: calc(112px + 10px);
+  display: inline-block;
+  margin-top: 12px;
 }
 
 .sliderButtons div {
-    width: 56px;
-    height: 24px;
-    position: relative;
-    cursor: pointer;
+  width: 56px;
+  height: 24px;
+  position: relative;
+  cursor: pointer;
 }
 
 .sliderButtonLeft {
-    float: left;
-    background-color: black;
-    box-shadow: none;
+  float: left;
+  background-color: black;
+  box-shadow: none;
 }
 
 .sliderButtonRight {
-    float: right;
-    background-color: black;
-    box-shadow: none;
+  float: right;
+  background-color: black;
+  box-shadow: none;
 }
 
-.sliderButtonLeft::after, .sliderButtonRight::after {
-    content: "";
-    background-color: white;
-    position: absolute;
-    top: 0;
-    width: 0;
-    height: 0;
+.sliderButtonLeft::after,
+.sliderButtonRight::after {
+  content: "";
+  background-color: white;
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 0;
 }
 
 .sliderButtonLeft::after {
-    left: 0;
-    border-top: 12px solid transparent;
-    border-right: 24px solid black;
-    border-bottom: 12px solid transparent;
+  left: 0;
+  border-top: 12px solid transparent;
+  border-right: 24px solid black;
+  border-bottom: 12px solid transparent;
 }
 
 .sliderButtonRight::after {
-    left: calc(100% - 24px);
-    border-top: 12px solid transparent;
-    border-left: 24px solid black;
-    border-bottom: 12px solid transparent;
+  left: calc(100% - 24px);
+  border-top: 12px solid transparent;
+  border-left: 24px solid black;
+  border-bottom: 12px solid transparent;
 }
 
-.buttonLeft, .buttonRight {
-    width: 36px;
-    box-shadow: none;
-    cursor: pointer;
+.buttonLeft,
+.buttonRight {
+  width: 36px;
+  box-shadow: none;
+  cursor: pointer;
 }
 
 .buttonLeft {
-    float: left;
+  float: left;
 }
 
 .buttonRight {
-    float: right;
-    margin-right: 32px;
+  float: right;
+  margin-right: 32px;
 }
 
 .closeView {
-    position: absolute;
-    width: 0;
-    height: 0;
-    background-color: red;
-    top: -12px;
-    left: 100%;
-    cursor: pointer;
+  position: absolute;
+  width: 0;
+  height: 0;
+  background-color: red;
+  top: -12px;
+  left: 100%;
+  cursor: pointer;
 }
 
 .closeView::after {
-    content: "";
-    width: 4px;
-    height: 26px;
-    position: absolute;
-    background-color: black;
-    transform: translateX(11px) rotate(45deg);
-    top: -18px;
-    left: calc(100% + 12px);
+  content: "";
+  width: 4px;
+  height: 26px;
+  position: absolute;
+  background-color: black;
+  transform: translateX(11px) rotate(45deg);
+  top: -18px;
+  left: calc(100% + 12px);
 }
 
 .closeView::before {
-    content: "";
-    width: 26px;
-    height: 4px;
-    position: absolute;
-    background-color: black;
-    transform: translateY(11px) rotate(45deg);
-    top: -18px;
-    left: calc(100% + 12px);
+  content: "";
+  width: 26px;
+  height: 4px;
+  position: absolute;
+  background-color: black;
+  transform: translateY(11px) rotate(45deg);
+  top: -18px;
+  left: calc(100% + 12px);
 }
 
-.closeView:hover::before, .closeView:hover::after {
-    background-color: orangered;
-    transition: background-color ease-in-out .2s;
+.closeView:hover::before,
+.closeView:hover::after {
+  background-color: orangered;
+  transition: background-color ease-in-out 0.2s;
 }

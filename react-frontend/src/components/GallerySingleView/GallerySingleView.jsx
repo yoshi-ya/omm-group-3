@@ -120,7 +120,7 @@ const GallerySingleView = (props) => {
                              }}/>
                     </div>
                 </div>
-
+                <div className={styles.smallgraph}> 
                 <Bar
             data={{
             labels: ['Votes/Comments'],
@@ -144,6 +144,7 @@ const GallerySingleView = (props) => {
             }
  }} /></div>
             </div>
+            </div> 
     </>);
 };
 
