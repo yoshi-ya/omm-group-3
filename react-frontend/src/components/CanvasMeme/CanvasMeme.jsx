@@ -1,10 +1,11 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect,useState, useRef} from 'react';
 import styles from "./CanvasMeme.module.css";
 
 
 const CanvasMeme = ({meme}) => {
 
     const canvasRef = useRef(0)
+    
 
 
     useEffect(() => {
@@ -35,9 +36,13 @@ const CanvasMeme = ({meme}) => {
 
     if (!meme) return <div/>
 
-    return (
+return (
+        <div>
         <canvas ref={canvasRef} width={meme.canvasWidth ? meme.canvasWidth : 400} height={meme.canvasHeight ? meme.canvasHeight : 400}
-                className={styles.canvas}/>);
+                className={styles.canvas}/>
+        </div>
+                );
+                
 };
 
 export default CanvasMeme;

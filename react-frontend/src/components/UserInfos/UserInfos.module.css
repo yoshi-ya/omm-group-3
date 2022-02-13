@@ -9,10 +9,8 @@
 /*--- User infos on the left side ---*/
 .container > *:nth-child(1) {
     flex: 1 1 15%;
-    /* height: 100%; */
     height: 60%;
     min-width: 340px; 
-    align-self: center;
 }
 
 /*--- Meme sliders on the right side ---*/
@@ -22,7 +20,7 @@
     height: 100%;
 }
 
-/*--- 2 cards ---*/
+/*--- 2 cards on the right side ---*/
 .verticalBox {
     display: flex;
     flex-direction: column;
@@ -35,15 +33,19 @@
     background-color:whitesmoke;
     margin: 8px;
     border-radius: 15px;
-    height: 49%;
+    min-height: 400px; 
+    height: 100%;
     width: 100%; /* Don't delete - it's a parent of other elements that need a set width */
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     padding-bottom: 20px;
     box-sizing: border-box;
     position: relative;
 }
 .card h3 {  
+    position: absolute;
+    top: 0; left: 0;
     margin: 15px 20px 30px 20px;
     font-size: 1.6em;
 }
@@ -58,80 +60,37 @@
 
 /*--- Welcome text in card ---*/
 .welcome {
+    margin-top: 20px;
     text-align: center;
 }
 
 /* User infos on the left side */
 .imageArea {
     background-color: #343434;
+    min-height: 100px;
     height: 300px;
     background-size: cover;
     border-radius: 15px 15px 0 0;
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: auto;
     text-align: center;
 }
 
 /*--- Profile picture (background) ---*/
-#profilePicture {
+.profilePicture {
+    margin: 8px;
     background-color: #000;
     background-size: cover;
     background-position: center;
-    width: 180px;
-    height: 180px;
-    border-radius: 30px;
+    width: 15%;
+    min-width: 80px;
+    border-radius: 50%;
     position: absolute;
-    top: 50%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-/*--- Slider button ---*/
-.button {
-    position: relative;
-    background-color: #454545;
-    min-width: 20px;
-    width: 30%;
-    line-height: 1.7rem;
-    color: white;
-    text-align: center;
-    padding: 4px 8px;
-    margin: 10px;
-    border-radius: 5px;
-    outline: 0;
-    text-transform: uppercase;
-    cursor: pointer;
-    box-shadow: 0px 2px 2px grey;
-    transition: ease background-color 250ms;
-}
-.button:hover {
-    background-color: #232323;
-}
 
-/*--- Upload button for selecting a profile picture ---*/
-#uploadBtn {
-    margin: auto 10px 0 10px; /* margin-top: auto pushs button to the bottom */
-    background-color: #454545;
-    line-height: 2rem;
-    color: white;
-    text-align: center;
-    padding: 6px 10px;
-    border-radius: 5px;
-    outline: 0;
-    text-transform: uppercase;
-    cursor: pointer;
-    box-shadow: 0px 2px 2px grey;
-    transition: ease background-color 250ms;
-}
-.uploadBtn:hover {
-    background-color: #232323;
-}
 
-/*--- Background for profile picture ---*/
-.imageArea img {
-    margin-top: 12px;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-}
 

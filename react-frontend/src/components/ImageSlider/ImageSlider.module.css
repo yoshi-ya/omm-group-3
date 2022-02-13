@@ -2,6 +2,7 @@
 .slider {
     position: relative; 
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center; 
     height: 100%;
@@ -19,42 +20,30 @@
 }
 .emptySlider > *:nth-child(1) {
     font-family: 'Impact';
-    font-size: 2em;
+    font-size: 3em;
     font-weight: bold;
     color: #3190A4;
 }
-
-/*
-/*--- Vertical inner container with share buttons images ---
-.verticalContainer {
-    position: relative;
-    display: flex;
-    align-items: center;
-    flex-direction: column;   
-    width: 100%;
-    height: 100%;
-}*/
 
 /*--- Horizontal container with all memes ---*/
 .horizontalContainer {
     position: relative;
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
     width: 100%; 
     height: 100%; 
 }
 
 /*--- Container for one meme ---*/
 .image {
-    height: 270px;
-    max-height: 30vh;
+    width: 20%;
     position: relative; /* Important for positioning the trash icon */
-    margin: 20px 10px 20px 10px;
+    margin: 20px 10px 10px 10px;
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.4), 0 3px 10px 0 rgba(0, 120, 144, 0.6);
-    /* transition: ease transform 200ms; */
 }
-
 .image:hover{
     box-shadow: 0 5px 10px 0 rgba(0, 85, 102, 0.7), 0 6px 20px 0 rgba(0, 152, 182, 0.9);
     transform:scale(1.05,1.05);
@@ -72,10 +61,6 @@
     opacity: 1;
 }
 
-/* CanvasMeme component */
-.image > *:nth-child(1) {
-    height: 100%;
-}
 /* Dark overlay of a meme */
 .image:after {
     content: '';
@@ -149,8 +134,8 @@
 .rightArrow {
     position: absolute;
     top: 50%;
-    right: 30px;
-    font-size: 2.6rem;
+    right: 20px;
+    font-size: 2.4rem;
     color: #343434;
     z-index: 5;
     cursor: pointer;
@@ -167,8 +152,8 @@
 .leftArrow {
     position: absolute;
     top: 50%;
-    left: 30px;
-    font-size: 2.6rem;
+    left: 20px;
+    font-size: 2.4rem;
     color: #343434;
     z-index: 5;
     cursor: pointer;
@@ -184,27 +169,28 @@
 
 /*--- Slider button in empty slider ---*/
 .sliderButton {
-    background-color: #666666;
+    position: relative;
+    background-color: #565656;
+    min-width: 20px;
     width: 100px;
     line-height: 1.7rem;
     overflow: hidden;
-    padding: 1px 2px;
+    padding: 6px 8px;
     margin-top: 25px;
-    text-align: center;
     border-radius: 5px;
     outline: 0;
     cursor: pointer;
+    text-align: center;
     box-shadow: 0 2px 2px grey;
     transition: ease background-color 250ms;
 }
 .sliderButton:hover {
-    background-color: #454545;
+    background-color: #232323;
 }
 .sliderButton > a {
     color: #FFF;
     text-decoration: none;
     text-transform: uppercase;
-    text-align: center;
     font-size: 1em;
 }
 .sliderButton > a:hover {

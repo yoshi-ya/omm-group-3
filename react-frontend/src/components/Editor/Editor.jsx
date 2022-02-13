@@ -77,7 +77,7 @@ const Editor = () => {
     }, [canvasRef, mode])
 
     useEffect(() => {
-        if (templates.length > 0 && !mode.draw) {
+        if (templates.length > 0 && !mode.draw && canvasRef.current) {
             const context = canvasRef.current.getContext("2d")
             context.fillStyle = "black"
             context.fillRect(0, 0, canvasWidth, canvasHeight)

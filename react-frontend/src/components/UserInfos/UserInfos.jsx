@@ -13,6 +13,7 @@ const UserInfos = () => {
     const [otherMemes, setOtherMemes] = useState([]);
     const [allMemes, setAllMemes] = useState([]);
 
+    // Set the initial state of the profile picture 
     useEffect(() => {
         setAvatar(user.picture);
     }, [])
@@ -45,7 +46,7 @@ const UserInfos = () => {
     }, [allMemes])
 
     
-    // Get all memes from server that are createb by the logged in user
+    // Get all memes from server that are created by the logged in user
     const fetchMyMemes = async () => {
         return await axios.get(`http://localhost:5001/allMemes?author=${user.name}`)
     }
@@ -86,29 +87,23 @@ const UserInfos = () => {
 
     return (<div className={userInfos.container}>
             <div className={userInfos.card}>
-
                 <div className={userInfos.imageArea}>
-                    <img src={avatar} alt="profile-pic"/>
+                    <img src={avatar} alt="profile-pic" className={userInfos.profilePicture}/>
                 </div>
                 <div className={userInfos.welcome}>
-                    <span style={{textAlign: "center"}}>Welcome back,</span>
+                    <span style={{textAlign: "center"}}>Welcome back</span>
                     <h2 style={{textAlign: "center"}}> {user.name} </h2>
                 </div>
-
             </div>
-
             <div className={userInfos.verticalBox}>
-
                 <div className={userInfos.card}>
                     <h3 className={userInfos.cardTitle}>My created memes</h3>
                     <ImageSlider memes={myMemes} sliderText={"Let's create a meme!"} sliderButton={'Editor'} deleteMeme={deleteMeme} author={true}/>
                 </div>
-
                 <div className={userInfos.card}>
                     <h3 className={userInfos.cardTitle}>Memes I liked :) </h3>
                     <ImageSlider memes={otherMemes} sliderText={"Let's search for some funny memes!"} sliderButton={'Gallery'} author={false}/>
                 </div>
-
             </div>
         </div>);
 }
