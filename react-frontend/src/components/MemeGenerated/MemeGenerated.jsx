@@ -3,8 +3,7 @@ import styles from './styles.module.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 /**
- * 
- * Meme generation with Imgflip API
+ * Meme generation with Imgflip API (not used anymore in main application)
  * Source: https://www.youtube.com/watch?v=SMzAcBEc6Zk&t=2113s
  * @returns 
  */

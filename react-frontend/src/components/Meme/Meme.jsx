@@ -5,7 +5,7 @@ import MovableTextBox from '../MovableTextBox/MovableTextBox';
 import axios from 'axios';
 
 /**
- * Meme generation with Imgflip API
+ * Meme generation with Imgflip API (not used anymore in main application)
  * Source: https://www.youtube.com/watch?v=SMzAcBEc6Zk&t=2113s
  * @returns 
  */
