@@ -26,7 +26,6 @@ const Editor = () => {
     }, {x: 80, y: 80, width: 300, height: 300}, {x: 120, y: 120, width: 300, height: 300}])
     const [textColor, setTextColor] = useState("#fff")
     const [textSize, setTextSize] = useState(22)
-    const [shadowOffset, setShadowOffset] = useState(2)
     const [privateTemplate, setPrivateTemplate] = useState(false)
     const [privateMeme, setPrivateMeme] = useState(false)
     const [mode, setMode] = useState({draw: false, desktop: true, url: false, camera: false})
@@ -78,7 +77,7 @@ const Editor = () => {
     }, [canvasRef, mode])
 
     useEffect(() => {
-        if (templates.length > 0 && !mode.draw) {
+        if (templates.length > 0 && !mode.draw && canvasRef.current) {
             const context = canvasRef.current.getContext("2d")
             context.fillStyle = "black"
             context.fillRect(0, 0, canvasWidth, canvasHeight)
@@ -91,8 +90,8 @@ const Editor = () => {
                         context.font = `${textSize}px Impact`
                         context.fillStyle = textColor
                         context.shadowColor = "#000"
-                        context.shadowOffsetX = shadowOffset
-                        context.shadowOffsetY = shadowOffset
+                        context.shadowOffsetX = "2"
+                        context.shadowOffsetY = "2"
                         context.textAlign = "center"
                         for (let j = 0; j < texts.length; j++) {
                             context.fillText(texts[j].text, xPositions[j].x, yPositions[j].y)
