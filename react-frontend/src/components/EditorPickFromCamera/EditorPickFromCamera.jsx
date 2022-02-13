@@ -3,7 +3,12 @@ import React, {useRef, useEffect, useState} from 'react';
 import axios from 'axios';
 import {useAuth0} from "@auth0/auth0-react";
 
-
+/**
+ * Allows the User to take a picture with the webcam
+ * Source: https://www.youtube.com/watch?v=4sLUfUGLEp0
+ * @param {*} props 
+ * @returns 
+ */
 const EditorPickFromCamera = (props) => {
 
     const videoRef = useRef(null);
@@ -19,6 +24,9 @@ const EditorPickFromCamera = (props) => {
         if (videoRef.current) getVideo()
     }, [props.visible])
 
+    /**
+     * get access to the user's camera and start playing the video
+     */
     const getVideo = () => {
         navigator.mediaDevices
             .getUserMedia({
@@ -34,6 +42,9 @@ const EditorPickFromCamera = (props) => {
             })
     }
 
+    /**
+     * take a photo of the current webcam state
+     */
     const takePhoto = () => {
         const width = 450;
         const height = 300;
@@ -49,6 +60,10 @@ const EditorPickFromCamera = (props) => {
         setPhoto(true)
     }
 
+    /**
+     * send the taken photo to the backend to use as template
+     * @param {*} event 
+     */
     const uploadTemplate = event => {
         event.preventDefault()
         let templateUrl = photoRef.current.toDataURL()

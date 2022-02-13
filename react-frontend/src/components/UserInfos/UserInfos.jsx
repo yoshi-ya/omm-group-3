@@ -4,44 +4,53 @@ import {useAuth0} from '@auth0/auth0-react';
 import userInfos from "./UserInfos.module.css"
 import ImageSlider from '../ImageSlider/ImageSlider'; // For slide-show
 import profilePicture from './ProfilePicture.png'; // Source: <a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Becris - Flaticon</a>
+import Editor from "../Editor/Editor";
 
 
 const UserInfos = () => {
 
     const {user} = useAuth0();
+/*
     const [myMemes, setMyMemes] = useState([]);
     const [otherMemes, setOtherMemes] = useState([]);
     const [allMemes, setAllMemes] = useState([]);
     const [profilePic, setprofilePic] = useState(null);
+*/
+    const [avatar, setAvatar] = useState(user.picture);
+    const [myMemes, setMyMemes] = useState([]);
+    const [otherMemes, setOtherMemes] = useState([]);
+    const [allMemes, setAllMemes] = useState([]);
+
 
     // Handle state changes of memes that the logged in user has created
     useEffect(() => {
         fetchMyMemes()
-        .then(myMemes => {
-            //console.log('Fetched data (my memes): ', myMemes)
-            setMyMemes(myMemes.data) 
-        })
+            .then(myMemes => {
+                //console.log('Fetched data (my memes): ', myMemes)
+                setMyMemes(myMemes.data)
+            })
     }, [])
-    
+
     // Handle state changes of all memes in database
     useEffect(() => {
         fetchAllMemes()
-        .then(allMemes => {
-            //console.log('Fetched data (all Memes): ', allMemes)
-            setAllMemes(allMemes.data)  
-        })
-    }, [])  
+            .then(allMemes => {
+                //console.log('Fetched data (all Memes): ', allMemes)
+                setAllMemes(allMemes.data)
+            })
+    }, [])
 
     // Handle state changes of memes that the logged in user has liked
     useEffect(() => {
         getVotedMemes()
-        .then(result => {
-            //console.log('Result: ', result)
-            setOtherMemes(result) 
-        })  
+            .then(result => {
+                //console.log('Result: ', result)
+                setOtherMemes(result)
+            })
     }, [allMemes])
 
-    
+
+    /*
     useEffect(() => {
         let img = document.getElementById(`${userInfos.profilePicture}`); // profile picture html element
         console.log('img (id: profilePicture): ', img);
@@ -58,6 +67,8 @@ const UserInfos = () => {
             console.log('Either chosen file or html img element equals null')
         }
     }
+*/
+
 
     // Get all memes from server that are createb by the logged in user
     const fetchMyMemes = async () => {
@@ -66,7 +77,7 @@ const UserInfos = () => {
 
     // Get all memes from server 
     const fetchAllMemes = async () => {
-        return await axios.get('http://localhost:5001/allMemes') 
+        return await axios.get('http://localhost:5001/allMemes')
     }
 
     // Search for memes that the logged in user has voted for
@@ -76,8 +87,8 @@ const UserInfos = () => {
         //console.log('listOfAllMemes: ', listOfAllMemes)
 
         // Loop through the votes of all memes
-        for (var i = 0; i < allMemes.length-1; i++) {
-            let listOfVotes = [...allMemes[i].votes] 
+        for (var i = 0; i < allMemes.length - 1; i++) {
+            let listOfVotes = [...allMemes[i].votes]
             //console.log('listOfVotes :', listOfVotes)
 
             // Compare the names of the votes with the logged in user
@@ -91,57 +102,45 @@ const UserInfos = () => {
 
     // Delete selected meme
     function deleteMeme(memeID) {
-        axios 
+        axios
             .delete("http://localhost:5001/deleteMeme", {data: {meme: memeID}})
-            .then(setMyMemes(myMemes.filter( (meme) => meme._id !== memeID) ))
+            .then(setMyMemes(myMemes.filter((meme) => meme._id !== memeID)))
             .catch(err => console.log(err))
     }
 
-    // Edit selected meme
-    function editMeme(memeID) {
 
-        // Automaticically link to the editor page (vllt dabei noch das meme als Payload mitgeben, aber wie?)
-        const link = document.createElement('a')
-        link.href = "/editor" 
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-    }
 
-    return (
-        <div className={userInfos.container}>
+    return (<div className={userInfos.container}>
             <div className={userInfos.card}>
 
                 <div className={userInfos.imageArea}>
-                    <img src={profilePicture} id={userInfos.profilePicture} alt={'My profile pic'} /> 
+                    <img src={avatar} alt="profile-pic"/>
                 </div>
-                    
-                <h3 style={{textAlign: "center"}}>User:</h3>
-                <p className={{textAlign: "center"}}> {user.name} </p>
-                
-                <input type='file' 
-                    accept="image/png, image/jpg, image/jpeg" required
-                    id={userInfos.imageInput}
-                    onChange={handleChange}
-                />
-                <label htmlFor={userInfos.imageInput} id={userInfos.uploadBtn} >Choose a profile picture</label>
+                <div className={userInfos.welcome}>
+                    <span style={{textAlign: "center"}}>Welcome back,</span>
+                    <h2 style={{textAlign: "center"}}> {user.name} </h2>
+                </div>
+
             </div>
 
             <div className={userInfos.verticalBox}>
 
                 <div className={userInfos.card}>
                     <h3 className={userInfos.cardTitle}>My created memes</h3>
-                    <ImageSlider memes={myMemes} sliderText={"Let's create a meme!"} sliderButton={'Editor'} deleteMeme={deleteMeme} editMeme={editMeme} author={true} />
+                    <ImageSlider memes={myMemes} sliderText={"Let's create a meme!"}
+                                 sliderButton={'Editor'} deleteMeme={deleteMeme} author={true}/>
                 </div>
-                
+
                 <div className={userInfos.card}>
+
                     <h3 className={userInfos.cardTitle}>Memes I liked :) </h3>
                     <ImageSlider memes={otherMemes} sliderText={"Let's search for some funny memes!"} sliderButton={'Gallery'} author={false}/>
+
+                    
                 </div>
-                
+
             </div>
-        </div>
-    );
+        </div>);
 }
 
 export default UserInfos;

@@ -30,6 +30,15 @@ module.exports = app => {
     })
 
     /**
+     * fetches all comments from the database
+     */
+    app.get("/allCommentsFromAll", cors(), (req, res) => {
+        Comment.find().then(comments => {
+            res.send(comments)
+        }, err => console.error(err))
+    })
+
+    /**
      * deletes a Comment from the database
      * URL-parameter comment: the id of the comment to be deleted
      */

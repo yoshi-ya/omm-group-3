@@ -10,6 +10,7 @@ import addIcon from "./add.png"
 import deleteIcon from "./delete.png"
 import downloadIcon from "./download.png"
 import saveIcon from "./save.png"
+import clearIcon from "./clear.png"
 import axios from "axios";
 
 
@@ -38,7 +39,7 @@ const Toolbox = (props) => {
             })}>
                 <img className={props.mode.draw ? styles.toolActive : styles.tool} src={drawingIcon} alt="drawingIcon"/>
             </div>
-            <span className={styles.tooltipText}>Draw</span>
+            <span className={styles.tooltipText}>{props.mode.draw ? "Exit drawing mode" : "Draw"}</span>
         </div>
         <div className={props.mode.draw ? styles.hidden : styles.tooltip}>
             <div onClick={() => props.setMode({
@@ -119,6 +120,12 @@ const Toolbox = (props) => {
                 <img className={styles.tool} src={deleteIcon} alt="deleteIcon"/>
             </div>
             <span className={styles.tooltipText}>Remove caption</span>
+        </div>
+        <div className={styles.tooltip}>
+            <div onClick={props.clear}>
+                <img className={styles.tool} src={clearIcon} alt="clearIcon"/>
+            </div>
+            <span className={styles.tooltipText}>Clear</span>
         </div>
         <div className={styles.tooltip}>
             <div onClick={props.save}>

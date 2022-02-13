@@ -6,7 +6,10 @@ import styles from './Gallery.module.css'
 import filterimg from './filter.png'
 import sortimg from './sort.png'
 
-
+/**
+ * Gallery component that includes the Search/Sorting/Filter feature, Overview and Singleview
+ * @returns Search/Sorting/Filter container, Overview or SingleView
+ */
 const Gallery = () => {
     const [singleViewActive, setSingleViewActive] = useState(false)
     const [allMemes, setAllMemes] = useState([]);
@@ -27,10 +30,17 @@ const Gallery = () => {
         })
     }, [])
 
+    /**
+     * Fetches all Memes
+     * @returns all Memes
+     */
     const fetchData = async () => {
         return await axios.get('http://localhost:5001/allMemes?private=false')
     }
 
+    /**
+     * Fetches all Memes and reassigns them 
+     */
     const fetchMemes = () => {
         fetchData()
             .then(res => {
@@ -40,9 +50,17 @@ const Gallery = () => {
         })
     }
 
-    // Handles the Sort Event
+    /**
+     * Event handler for selection of Sort/Filter options
+     * @param {string} value 
+     * @param {string} order 
+     * @param {string} filtervotes 
+     */
     const handleSortChange = (value, order, filtervotes) => {
-        // Filter the memes array according to filtervotes(votes number), for that fetchData each time
+
+        /**
+         * Fetches all memes and filters according to filtervote selection
+         */
         switch (filtervotes) {
             case 'none':
                 fetchData()
@@ -82,7 +100,9 @@ const Gallery = () => {
             default: console.log("no filter votes value")
         }
 
-        //Sort the Memes array according to sort values selected
+        /**
+         * Sort the memes according to the sort values(date, author, votes) and the order ascending/descending 
+         */
         if (order === 'asc') {
             switch (value) {
                 case 'date': allMemes.sort((a,b) => (new Date(a.date) - new Date(b.date)))
@@ -104,7 +124,9 @@ const Gallery = () => {
                 default: console.log("no sort value")
             }}
 
-        // Update the state with current values of sort and filter
+        /**
+         * Set sortfilter state with new values of sort and filter
+         */
         setSortFilter({
             sortvalue: value,
             sortorder: order,
@@ -112,7 +134,10 @@ const Gallery = () => {
         })
     }
 
-    // Searches if the term is included in all memes
+    /**
+     * Takes input term and searches term inside the of all memes
+     * @param {string} term 
+     */
     function search(term) {
         let searched = allMemes.filter( (meme) => {
             for(let i = 0; i < meme.texts.length; i++ ) {
@@ -127,48 +152,52 @@ const Gallery = () => {
         setAllMemes(searched)
     }
 
-    // Filter component that shows when clicking on the filter image button
+    /**
+     * Shows the filter component
+     * @returns filter component
+     */
     const showFilter = () => {
         if(showfilterbool === true) {
         return(
             <div className={styles.filter}>
-            Votes:
-            <select id="votesfilter" onChange={(e) => handleSortChange(sortfilter.sortvalue, sortfilter.sortorder, e.target.value)}>
-            <option value="none">All Vote Numbers</option>
-            <option value='least'>Less than 3</option>
-            <option value='more'>3 or more</option>
-            <option value='most'>6 or more</option>
-            </select>
+                <span>Votes:</span>
+                <select id="votesfilter" onChange={(e) => handleSortChange(sortfilter.sortvalue, sortfilter.sortorder, e.target.value)}>
+                    <option value="none">All Vote Numbers</option>
+                    <option value='least' placeholder='least'>Less than 3</option>
+                    <option value='more'>3 or more</option>
+                    <option value='most'>6 or more</option>
+                </select>
             </div>
         )
         }
     }
 
 
-    return <div>
-        <form className={styles.container}>
-            <span className="visually-hidden">Search: </span>
-        <input type="text" id="meme-search" placeholder="Name, Author or Text" name="s" onChange={(e) => search(e.target.value)}/>
-        <button onClick={() => fetchMemes()}>Clear Search</button>
-        </form>
-        <div id="sortandfilter" className={styles.container}>
-            <img src={sortimg} className={styles.sorticon} alt="filterimg"/>
-            <select id="sort" onChange={(e) => handleSortChange(e.target.value, sortfilter.sortorder, sortfilter.filter)}>
-            <option value="date">Creation Date</option>
-            <option value="votes">Votes</option>
-            <option value="author">Author</option>
-            </select>
-            <select id="order" onChange={(e) => handleSortChange(sortfilter.sortvalue, e.target.value, sortfilter.filter)}>
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-            </select>
-            <img src={filterimg} className={styles.icons} alt="filterimg" onClick={()=> setShowFilterBool(!showfilterbool)}/>
-            {showFilter()}
-        </div>
-        {!singleViewActive ?
-        <Overview memesList={allMemes} setMemes={setAllMemes} memeNumber={memeNumber} active={setSingleViewActive}/> :
-        <SingleView memesList={allMemes} memeNumber={memeNumber}
-                    active={setSingleViewActive}/>}</div>
+    return  <div>
+                <form className={styles.container}>
+                    <span>Search: </span>
+                    <input type="text" id="meme-search" placeholder="Name, Author or Text" onChange={(e) => search(e.target.value)}/>
+                    <button onClick={() => fetchMemes()}>Clear Search</button>
+                </form>
+                <div id="sortandfilter" className={styles.container}>
+                    <img src={sortimg} className={styles.sorticon} alt="filterimg"/>
+                    <select id="sort" onChange={(e) => handleSortChange(e.target.value, sortfilter.sortorder, sortfilter.filter)}>
+                        <option value="date">Creation Date</option>
+                        <option value="votes">Votes</option>
+                        <option value="author">Author</option>
+                    </select>
+                    <select id="order" onChange={(e) => handleSortChange(sortfilter.sortvalue, e.target.value, sortfilter.filter)}>
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                    <img src={filterimg} className={styles.icons} alt="filterimg" onClick={()=> setShowFilterBool(!showfilterbool)}/>
+                    {showFilter()}
+                </div>
+                {!singleViewActive ?
+                <Overview memesList={allMemes} setMemes={setAllMemes} memeNumber={memeNumber} active={setSingleViewActive}/> :
+                <SingleView memesList={allMemes} memeNumber={memeNumber}
+                    active={setSingleViewActive}/>}
+            </div>
 }
 
 export default Gallery;

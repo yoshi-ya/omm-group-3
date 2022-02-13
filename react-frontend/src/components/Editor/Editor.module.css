@@ -111,6 +111,20 @@
     margin-bottom: 12px;
 }
 
+.audio {
+  width: 100%;
+  display: inline-block;
+  height: 46px;
+}
+
+.audio input {
+  height: 32px;
+}
+
+.audio button {
+  margin-right: 8px;
+}
+
 @media screen and (max-width: 900px) {
   .splitView {
     width: 100%;

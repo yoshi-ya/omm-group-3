@@ -3,3 +3,4 @@ node_modules
 express-backend/package-lock.json
 react-frontend/build/
 react-frontend/package-lock.json
+.vscode

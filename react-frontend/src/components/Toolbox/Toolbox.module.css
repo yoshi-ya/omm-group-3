@@ -24,7 +24,7 @@
     cursor: pointer;
     opacity: 100%;
     outline-offset: 5px;
-    outline: dotted
+    outline: #40eb4e dotted;
 }
 
 .toolActive:hover {

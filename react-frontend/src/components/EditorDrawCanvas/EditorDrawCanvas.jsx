@@ -2,6 +2,11 @@ import React, {useEffect, useState, useRef} from 'react'
 import styles from './EditorDrawCanvas.module.css';
 import axios from 'axios';
 
+/***
+ * handles the Drawing Canvas 
+ * Source: https://www.youtube.com/watch?v=FLESHMJ-bI0
+ */
+
 function EditorDrawCanvas() {
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
@@ -15,6 +20,9 @@ function EditorDrawCanvas() {
         console.log(texts);
     }, [texts])
 
+    /**
+     * set the neccessary canvas values
+     */
     useEffect(() =>{
         const canvas = canvasRef.current;
         canvas.width = 300;
@@ -47,7 +55,11 @@ function EditorDrawCanvas() {
     })
     
     }
-
+    /**
+     * updates the meme texts live
+     * @param {*} e 
+     * @param {*} index 
+     */
     const updateTexts = (e, index) =>{
         const text = e.target.value || '';
         setTexts(
@@ -60,7 +72,10 @@ function EditorDrawCanvas() {
             })
         )
     }
-
+    /**
+     * handles when the user starts drawing on the canvas
+     * @param {*} param0 
+     */
     const startDrawing = ({nativeEvent}) => {
         const {offsetX, offsetY} = nativeEvent;
 
@@ -68,12 +83,19 @@ function EditorDrawCanvas() {
         contextRef.current.moveTo(offsetX,offsetY);
         setIsDrawing(true);
     }
-
+    /**
+     * handles when the user finishes drawing on the canvas
+     */
     const finishDrawing = () =>{
         contextRef.current.closePath();
         setIsDrawing(false);
     }
 
+    /**
+     * handles the drawing
+     * @param {*} param0 
+     * @returns 
+     */
     const draw = ({nativeEvent}) =>{
         if(!isDrawing){
             return;
@@ -84,6 +106,10 @@ function EditorDrawCanvas() {
 
     }
 
+    /**
+     * saves the drawing to the local storage and calls
+     * the function to send the drawing to the backend
+     */
     const useDrawingAsMeme = () =>{
         var canvas = document.getElementById("currentCanvas");
         var img = canvas.toDataURL("image/png");
@@ -93,9 +119,6 @@ function EditorDrawCanvas() {
             setShowInputFields(true);
         }
         handleNewMeme();
-       // var image = new Image();
-       // image.src = canvas.toDataURL();
-        //console.log(image.src);
     }
 
     return(

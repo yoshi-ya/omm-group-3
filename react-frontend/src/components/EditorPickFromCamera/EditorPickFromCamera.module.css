@@ -10,7 +10,7 @@ pick from Camera styles
   border: none;
   outline: none;
   padding: 8px 16px;
-  background-image: linear-gradient(to right, #844fff 50%, #ff4f84 50%);
+  background-image: linear-gradient(to right, #2583fd 50%, #0eebff 50%);
   background-position: 0;
   background-size: 200%;
   color: #fff;
@@ -29,7 +29,7 @@ pick from Camera styles
   border: none;
   outline: none;
   padding: 8px 16px;
-  background-image: linear-gradient(to right, #844fff 50%, #ff4f84 50%);
+  background-image: linear-gradient(to right, #2583fd 50%, #0eebff 50%);
   background-position: 0;
   background-size: 200%;
   color: #fff;
@@ -82,7 +82,8 @@ pick from Camera styles
   width: 100%;
 }
 
-.preview video, .preview canvas {
+.preview video,
+.preview canvas {
   padding: 12px;
 }
 

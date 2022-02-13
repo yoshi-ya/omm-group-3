@@ -7,7 +7,12 @@ import EditorPickFromUrl from "../EditorPickFromUrl/EditorPickFromUrl";
 import axios from "axios";
 import {encode} from "base64-arraybuffer";
 import EditorPickFromCamera from '../EditorPickFromCamera/EditorPickFromCamera';
+import audioIcon from "./audio.png"
+import microphoneIcon from "./microphone.png"
+import {useParams} from "react-router-dom";
 
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+const recognition = new SpeechRecognition()
 
 const Editor = () => {
     const [templates, setTemplates] = useState([])
@@ -21,13 +26,44 @@ const Editor = () => {
     }, {x: 80, y: 80, width: 300, height: 300}, {x: 120, y: 120, width: 300, height: 300}])
     const [textColor, setTextColor] = useState("#fff")
     const [textSize, setTextSize] = useState(22)
+    const [shadowOffset, setShadowOffset] = useState(2)
     const [privateTemplate, setPrivateTemplate] = useState(false)
     const [privateMeme, setPrivateMeme] = useState(false)
     const [mode, setMode] = useState({draw: false, desktop: true, url: false, camera: false})
     const [isDrawing, setIsDrawing] = useState(false)
     const canvasRef = useRef(0)
+    const [name, setName] = useState("")
     const {isAuthenticated, user} = useAuth0()
+    const mic = useRef(null)
+    const {id} = useParams()
 
+
+    useEffect(() => {
+        if (id) {
+            axios
+                .get(`http://localhost:5001/fetchMeme?id=${id}`)
+                .then(result => {
+                    let editMeme = result.data
+                    setTemplates(editMeme.templates)
+                    setTexts(editMeme.texts)
+                    setCanvasWidth(editMeme.canvasWidth)
+                    setCanvasHeight(editMeme.canvasHeight)
+                    setName(editMeme.name)
+                    setPrivateMeme(Boolean(editMeme.private))
+                    setTextColor(editMeme.color)
+                    setTextSize(editMeme.size)
+                })
+                .catch(error => console.log(error))
+        }
+    }, [])
+
+    useEffect(() => {
+        if (canvasRef.current) {
+            const context = canvasRef.current.getContext("2d")
+            context.fillStyle = "black"
+            context.fillRect(0, 0, canvasWidth, canvasHeight)
+        }
+    }, [templates])
 
     useEffect(() => {
         if (mode.draw) {
@@ -48,12 +84,15 @@ const Editor = () => {
             context.fillRect(0, 0, canvasWidth, canvasHeight)
             for (let i = 0; i < templates.length; i++) {
                 const templateImage = new Image()
-                templateImage.src = templates[i].image
+                templateImage.src = templates[i].url
                 templateImage.onload = () => {
                     context.drawImage(templateImage, templateConfigs[i].x, templateConfigs[i].y, templateConfigs[i].width, templateConfigs[i].height)
                     if (i === templates.length - 1) {
-                        context.font = `${textSize}px Comic Sans MS`
+                        context.font = `${textSize}px Impact`
                         context.fillStyle = textColor
+                        context.shadowColor = "#000"
+                        context.shadowOffsetX = shadowOffset
+                        context.shadowOffsetY = shadowOffset
                         context.textAlign = "center"
                         for (let j = 0; j < texts.length; j++) {
                             context.fillText(texts[j].text, xPositions[j].x, yPositions[j].y)
@@ -64,6 +103,32 @@ const Editor = () => {
         }
     }, [mode, templates, texts, canvasRef, canvasWidth, canvasHeight, xPositions, yPositions, templateConfigs, textColor, textSize]);
 
+
+    const clear = () => {
+        setTemplates([])
+    }
+
+    const tts = (text) => {
+        let tts = new SpeechSynthesisUtterance()
+        tts.text = text
+        window.speechSynthesis.speak(tts)
+    }
+
+    const stt = (index) => {
+        recognition.interimResults = true
+        recognition.lang = "en-US"
+        recognition.start()
+        recognition.onresult = e => {
+            const transcript = Array.from(e.results)
+                .map(result => result[0])
+                .map(result => result.transcript)
+                .join('')
+            setText(index, transcript)
+        }
+        recognition.onend = () => {
+            recognition.stop()
+        }
+    }
 
     const startDrawing = ({nativeEvent}) => {
         if (mode.draw) {
@@ -93,7 +158,7 @@ const Editor = () => {
     }
 
     const addTextBox = () => {
-        if (texts.length < 4) setTexts([...texts, {text: ""}])
+        if (texts.length < 4 && templates.length > 0) setTexts([...texts, {text: ""}])
     }
 
     const removeTextBox = () => {
@@ -144,7 +209,7 @@ const Editor = () => {
             .get("http://localhost:5001/anyTemplate")
             .then(data => {
                 if (templates.length < 3) {
-                    setTemplates([...templates, {image: `data:image/png;base64,${encode(data.data.image.data)}`}])
+                    setTemplates([...templates, {url: `data:image/png;base64,${encode(data.data.image.data)}`}])
                 }
             })
             .catch(error => console.log(error))
@@ -155,18 +220,17 @@ const Editor = () => {
             .get(`http://localhost:5001/template?name=${name}`)
             .then(data => {
                 if (templates.length < 3) {
-                    setTemplates([...templates, {image: `data:image/png;base64,${encode(data.data.image.data)}`}])
+                    setTemplates([...templates, {url: `data:image/png;base64,${encode(data.data.image.data)}`}])
                 }
             })
             .catch(error => console.log(error))
     }
 
     const exportCanvas = () => {
-        let name = document.getElementById("title").value
         let templateData = []
         templates.forEach((template, index) => {
             templateData.push({
-                url: template.image,
+                url: template.url,
                 x: templateConfigs[index].x,
                 y: templateConfigs[index].y,
                 width: templateConfigs[index].width,
@@ -220,7 +284,7 @@ const Editor = () => {
         if (mode.draw && templates.length < 3) {
             // set drawing as template
             let imageURL = canvasRef.current.toDataURL()
-            setTemplates([...templates, {image: imageURL}])
+            setTemplates([...templates, {url: imageURL}])
             setMode({draw: false, desktop: true, url: false, camera: false})
         } else {
             let canvasConfig = exportCanvas()
@@ -238,22 +302,25 @@ const Editor = () => {
     return (<>
         <Toolbox setMode={setMode} mode={mode} randomTemplate={getRandomTemplate}
                  getTemplate={getTemplate} addCaption={addTextBox} removeCaption={removeTextBox}
-                 download={download} save={save}/>
+                 download={download} save={save} clear={clear}/>
         <div className={styles.outerContainer}>
             <div className={styles.editorContainer}>
                 <div className={styles.splitView}>
-                    <div className={mode.draw || mode.camera ? styles.drawModeLeft : styles.splitLeft}>
+                    <div
+                        className={mode.draw || mode.camera ? styles.drawModeLeft : styles.splitLeft}>
                         <EditorPickFromCamera setPrivateTemplate={setPrivateTemplate}
                                               privateTemplate={privateTemplate}
                                               templates={templates} setTemplates={setTemplates}
                                               visible={mode.camera} setMode={setMode}/>
                         <canvas id="canvas" ref={canvasRef} width={canvasWidth}
                                 height={canvasHeight}
-                                className={mode.camera ? styles.hidden : styles.canvas} onMouseDown={startDrawing}
+                                className={mode.camera ? styles.hidden : styles.canvas}
+                                onMouseDown={startDrawing}
                                 onMouseUp={finishDrawing} onMouseMove={draw}/>
-                        <div className={mode.draw || mode.camera ? styles.hidden : styles.rowCenter}>
+                        <div
+                            className={mode.draw || mode.camera ? styles.hidden : styles.rowCenter}>
                             <form>
-                                <input id="title" type="text" placeholder="meme title"/>
+                                <input type="text" placeholder="meme title" value={name} onChange={e => setName(e.target.value)}/>
                                 <div className={styles.memeTitle}>
                                     <input id="private-meme" type="radio"
                                            onClick={() => setPrivateMeme(!privateMeme)}
@@ -328,34 +395,41 @@ const Editor = () => {
                                 key={index + 1}>
                                 <span className={styles.title}>{`Caption ${index + 1}`}</span>
                                 <div className={styles.row}>
-                                    <input className={styles.item} type="text"
-                                           placeholder={`text ${index + 1}`}
-                                           onChange={e => setText(index, e.target.value)}/>
-                                    <span className={styles.item}>x</span>
-                                    <input className={styles.item} type="number"
-                                           value={xPositions[index].x}
-                                           onChange={e => setXForText(index, e.target.value)}/>
-                                    <span className={styles.item}>y</span>
-                                    <input className={styles.item} type="number"
-                                           value={yPositions[index].y}
-                                           onChange={e => setYForText(index, e.target.value)}/>
+                                    <div className={styles.audio}>
+                                        <input className={styles.item} type="text"
+                                               placeholder={`text ${index + 1}`}
+                                               onChange={e => setText(index, e.target.value)}
+                                               value={texts[index].text}
+                                        />
+                                        <button className={styles.item}
+                                                onClick={() => tts(texts[index].text)}>
+                                            <img className={styles.item} src={audioIcon} alt="tts"/>
+                                        </button>
+                                        <button className={styles.item} ref={mic}
+                                                onClick={() => stt(index)}>
+                                        <img className={styles.item} src={microphoneIcon}
+                                             alt="stt"/>
+                                    </button>
                                 </div>
+                                <span className={styles.item}>x</span>
+                                <input className={styles.item} type="number"
+                                       value={xPositions[index].x}
+                                       onChange={e => setXForText(index, e.target.value)}/>
+                                <span className={styles.item}>y</span>
+                                <input className={styles.item} type="number"
+                                       value={yPositions[index].y}
+                                       onChange={e => setYForText(index, e.target.value)}/>
+                            </div>
                                 <div className={styles.row}>
-                                    <button className={styles.item} onClick={() => {
-                                        setXForText(index, canvasWidth / 2)
-                                        setYForText(index, canvasHeight / 2)
-                                    }}>center
-                                    </button>
-                                    <button className={styles.item} onClick={() => {
-                                        setXForText(index, canvasWidth / 2)
-                                    }}>center X
-                                    </button>
-                                    <button className={styles.item} onClick={() => {
-                                        setYForText(index, canvasHeight / 2)
-                                    }}>center Y
-                                    </button>
+                                <button className={styles.item} onClick={() => {setXForText(index, canvasWidth / 2)
+                                setYForText(index, canvasHeight / 2)}}>center
+                                </button>
+                                <button className={styles.item} onClick={() => {setXForText(index, canvasWidth / 2)}}>center X
+                                </button>
+                                <button className={styles.item} onClick={() => {setYForText(index, canvasHeight / 2)}}>center Y
+                                </button>
                                 </div>
-                            </div>)}
+                                </div>)}
                             <div className={templates.length > 0 ? styles.wrapper : styles.hidden}>
                                 <span className={styles.title}>Canvas</span>
                                 <div className={styles.row}>
