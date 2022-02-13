@@ -10,7 +10,6 @@ const CanvasMeme = ({meme}) => {
 
     useEffect(() => {
         if (meme && meme.templates && meme.templates.length > 0) {
-            console.log(meme);
             const context = canvasRef.current.getContext("2d")
             context.fillStyle = "black"
             context.fillRect(0, 0, meme.canvasWidth, meme.canvasHeight)

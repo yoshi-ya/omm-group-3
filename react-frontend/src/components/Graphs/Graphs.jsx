@@ -34,11 +34,9 @@ const Graphs = (props) => {
     const [memes, setMemes] = useState([]);
     const [numOfComments, setNumOfComments] = useState([])
     const memeNames = props.memesList.map(meme => meme.name);
+   // const memeIDs = props.memesList.map(meme => meme.id);
     const votes = props.memesList.map(meme => meme.votes);
     const numOfVotes = votes.map(votes => votes.length);
-    const userComments = comments.map(comments => comments.author)
-    const memeIds = props.memesList.map(meme => meme._id);
-    const memeComments = [];
 
 
     useEffect(() => {
@@ -46,6 +44,7 @@ const Graphs = (props) => {
                 .then(data => {
                     setComments(data.data)
                     setMemes(props.memesList)
+                    //readCommentsForMeme();
                 })
                 .catch(error => console.log(error))
     }, [props.visible])
@@ -53,7 +52,20 @@ const Graphs = (props) => {
     const fetchComments = async () => {
         return await axios.get(`http://localhost:5001/allCommentsFromAll`)
     }
+
+   /* const fetchCommentsWithID = async (id) => {
+        return await axios.get(`http://localhost:5001/allComments?meme=${id}`)
+    }
     
+    const readCommentsForMeme = () =>{
+        for(let i = 0; i< memeIDs.length; i++){
+            fetchCommentsWithID(memeIDs[i])
+                .then(data =>{
+                    setNumOfComments(data.data.length);
+                    console.log(numOfComments)
+                })
+        }
+    }*/
 
 return(
     <div className={styles.graph}> 
