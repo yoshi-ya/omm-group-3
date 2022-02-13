@@ -7,6 +7,7 @@ import Chart from 'chart.js/auto'
 import axios from 'axios';
 import {Bar} from 'react-chartjs-2';
 
+
 const GallerySingleView = (props) => {
     const defaultMeme = "https://via.placeholder.com/256?text=no%20meme%20found"
     const [currentMemeIndex, setCurrentMemeIndex] = useState(0);
@@ -15,12 +16,18 @@ const GallerySingleView = (props) => {
     const [comments, setComments] = useState([]);
     const [numOfVotes, setNumOfVotes] = useState(0);
 
+
     useEffect(() => {
         setCurrentMemeIndex(props.memeNumber.current)
     }, [])
 
     useEffect(() => {
-        console.log("2")
+        if (props.memesList[currentMemeIndex] && props.memesList[currentMemeIndex].votes) {
+            setNumOfVotes(props.memesList[currentMemeIndex].votes.length)
+        }
+    }, [current])
+
+    useEffect(() => {
         setCurrent(props.memesList[currentMemeIndex])
     }, [currentMemeIndex])
 
@@ -29,7 +36,6 @@ const GallerySingleView = (props) => {
             fetchComments()
                 .then(data => {
                     setComments(data.data)
-                    console.log(comments);
                 })
                 .catch(error => console.log(error))
         }
@@ -50,27 +56,12 @@ const GallerySingleView = (props) => {
     }, [currentMemeIndex, autoPlay]);
 
     const toggleVisibility = () => {
-        let elements = [
-            document.getElementById("next"),
-            document.getElementById("previous"),
-            document.getElementById("random")
-        ]
+        let elements = [document.getElementById("next"), document.getElementById("previous"), document.getElementById("random")]
 
         for (let element of elements) {
             element.style.display = autoPlay ? "none" : "block"
         }
     }
-
-    useEffect(() =>{
-        if(props.memesList[currentMemeIndex] && props.memesList[currentMemeIndex].votes){ setNumOfVotes(props.memesList[currentMemeIndex].votes.length)
-        } 
-       },[])
-
-    useEffect(() =>{
-        if (numOfVotes === 0 && props.memesList[currentMemeIndex].votes){
-            setNumOfVotes(props.memesList[currentMemeIndex].votes.length)
-        }
-    })
 
     const randomIndex = () => {
         if (props.memesList.length > 1 && !autoPlay) {
@@ -120,31 +111,25 @@ const GallerySingleView = (props) => {
                              }}/>
                     </div>
                 </div>
-                <div className={styles.smallgraph}> 
-                <Bar
-            data={{
-            labels: ['Votes/Comments'],
-            datasets: [
-                {
-                  id: 1,
-                  label: '# of votes',
-                  data: [numOfVotes],
-                  backgroundColor: '#ff4f84'
-                },
-                {
-                  id: 2,
-                  label: '# of comments',
-                  data: [comments.length],
-                  backgroundColor: '#844fff'
-                },
-              ],
-              options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
- }} /></div>
+                <div className={styles.smallgraph}>
+                    <Bar
+                        data={{
+                            labels: ['Votes/Comments'], datasets: [{
+                                id: 1,
+                                label: '# of votes',
+                                data: [numOfVotes],
+                                backgroundColor: '#ff4f84'
+                            }, {
+                                id: 2,
+                                label: '# of comments',
+                                data: [comments.length],
+                                backgroundColor: '#844fff'
+                            },], options: {
+                                responsive: true, maintainAspectRatio: false
+                            }
+                        }}/></div>
             </div>
-            </div> 
+        </div>
     </>);
 };
 
