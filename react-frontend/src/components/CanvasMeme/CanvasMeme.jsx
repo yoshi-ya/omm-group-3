@@ -1,41 +1,11 @@
 import React, {useEffect,useState, useRef} from 'react';
-import {Bar} from 'react-chartjs-2';
 import styles from "./CanvasMeme.module.css";
-import Chart from 'chart.js/auto'
-import axios from 'axios';
 
 
 const CanvasMeme = ({meme}) => {
 
     const canvasRef = useRef(0)
-    const [comments, setComments] = useState([]);
-    const [numOfVotes, setNumOfVotes] = useState(0);
-
-    useEffect(() =>{
-        if(meme && meme.votes){ setNumOfVotes(meme.votes.length)
-        } 
-       },[])
-
-    useEffect(() =>{
-        if (numOfVotes === 0 && meme.votes){
-            setNumOfVotes(meme.votes.length)
-        }
-    })
-
-    useEffect(() => {
-        if (meme._id) {
-            fetchComments()
-                .then(data => {
-                    setComments(data.data)
-                    console.log(comments);
-                })
-                .catch(error => console.log(error))
-        }
-    }, [meme])
-
-    const fetchComments = async () => {
-        return await axios.get(`http://localhost:5001/allComments?meme=${meme._id}`)
-    }
+    
 
 
     useEffect(() => {
@@ -70,32 +40,7 @@ return (
                 className={styles.canvas}/>
                 
         <div className={styles.smallgraph}> 
-        <Bar
-            data={{
-            labels: ['Votes/Comments'],
-            datasets: [
-                {
-                  id: 1,
-                  label: '# of votes',
-                  data: [numOfVotes],
-                  backgroundColor: '#ff4f84'
-                },
-                {
-                  id: 2,
-                  label: '# of comments',
-                  data: [comments.length],
-                  backgroundColor: '#844fff'
-                },
-              ],
-              options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
- }} 
- 
-       
-    
-/></div> </div>
+        </div> </div>
                 );
                 
 };
