@@ -1,18 +1,26 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from "axios";
 import {useAuth0} from '@auth0/auth0-react';
 import userInfos from "./UserInfos.module.css"
-import ImageSlider from '../ImageSlider/ImageSlider';
+import ImageSlider from '../ImageSlider/ImageSlider'; // For slide-show
+import profilePicture from './ProfilePicture.png'; // Source: <a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Becris - Flaticon</a>
 import Editor from "../Editor/Editor";
 
 
 const UserInfos = () => {
 
     const {user} = useAuth0();
+/*
+    const [myMemes, setMyMemes] = useState([]);
+    const [otherMemes, setOtherMemes] = useState([]);
+    const [allMemes, setAllMemes] = useState([]);
+    const [profilePic, setprofilePic] = useState(null);
+*/
     const [avatar, setAvatar] = useState(user.picture);
     const [myMemes, setMyMemes] = useState([]);
     const [otherMemes, setOtherMemes] = useState([]);
     const [allMemes, setAllMemes] = useState([]);
+
 
     // Handle state changes of memes that the logged in user has created
     useEffect(() => {
@@ -40,6 +48,26 @@ const UserInfos = () => {
                 setOtherMemes(result)
             })
     }, [allMemes])
+
+
+    /*
+    useEffect(() => {
+        let img = document.getElementById(`${userInfos.profilePicture}`); // profile picture html element
+        console.log('img (id: profilePicture): ', img);
+
+        /* Check whether img html element was found -> store it in state*/
+        img ? setprofilePic(img) : console.log('document.getElementById not found')
+    }, []);
+
+    function handleChange(event) {
+        const file = event.target.files[0]; //console.log(file)
+        if(file && profilePic) {
+            profilePic.src = URL.createObjectURL(file); // set source to file url
+        } else {
+            console.log('Either chosen file or html img element equals null')
+        }
+    }
+*/
 
 
     // Get all memes from server that are createb by the logged in user
@@ -80,8 +108,11 @@ const UserInfos = () => {
             .catch(err => console.log(err))
     }
 
+
+
     return (<div className={userInfos.container}>
             <div className={userInfos.card}>
+
                 <div className={userInfos.imageArea}>
                     <img src={avatar} alt="profile-pic"/>
                 </div>
@@ -89,6 +120,7 @@ const UserInfos = () => {
                     <span style={{textAlign: "center"}}>Welcome back,</span>
                     <h2 style={{textAlign: "center"}}> {user.name} </h2>
                 </div>
+
             </div>
 
             <div className={userInfos.verticalBox}>
@@ -100,10 +132,11 @@ const UserInfos = () => {
                 </div>
 
                 <div className={userInfos.card}>
-                    <h3 className={userInfos.cardTitle}>Memes I liked or commented</h3>
-                    <ImageSlider memes={otherMemes}
-                                 sliderText={"Let's search for some funny memes!"}
-                                 sliderButton={'Gallery'} author={false}/>
+
+                    <h3 className={userInfos.cardTitle}>Memes I liked :) </h3>
+                    <ImageSlider memes={otherMemes} sliderText={"Let's search for some funny memes!"} sliderButton={'Gallery'} author={false}/>
+
+                    
                 </div>
 
             </div>

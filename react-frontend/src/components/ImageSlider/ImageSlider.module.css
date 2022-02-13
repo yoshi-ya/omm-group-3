@@ -1,3 +1,4 @@
+/*-- Container that holds all elements of an slider ---*/
 .slider {
     position: relative; 
     display: flex;
@@ -6,6 +7,7 @@
     height: 100%;
     width: 100%;
 }
+/*-- Container that contains no memes ---*/
 .emptySlider {
     position: relative;
     display: flex;
@@ -22,7 +24,8 @@
     color: #3190A4;
 }
 
-/*--- Vertical inner container with share buttons images ---*/
+/*
+/*--- Vertical inner container with share buttons images ---
 .verticalContainer {
     position: relative;
     display: flex;
@@ -30,9 +33,9 @@
     flex-direction: column;   
     width: 100%;
     height: 100%;
-}
+}*/
 
-/*--- Horizontal container with alle memes (one slide for each image) ---*/
+/*--- Horizontal container with all memes ---*/
 .horizontalContainer {
     position: relative;
     display: flex;
@@ -42,24 +45,30 @@
     height: 100%; 
 }
 
+/*--- Container for one meme ---*/
 .image {
     height: 270px;
+    max-height: 30vh;
     position: relative; /* Important for positioning the trash icon */
-    margin: 5px 10px 20px 10px; 
+    margin: 20px 10px 20px 10px;
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.4), 0 3px 10px 0 rgba(0, 120, 144, 0.6);
-    
     /* transition: ease transform 200ms; */
 }
+
 .image:hover{
+    box-shadow: 0 5px 10px 0 rgba(0, 85, 102, 0.7), 0 6px 20px 0 rgba(0, 152, 182, 0.9);
     transform:scale(1.05,1.05);
     -webkit-transform:scale(1.05,1.05);
     -moz-transform:scale(1.05,1.05);
     transition: ease transform 200ms;
-  }
+}
 .image:hover .trashIcon {
     opacity: 1;
 }
 .image:hover .editIcon {
+    opacity: 1;
+}
+.image:hover .shareIcons {
     opacity: 1;
 }
 
@@ -67,13 +76,13 @@
 .image > *:nth-child(1) {
     height: 100%;
 }
-/* Dark overlay */
+/* Dark overlay of a meme */
 .image:after {
     content: '';
     position: absolute;
     width: 100%; height: 100%;
     top:0; left:0;
-    background:rgba(0,0,0,0.6);
+    background:rgba(0,0,0,0.5);
     opacity: 0;
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
@@ -82,7 +91,7 @@
     opacity: 0.8;
 }
 
-
+/*-- Meme in enlarged view ---*/
 .bigPicture{
     position: absolute;
     top: 50%;
@@ -91,16 +100,15 @@
     width: 600px; height: 600px;
     z-index: 15;
 } 
-
-.darkOverlay{
+/*-- Dark overlay while a meme is enlarged ---*/
+.darkOverlay {
     content: '';
-    position: absolute;
+    position: fixed;
     top:0; left:0;
     width: 100vw; height: 100vh;
     background:rgba(0,0,0,0.6);
     z-index: 10;
 }
-
 
 /*--- Trash icon to delete meme ---*/
 .trashIcon {
@@ -128,7 +136,16 @@
     z-index: 20;
 }
 
-/*--- Arrows ---*/
+/*--- Share icons for sharing a meme ---*/
+.shareIcons {
+    position: absolute;
+    top: 0; left: 20%;
+    transform: translateY(-35px);
+    opacity: 0;
+    z-index: 20;
+}
+
+/*--- Arrows to slide along all memes ---*/
 .rightArrow {
     position: absolute;
     top: 50%;
@@ -194,30 +211,7 @@
     color: rgb(235, 235, 235);
 }
 
-/*--- Dots under memes ---*/
-.containerDots {
-    position: absolute;
-    bottom: 0px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-  }
-.dot {
-width: 15px;
-height: 15px;
-border-radius: 50%;
-border: 3px solid #343434;
-margin: 0 5px;
-background: #343434;
-}
-.dotActive {
-width: 15px;
-height: 15px;
-border-radius: 50%;
-border: 3px solid #343434;
-margin: 0 5px;
-background: whitesmoke;
-}
+
 
 
 
