@@ -2,6 +2,7 @@
 .slider {
     position: relative; 
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center; 
     height: 100%;
@@ -28,18 +29,19 @@
 .horizontalContainer {
     position: relative;
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
     width: 100%; 
     height: 100%; 
 }
 
 /*--- Container for one meme ---*/
 .image {
-    height: 270px;
-    max-height: 30vh;
+    width: 20%;
     position: relative; /* Important for positioning the trash icon */
-    margin: 20px 10px 20px 10px;
+    margin: 20px 10px 10px 10px;
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.4), 0 3px 10px 0 rgba(0, 120, 144, 0.6);
 }
 .image:hover{
@@ -59,10 +61,6 @@
     opacity: 1;
 }
 
-/* CanvasMeme component */
-.image > *:nth-child(1) {
-    height: 100%;
-}
 /* Dark overlay of a meme */
 .image:after {
     content: '';
@@ -136,8 +134,8 @@
 .rightArrow {
     position: absolute;
     top: 50%;
-    right: 30px;
-    font-size: 2.6rem;
+    right: 20px;
+    font-size: 2.4rem;
     color: #343434;
     z-index: 5;
     cursor: pointer;
@@ -154,8 +152,8 @@
 .leftArrow {
     position: absolute;
     top: 50%;
-    left: 30px;
-    font-size: 2.6rem;
+    left: 20px;
+    font-size: 2.4rem;
     color: #343434;
     z-index: 5;
     cursor: pointer;

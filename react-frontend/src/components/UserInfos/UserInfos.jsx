@@ -95,19 +95,15 @@ const UserInfos = () => {
                     <h2 style={{textAlign: "center"}}> {user.name} </h2>
                 </div>
             </div>
-
             <div className={userInfos.verticalBox}>
-
                 <div className={userInfos.card}>
                     <h3 className={userInfos.cardTitle}>My created memes</h3>
                     <ImageSlider memes={myMemes} sliderText={"Let's create a meme!"} sliderButton={'Editor'} deleteMeme={deleteMeme} author={true}/>
                 </div>
-
                 <div className={userInfos.card}>
                     <h3 className={userInfos.cardTitle}>Memes I liked :) </h3>
                     <ImageSlider memes={otherMemes} sliderText={"Let's search for some funny memes!"} sliderButton={'Gallery'} author={false}/>
                 </div>
-
             </div>
         </div>);
 }
