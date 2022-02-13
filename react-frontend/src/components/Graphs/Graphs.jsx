@@ -39,7 +39,6 @@ const Graphs = (props) => {
     const userComments = comments.map(comments => comments.author)
     const memeIds = props.memesList.map(meme => meme._id);
     const memeComments = [];
-    console.log(memeIds)
 
 
     useEffect(() => {
@@ -68,13 +67,13 @@ return(
                   id: 1,
                   label: '# of votes',
                   data: numOfVotes,
-                  backgroundColor: 'blue'
+                  backgroundColor: '#ff4f84'
                 },
                 {
                   id: 2,
                   label: '# of comments',
-                  data: [3, 2, 0, 1, 2, 1, 0, 0, 2],
-                  backgroundColor: 'red'
+                  data: [3, 2, 0, 1, 2, 1, 0, 0, 2, 4, 1, 0, 2],
+                  backgroundColor: '#844fff'
                 },
               ],
               options: {

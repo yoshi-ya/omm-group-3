@@ -13,15 +13,14 @@ const CanvasMeme = ({meme}) => {
 
     useEffect(() =>{
         if(meme && meme.votes){ setNumOfVotes(meme.votes.length)
-            localStorage.setItem('votes', meme.votes.length)
-}
-            
-        else{
-            setNumOfVotes(localStorage.getItem('votes'));
+        } 
+       },[])
+
+    useEffect(() =>{
+        if (numOfVotes === 0 && meme.votes){
+            setNumOfVotes(meme.votes.length)
         }
-    
-       
-},[])
+    })
 
     useEffect(() => {
         if (meme._id) {
@@ -79,13 +78,13 @@ return (
                   id: 1,
                   label: '# of votes',
                   data: [numOfVotes],
-                  backgroundColor: 'blue'
+                  backgroundColor: '#ff4f84'
                 },
                 {
                   id: 2,
                   label: '# of comments',
                   data: [comments.length],
-                  backgroundColor: 'red'
+                  backgroundColor: '#844fff'
                 },
               ],
               options: {
