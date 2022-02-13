@@ -45,8 +45,8 @@ const drawApiMeme = async data => {
                 context.drawImage(image, 50, 50, 300, 300)
                 context.font = `${data.texts[i].size || 22}px Impact`
                 context.shadowColor = "#000"
-                context.shadowOffsetX = shadowOffset
-                context.shadowOffsetY = shadowOffset
+                context.shadowOffsetX = 2
+                context.shadowOffsetY = 2
                 context.fillStyle = data.texts[i].color || "white"
                 context.textAlign = "center"
                 for (let j = 0; j < data.texts[i].captions.length; j++) {

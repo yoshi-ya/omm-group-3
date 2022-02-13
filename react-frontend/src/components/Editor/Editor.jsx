@@ -90,8 +90,8 @@ const Editor = () => {
                         context.font = `${textSize}px Impact`
                         context.fillStyle = textColor
                         context.shadowColor = "#000"
-                        context.shadowOffsetX = "2"
-                        context.shadowOffsetY = "2"
+                        context.shadowOffsetX = 2
+                        context.shadowOffsetY = 2
                         context.textAlign = "center"
                         for (let j = 0; j < texts.length; j++) {
                             context.fillText(texts[j].text, xPositions[j].x, yPositions[j].y)
