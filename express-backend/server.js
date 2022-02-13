@@ -1,12 +1,9 @@
 const express = require('express');
 const logger = require('./logger.js');
 const connectToDB = require('./db');
-const userUpload = require('./routes/user');
 
 const app = express();
 const port = process.env.PORT || 5001
-
-app.use('/user', userUpload);
 
 app.use((req, res, next) =>{
     res.setHeader('Access-Control-Allow-Origin', '*'); //website allowed to connect
@@ -23,7 +20,6 @@ require('./routes/commentRoutes.js')(app)
 require('./routes/memeRoutes.js')(app)
 require('./routes/templateRoutes.js')(app)
 require('./routes/apiRoutes.js')(app)
-require('./routes/upload_routes.js')(app)
 connectToDB()
 
 app.listen(port, () => console.log(`Server is running on ${port}`))
