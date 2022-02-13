@@ -78,7 +78,7 @@ const EditorPickFromCamera = (props) => {
             .post("http://localhost:5001/addTemplate", payload)
             .then(() => {
                 if (props.templates.length < 3) {
-                    props.setTemplates([...props.templates, {image: templateUrl}])
+                    props.setTemplates([...props.templates, {url: templateUrl}])
                     props.setMode({draw: false, desktop: true, url: false, camera: false})
                 }
             })

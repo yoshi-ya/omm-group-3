@@ -24,7 +24,7 @@ const EditorPickFromUrl = (props) => {
      */
     const pickFromUrl = () => {
         if (isValidUrl() && props.templates.length < 3) {
-            props.setTemplates([...props.templates, {image: imageURL}])
+            props.setTemplates([...props.templates, {url: imageURL}])
         }
     }
 

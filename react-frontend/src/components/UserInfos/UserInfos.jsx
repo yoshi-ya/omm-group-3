@@ -1,18 +1,21 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from "axios";
 import {useAuth0} from '@auth0/auth0-react';
 import userInfos from "./UserInfos.module.css"
-import ImageSlider from '../ImageSlider/ImageSlider';
-import Editor from "../Editor/Editor";
+import ImageSlider from '../ImageSlider/ImageSlider'; // For slide-show
 
 
 const UserInfos = () => {
 
     const {user} = useAuth0();
-    const [avatar, setAvatar] = useState(user.picture);
+    const [avatar, setAvatar] = useState(null);
     const [myMemes, setMyMemes] = useState([]);
     const [otherMemes, setOtherMemes] = useState([]);
     const [allMemes, setAllMemes] = useState([]);
+
+    useEffect(() => {
+        setAvatar(user.picture);
+    }, [])
 
     // Handle state changes of memes that the logged in user has created
     useEffect(() => {
@@ -41,7 +44,7 @@ const UserInfos = () => {
             })
     }, [allMemes])
 
-
+    
     // Get all memes from server that are createb by the logged in user
     const fetchMyMemes = async () => {
         return await axios.get(`http://localhost:5001/allMemes?author=${user.name}`)
@@ -80,8 +83,10 @@ const UserInfos = () => {
             .catch(err => console.log(err))
     }
 
+
     return (<div className={userInfos.container}>
             <div className={userInfos.card}>
+
                 <div className={userInfos.imageArea}>
                     <img src={avatar} alt="profile-pic"/>
                 </div>
@@ -89,21 +94,19 @@ const UserInfos = () => {
                     <span style={{textAlign: "center"}}>Welcome back,</span>
                     <h2 style={{textAlign: "center"}}> {user.name} </h2>
                 </div>
+
             </div>
 
             <div className={userInfos.verticalBox}>
 
                 <div className={userInfos.card}>
                     <h3 className={userInfos.cardTitle}>My created memes</h3>
-                    <ImageSlider memes={myMemes} sliderText={"Let's create a meme!"}
-                                 sliderButton={'Editor'} deleteMeme={deleteMeme} author={true}/>
+                    <ImageSlider memes={myMemes} sliderText={"Let's create a meme!"} sliderButton={'Editor'} deleteMeme={deleteMeme} author={true}/>
                 </div>
 
                 <div className={userInfos.card}>
-                    <h3 className={userInfos.cardTitle}>Memes I liked or commented</h3>
-                    <ImageSlider memes={otherMemes}
-                                 sliderText={"Let's search for some funny memes!"}
-                                 sliderButton={'Gallery'} author={false}/>
+                    <h3 className={userInfos.cardTitle}>Memes I liked :) </h3>
+                    <ImageSlider memes={otherMemes} sliderText={"Let's search for some funny memes!"} sliderButton={'Gallery'} author={false}/>
                 </div>
 
             </div>

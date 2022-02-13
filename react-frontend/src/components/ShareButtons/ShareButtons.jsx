@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import shareButtons from './shareButtons.module.css';
 
-// For social share icons
+// Social share icons
 import { 
     FacebookShareButton, FacebookIcon,
     WhatsappShareButton, WhatsappIcon,
@@ -9,20 +9,29 @@ import {
     TwitterShareButton, TwitterIcon,
     RedditShareButton, RedditIcon } from 'react-share';
 
-export const ShareButtons = ( url) => { 
+export const ShareButtons = (selectedMeme) => { 
 
-    // For social sharing
-    const shareUrl_Facebook = url; 
+    // URL of the current meme
+    var url = null;
+    // console.log('SelectedMeme: ', selectedMeme)
+
+    if(selectedMeme !== null) {
+        url=`http://localhost:3000/view/${selectedMeme.selectedMeme}` // no valid URL of course ;) -> just for testing the funktionality
+        // console.log('URL: ', url)
+    }
+
+    // URLs that want to be shared
+    const shareUrl_Facebook = url 
     const shareUrl_Whatsapp = url;
     const shareUrl_Telegram = url;
     const shareUrl_Twitter = url;
-    const shareUrl_Reddit= url; 
+    const shareUrl_Reddit = url; 
 
     return(
         <div className={shareButtons.container}>
                 <FacebookShareButton 
                     url={shareUrl_Facebook} 
-                    quote={'Title'}
+                    quote={'My created meme'} /* entfernen ? */
                 >
                 <FacebookIcon className={shareButtons.icon}/>
                 </FacebookShareButton>
