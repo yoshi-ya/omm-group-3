@@ -166,10 +166,11 @@ const Gallery = () => {
             <img src={filterimg} className={styles.icons} alt="filterimg" onClick={()=> setShowFilterBool(!showfilterbool)}/>
             {showFilter()}
         </div>
+        {!singleViewActive ? (
+        <>
         <Graphs memesList={allMemes} setMemes={setAllMemes} memeNumber={memeNumber}/>
-        {!singleViewActive ?
-        <Overview memesList={allMemes} setMemes={setAllMemes} memeNumber={memeNumber} active={setSingleViewActive}/> :
-        <SingleView memesList={allMemes} memeNumber={memeNumber}
+        <Overview memesList={allMemes} setMemes={setAllMemes} memeNumber={memeNumber} active={setSingleViewActive}/> </>)
+         : <SingleView memesList={allMemes} memeNumber={memeNumber}
                     active={setSingleViewActive}/>}</div>
 }
 

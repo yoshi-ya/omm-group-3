@@ -39,9 +39,6 @@ const GallerySingleView = (props) => {
         return await axios.get(`http://localhost:5001/allComments?meme=${props.memesList[currentMemeIndex]._id}`)
     }
 
-
-    
-
     useEffect(() => {
         toggleVisibility()
         if (autoPlay) {
