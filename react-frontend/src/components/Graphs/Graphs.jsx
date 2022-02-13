@@ -14,8 +14,8 @@ import {
     Tooltip,
     Legend,
     } from 'chart.js';
-    
-    
+
+
 ChartJS.register(
         CategoryScale,
         LinearScale,
@@ -29,9 +29,9 @@ ChartJS.register(
 /**
  * Draws the main Graph
  * Library: https://www.chartjs.org/docs/latest/
- * @param {*} props 
- * @returns 
- */       
+ * @param {*} props
+ * @returns
+ */
 
 const Graphs = (props) => {
 
@@ -44,7 +44,6 @@ const Graphs = (props) => {
     const userComments = comments.map(comments => comments.author)
     const memeIds = props.memesList.map(meme => meme._id);
     const memeComments = [];
-    console.log(memeIds)
 
     /**
      * fetch the current comments from all memes on component load
@@ -65,15 +64,15 @@ const Graphs = (props) => {
     const fetchComments = async () => {
         return await axios.get(`http://localhost:5001/allCommentsFromAll`)
     }
-    
+
 /**
  * draw the graph with current votes of every meme and the (hardcoded) comments
  */
 return(
-    <div className={styles.graph}> 
+    <div className={styles.graph}>
         <Line
             datasetIdKey='id'
-            
+
             data={{
             labels: memeNames,
             datasets: [
@@ -81,22 +80,22 @@ return(
                   id: 1,
                   label: '# of votes',
                   data: numOfVotes,
-                  backgroundColor: 'blue'
+                  backgroundColor: '#ff4f84'
                 },
                 {
                   id: 2,
                   label: '# of comments',
-                  data: [3, 2, 0, 1, 2, 1, 0, 0, 2],
-                  backgroundColor: 'red'
+                  data: [3, 2, 0, 1, 2, 1, 0, 0, 2, 4, 1, 0, 2],
+                  backgroundColor: '#844fff'
                 },
               ],
               options: {
                 responsive: true,
                 maintainAspectRatio: false
             }
- }} 
- 
-       
+ }}
+
+
     
 /></div>
     )

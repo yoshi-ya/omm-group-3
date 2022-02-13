@@ -4,18 +4,39 @@
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.3);
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+    z-index: 10;
 }
 
 .popupInner {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     padding: 32px;
-    width: 100%;
+    width: 60%;
     background-color: white;
+    border-radius: 30px;
+    height: 50%;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 10px 0 rgba(0, 0, 0, 0.4);
+    min-height: 300px;
+    min-width: 500px;
+}
+
+/*--- 'Copy link' text ---*/
+.popupInner > *:nth-child(2){
+    font-size: 1.7em;
+    margin: 10px;
+}
+
+/*--- 'Or share directly' text ---*/
+.popupInner > *:nth-child(4){
+    font-size: 1.7em;
+    margin: 30px 10px 10px 10px;
 }
 
 .closeButton {
@@ -50,8 +71,8 @@
 }
 
 .closeButton:hover::before, .closeButton:hover::after {
-    background-color: orangered;
-    transition: background-color ease-in-out .2s;
+    background-color: rgba(47, 160, 210, 1);
+    transition: background-color ease-in-out .1s;
 }
 
 .copyButton {
@@ -68,11 +89,11 @@
     width: auto;
     cursor: pointer;
     padding: 22px;
+    font-size: 1em;
 }
 
 .flexBoxShare {
     display: flex;
-    margin: 20px;
     flex-direction: row;
     gap: 10px;
     align-items: center;
