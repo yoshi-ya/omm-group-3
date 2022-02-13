@@ -80,7 +80,8 @@ describe('Test deleting a comment of Meme', () => {
     it('DELETE /deleteComment deletion of added test comment', async () => {
         await request(server).get(`/allComments?meme=${testId}`).then(async (result) =>{
             numberOfComments = result.body.length
-            await request(server).delete(`/deleteComment?comment=${testComment}`).then(() =>{
+            await request(server).delete('/deleteComment', {comment:testComment, meme:testId, author:testUser}).then((resultdelete) =>{
+                console.log(resultdelete.body)
                 request(server).get(`/allComments?meme=${testId}`).end((error, res) =>{
                     if(error){
                         throw error
