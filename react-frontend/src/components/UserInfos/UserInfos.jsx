@@ -1,9 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from "axios";
 import {useAuth0} from '@auth0/auth0-react';
 import userInfos from "./UserInfos.module.css"
 import ImageSlider from '../ImageSlider/ImageSlider'; // For slide-show
-import {encode} from "base64-arraybuffer";
+import profilePicture from './ProfilePicture.png'; // Source: <a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Becris - Flaticon</a>
+
 
 const UserInfos = () => {
 
@@ -11,11 +12,7 @@ const UserInfos = () => {
     const [myMemes, setMyMemes] = useState([]);
     const [otherMemes, setOtherMemes] = useState([]);
     const [allMemes, setAllMemes] = useState([]);
-
-    const [avatar, setAvatar] = useState(null);
-    const inputAvatar= useRef(null);  
-    const imageInput = document.querySelector('#imageInput')
-    var uploadedAvatar = ""; // Store the image
+    const [profilePic, setprofilePic] = useState(null);
 
     // Handle state changes of memes that the logged in user has created
     useEffect(() => {
@@ -45,6 +42,23 @@ const UserInfos = () => {
     }, [allMemes])
 
     
+    useEffect(() => {
+        let img = document.getElementById(`${userInfos.profilePicture}`); // profile picture html element
+        console.log('img (id: profilePicture): ', img);
+
+        /* Check whether img html element was found -> store it in state*/
+        img ? setprofilePic(img) : console.log('document.getElementById not found')
+    }, []);
+
+    function handleChange(event) {
+        const file = event.target.files[0]; //console.log(file)
+        if(file && profilePic) {
+            profilePic.src = URL.createObjectURL(file); // set source to file url
+        } else {
+            console.log('Either chosen file or html img element equals null')
+        }
+    }
+
     // Get all memes from server that are createb by the logged in user
     const fetchMyMemes = async () => {
         return await axios.get(`http://localhost:5001/allMemes?author=${user.name}`)
@@ -94,60 +108,23 @@ const UserInfos = () => {
         document.body.removeChild(link)
     }
 
-    // Upload an image to set a new avatar picture 
-    const fileUploadHandler = event => {
-        event.preventDefault();
-        //let newAvatar = event.target.template.files[0]
-
-        const avatarFormData = new FormData(); // Default javascript object
-        avatarFormData.append("avatar", avatar, avatar.name) // eventuell - name property
-
-        axios.post("http://localhost:5001/addTemplate", avatarFormData) // url ???
-            .then( (res) => {
-                //console.log(res);
-                setAvatar([avatar, {image: `data:image/png;base64,${encode(res.data.image.data)}`}])
-            })
-            .catch(error => console.log(error))
-    }
-
-    // Select an image from the desktop
-    const fileSelectedHandler = (event) => {
-        setAvatar(event.target.files[0]);
-        console.log(imageInput.value)
-
-        const reader = new FileReader();
-        reader.addEventListener("load", () => {
-            uploadedAvatar = reader.result;
-            document.querySelector("#userInfos.avatar").style.backgroundImage = `url(${uploadedAvatar})`;
-        });
-        reader.readAsDataURL(this.files[0]);
-    }
-
-    const handleClick = () => {
-        inputAvatar.current.focus();
-     }
-
     return (
         <div className={userInfos.container}>
             <div className={userInfos.card}>
 
                 <div className={userInfos.imageArea}>
-                    <div className={userInfos.avatar} id="displayImage"/>
+                    <img src={profilePicture} id={userInfos.profilePicture} alt={'My profile pic'} /> 
                 </div>
                     
                 <h3 style={{textAlign: "center"}}>User:</h3>
                 <p className={{textAlign: "center"}}> {user.name} </p>
-
-                <div className={userInfos.button} onClick={fileUploadHandler} >Button</div> 
-                <input type='file' name="chooseAvatar" // <div className={userInfos.cameraButton} onClick={handleClick}></div>
-                    accept="image/png, image/jpg, image/jpeg" required
-                    //ref={fileInput => this.fileInput = fileInput}
-                    ref={inputAvatar}
-                    onChange={fileSelectedHandler} //e => fileUploadHandler(e) ???
-                    id="imageInput"
-                />
                 
-
+                <input type='file' 
+                    accept="image/png, image/jpg, image/jpeg" required
+                    id={userInfos.imageInput}
+                    onChange={handleChange}
+                />
+                <label htmlFor={userInfos.imageInput} id={userInfos.uploadBtn} >Choose a profile picture</label>
             </div>
 
             <div className={userInfos.verticalBox}>
@@ -158,7 +135,7 @@ const UserInfos = () => {
                 </div>
                 
                 <div className={userInfos.card}>
-                    <h3 className={userInfos.cardTitle}>Memes I liked or commented</h3>
+                    <h3 className={userInfos.cardTitle}>Memes I liked :) </h3>
                     <ImageSlider memes={otherMemes} sliderText={"Let's search for some funny memes!"} sliderButton={'Gallery'} author={false}/>
                 </div>
                 

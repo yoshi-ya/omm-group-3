@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import shareButtons from './shareButtons.module.css';
-import {encode} from "base64-arraybuffer";
 
 // Social share icons
 import { 
@@ -10,24 +9,23 @@ import {
     TwitterShareButton, TwitterIcon,
     RedditShareButton, RedditIcon } from 'react-share';
 
-
 export const ShareButtons = (selectedMeme) => { 
 
     // URL of the current meme
-    //const url = "www.memegenerator.de/" + slideIndex._id;
     var url = null;
-    console.log(selectedMeme)
+    // console.log('SelectedMeme: ', selectedMeme)
+
     if(selectedMeme !== null) {
-        url=`data:image/png;base64,${encode('620423a65df0ed68696ce3b9')}`/* www.memegenerator.de/ */
-        console.log(url)
+        url=`http://localhost:3000/view/${selectedMeme.selectedMeme}` // no valid URL of course ;) -> just for testing the funktionality
+        // console.log('URL: ', url)
     }
 
-    // For social sharing
-    const shareUrl_Facebook = url /* !== null ? url : 'www.memegenerator.de'; */
+    // URLs that want to be shared
+    const shareUrl_Facebook = url 
     const shareUrl_Whatsapp = url;
     const shareUrl_Telegram = url;
     const shareUrl_Twitter = url;
-    const shareUrl_Reddit= url; 
+    const shareUrl_Reddit = url; 
 
     return(
         <div className={shareButtons.container}>
