@@ -11,7 +11,10 @@ import {RiEditFill} from 'react-icons/ri'; // Edit icon
 const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, author}) => {
 
     const [slideIndex, setSlideIndex] = useState(0)
-    const [isClicked, setIsClicked] = useState(false)
+    const [isClicked, setIsClicked] = useState(false) 
+    /* With isclicked=true a selected meme should show up enlarged, 
+    but it's not working corectly yet as all memes of slider are 
+    affected and thus not the right meme is showing up enlarged :( */
 
     // Go further to next meme
     const nextSlide = () => {
@@ -26,12 +29,8 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, author}) => {
     /* Button in empty sliders with link to gallery/editor */
     function showButton(sliderButton) {
         if (sliderButton === 'Gallery') {
-            return <div className={imageSlider.sliderButton}><Link to="/">{sliderButton}</Link>
-            </div>
-        } else {
-            return <div className={imageSlider.sliderButton}><Link
-                to="/editor">{sliderButton}</Link></div>
-        }
+            return <div className={imageSlider.sliderButton}><Link to="/">{sliderButton}</Link></div>
+        } else return <div className={imageSlider.sliderButton}><Link to="/editor">{sliderButton}</Link></div>
     }
 
     /* Show 1-3 memes next to each other */
@@ -41,19 +40,14 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, author}) => {
                 <div className={imageSlider.horizontalContainer}>
                     {memes.map((meme) => {
                         return (
-                            <div className={isClicked ? imageSlider.bigPicture : imageSlider.image}
-                                 key={meme._id}
-                                 onDoubleClick={() => setIsClicked(!isClicked)}>
+                        <div className={isClicked ? imageSlider.bigPicture : imageSlider.image}
+                            key={meme._id} onDoubleClick={() => setIsClicked(!isClicked)}>
 
-                                <CanvasMeme meme={meme}/>
-                                {author ? <BsFillTrashFill className={imageSlider.trashIcon}
-                                                           onClick={() => deleteMeme(meme._id)}/> : ""}
-                                {author ? <Link to={`/editor/${meme._id}`}><RiEditFill
-                                    className={imageSlider.editIcon}/></Link> : ""}
-                                <div className={imageSlider.shareIcons}>
-                                    <ShareButtons selectedMeme={meme._id}/>
-                                </div>
-                            </div>)
+                            <CanvasMeme meme={meme}/>
+                            {author ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(meme._id)}/> : ""}
+                            {author ? <Link to={`/editor/${meme._id}`}><RiEditFill className={imageSlider.editIcon}/></Link> : ""}
+                            <div className={imageSlider.shareIcons}><ShareButtons selectedMeme={meme._id}/></div>
+                        </div>)
                     })}
                 </div>
             </div>
@@ -87,34 +81,23 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, author}) => {
                         // Only render the 3 memes that are currently in focus (no need to render all memes of array)
                         if (slideIndex === i) {
                             return (<div className={imageSlider.horizontalContainer} key={i}>
-                                    <div
-                                        className={isClicked ? imageSlider.bigPicture : imageSlider.image}
+                                    <div className={isClicked ? imageSlider.bigPicture : imageSlider.image}
                                         key={memes[firstIndex]._id}
                                         onDoubleClick={() => setIsClicked(!isClicked)}>
 
                                         <CanvasMeme meme={memes[firstIndex]}/>
-                                        {author && !isClicked ?
-                                            <BsFillTrashFill className={imageSlider.trashIcon}
-                                                             onClick={() => deleteMeme(memes[firstIndex]._id)}/> : ""}
-                                        {author && !isClicked ?
-                                            <Link to={`/editor/${meme._id}`}><RiEditFill
-                                                className={imageSlider.editIcon}/></Link> : ""}
-                                        <div className={imageSlider.shareIcons}><ShareButtons
-                                            selectedMeme={memes[firstIndex]._id}/></div>
+                                        {author && !isClicked ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[firstIndex]._id)}/> : ""}
+                                        {author && !isClicked ? <Link to={`/editor/${meme._id}`}><RiEditFill className={imageSlider.editIcon}/></Link> : ""}
+                                        <div className={imageSlider.shareIcons}><ShareButtons selectedMeme={memes[firstIndex]._id}/></div>
                                     </div>
 
-                                    <div
-                                        className={isClicked ? imageSlider.bigPicture : imageSlider.image}
-                                        key={memes[secondIndex]._id}
-                                        onDoubleClick={() => setIsClicked(!isClicked)}>
+                                    <div className={isClicked ? imageSlider.bigPicture : imageSlider.image}
+                                        key={memes[secondIndex]._id} onDoubleClick={() => setIsClicked(!isClicked)}>
 
                                         <CanvasMeme meme={memes[secondIndex]}/>
-                                        {author ? <BsFillTrashFill className={imageSlider.trashIcon}
-                                                                   onClick={() => deleteMeme(memes[secondIndex]._id)}/> : ""}
-                                        {author ? <Link to={`/editor/${meme._id}`}><RiEditFill
-                                            className={imageSlider.editIcon}/></Link> : ""}
-                                        <div className={imageSlider.shareIcons}><ShareButtons
-                                            selectedMeme={memes[secondIndex]._id}/></div>
+                                        {author ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[secondIndex]._id)}/> : ""}
+                                        {author ? <Link to={`/editor/${meme._id}`}><RiEditFill className={imageSlider.editIcon}/></Link> : ""}
+                                        <div className={imageSlider.shareIcons}><ShareButtons selectedMeme={memes[secondIndex]._id}/></div>
                                     </div>
 
                                     <div
@@ -123,13 +106,9 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, author}) => {
                                         onDoubleClick={() => setIsClicked(!isClicked)}>
 
                                         <CanvasMeme meme={memes[thirdIndex]}/>
-                                        {author ? <BsFillTrashFill className={imageSlider.trashIcon}
-                                                                   onClick={() => deleteMeme(memes[thirdIndex]._id)}/> : ""}
-                                        {author ? <Link to={`/editor/${meme._id}`}><RiEditFill
-                                            className={imageSlider.editIcon}/></Link> : ""}
-                                        <div className={imageSlider.shareIcons}>
-                                            <ShareButtons selectedMeme={memes[thirdIndex]._id}/>
-                                        </div>
+                                        {author ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[thirdIndex]._id)}/> : ""}
+                                        {author ? <Link to={`/editor/${meme._id}`}><RiEditFill className={imageSlider.editIcon}/></Link> : ""}
+                                        <div className={imageSlider.shareIcons}><ShareButtons selectedMeme={memes[thirdIndex]._id}/></div>
                                     </div>
                                 </div>)
                         } else return ""

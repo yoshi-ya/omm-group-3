@@ -6,7 +6,7 @@
     align-items: center; 
     height: 100%;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 40px;
 }
 /*-- Container that contains no memes ---*/
 .emptySlider {
@@ -132,12 +132,9 @@
 
 /*--- Arrows to slide along all memes ---*/
 .rightArrow {
-    /*position: absolute;
-    top: 50%;
-    right: 20px;*/
     position: relative;
     margin-right: 20px;
-    font-size: 2.4rem;
+    font-size: 2.6rem;
     color: #343434;
     z-index: 5;
     cursor: pointer;
@@ -152,12 +149,9 @@
 }
 
 .leftArrow {
-    /*position: absolute;
-    top: 50%;
-    left: 20px;*/
     margin-left: 20px;
     position: relative;
-    font-size: 2.4rem;
+    font-size: 2.6rem;
     color: #343434;
     z-index: 5;
     cursor: pointer;
