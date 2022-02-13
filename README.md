@@ -2,6 +2,8 @@
 
 ### This is a Meme Web-Application, where you can view, create, and share Memes with your friends.
 
+find the original repository in GitHub: [yoshi-ya/omm-group-3](https://github.com/yoshi-ya/omm-group-3)
+
 #### Content
 
 * Project setup
