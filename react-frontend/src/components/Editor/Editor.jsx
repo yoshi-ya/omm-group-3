@@ -64,6 +64,12 @@ const Editor = () => {
         }
     }, [templates])
 
+    /***
+    * handles the Drawing Mode 
+    * Source: https://www.youtube.com/watch?v=FLESHMJ-bI0
+    * 
+    * sets the neccessary canvas values
+    */
     useEffect(() => {
         if (mode.draw) {
             const context = canvasRef.current.getContext("2d")
@@ -128,7 +134,11 @@ const Editor = () => {
             recognition.stop()
         }
     }
-
+    
+    /**
+     * handles when the user starts drawing on the canvas
+     * @param {*} param0 
+     */
     const startDrawing = ({nativeEvent}) => {
         if (mode.draw) {
             setIsDrawing(true);
@@ -139,6 +149,9 @@ const Editor = () => {
         }
     }
 
+    /**
+     * handles when the user finishes drawing on the canvas
+     */
     const finishDrawing = () => {
         if (mode.draw) {
             const context = canvasRef.current.getContext("2d")
@@ -146,7 +159,12 @@ const Editor = () => {
             setIsDrawing(false)
         }
     }
-
+    
+    /**
+     * handles the drawing
+     * @param {*} param0 
+     * @returns 
+     */
     const draw = ({nativeEvent}) => {
         if (mode.draw && isDrawing) {
             const {offsetX, offsetY} = nativeEvent;

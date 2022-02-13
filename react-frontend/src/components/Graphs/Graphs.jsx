@@ -70,7 +70,9 @@ const Graphs = (props) => {
     const fetchComments = async () => {
         return await axios.get(`http://localhost:5001/allCommentsFromAll`)
     }
-
+    /**
+     * creates an array that holds the amount of comments for every meme
+     */
     const readCommentsForMeme = () =>{
         console.log(memes)
         if(memes !== []){
@@ -82,7 +84,7 @@ const Graphs = (props) => {
 
 
 /**
- * draw the graph with current votes of every meme and the (hardcoded) comments
+ * draw the graph with current votes of every meme and the comments
  */
 return(
     <div className={styles.graph}>
