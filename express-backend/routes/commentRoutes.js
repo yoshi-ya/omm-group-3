@@ -44,7 +44,7 @@ module.exports = app => {
      */
     app.delete("/deleteComment", cors(), (req, res) => {
         Comment
-            .findOne({comment: req.query.comment})
+            .findOne({content: req.query.comment, meme: req.query.meme, author: req.query.author})
             .deleteOne()
             .then(result => {
                 res.send(result)

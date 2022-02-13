@@ -69,23 +69,18 @@ const Graphs = (props) => {
      * draw the graph with current votes of every meme and the (hardcoded) comments
      */
     return (<div className={styles.graph}>
-            <Line
-                datasetIdKey='id'
+        <Line
+            datasetIdKey='id'
 
-                data={{
-                    labels: memeNames, datasets: [{
-                        id: 1, label: '# of votes', data: numOfVotes, backgroundColor: '#ff4f84'
-                    }, {
-                        id: 2,
-                        label: '# of comments',
-                        data: numOfComments,
-                        backgroundColor: '#844fff'
-                    },], options: {
-                        responsive: true, maintainAspectRatio: false
-                    }
-                }}
-
-
-            /></div>)
+            data={{
+                labels: memeNames, datasets: [{
+                    id: 1, label: '# of votes', data: numOfVotes, backgroundColor: '#ff4f84'
+                }, {
+                    id: 2, label: '# of comments', data: numOfComments, backgroundColor: '#844fff'
+                },], options: {
+                    responsive: true, maintainAspectRatio: false
+                }
+            }}
+        /></div>)
 }
 export default Graphs;
