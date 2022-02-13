@@ -22,10 +22,6 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, author}) => {
         setSlideIndex(slideIndex !== 0 ? slideIndex - 1 : memes.length - 1)
     }
 
-    /*const moveDot = index => {
-        setSlideIndex(index)
-    }*/
-
     /* Button in empty sliders with link to gallery/editor */
     function showButton(sliderButton) {
         if (sliderButton === 'Gallery') {
@@ -40,7 +36,6 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, author}) => {
         return (
             <div className={!isClicked ? "" : imageSlider.darkOverlay} >
                 <div className={imageSlider.slider}>
-                    {/* <div className={imageSlider.verticalContainer}> */}
                         <div className={imageSlider.horizontalContainer}>
                             {memes.map((meme, i) => {
                                 return (
@@ -56,7 +51,6 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, author}) => {
                                         </div>
                                     </div>
                                 )}
-
                             )}
                         </div>
                 </div>
@@ -71,78 +65,65 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, author}) => {
                 <div className={imageSlider.slider}>
                     <FaArrowAltCircleLeft className={imageSlider.leftArrow} onClick={prevSlide}/>
                     <FaArrowAltCircleRight className={imageSlider.rightArrow} onClick={nextSlide}/>
-                    
-                    {/* <div className={imageSlider.verticalContainer} > */}
-                        {memes.map((meme, i) => {
-                            // For slider functionality: determine the indecies of the 3 visible images
-                            let firstIndex = slideIndex;
-                            let secondIndex = slideIndex + 1;
-                            let thirdIndex = slideIndex + 2;
+                    {memes.map((meme, i) => {
+                        // For slider functionality: determine the indecies of the 3 visible images
+                        let firstIndex = slideIndex;
+                        let secondIndex = slideIndex + 1;
+                        let thirdIndex = slideIndex + 2;
 
-                            // Adjust the indecies near the start/end of the meme
-                            if (secondIndex === 0) {
-                                firstIndex = memes.length-1;
-                            } else if (thirdIndex === 0) {
-                                firstIndex = memes.length-2;
-                                secondIndex = memes.length-1;
-                            } else if (slideIndex === memes.length-1) {
-                                secondIndex = 0;
-                                thirdIndex = 1;
-                            } else if (secondIndex === memes.length-1) {
-                                thirdIndex = 0;
-                            }   
+                        // Adjust the indecies near the start/end of the meme
+                        if (secondIndex === 0) {
+                            firstIndex = memes.length-1;
+                        } else if (thirdIndex === 0) {
+                            firstIndex = memes.length-2;
+                            secondIndex = memes.length-1;
+                        } else if (slideIndex === memes.length-1) {
+                            secondIndex = 0;
+                            thirdIndex = 1;
+                        } else if (secondIndex === memes.length-1) {
+                            thirdIndex = 0;
+                        }   
 
-                            // Only render the 3 memes that are currently in focus (no need to render all memes of array)
-                            if(slideIndex === i) {
-                                return (
-                                    <div className={imageSlider.horizontalContainer} key={i}> 
+                        // Only render the 3 memes that are currently in focus (no need to render all memes of array)
+                        if(slideIndex === i) {
+                            return (
+                                <div className={imageSlider.horizontalContainer} key={i}> 
+                                    <div className={isClicked ? imageSlider.bigPicture : imageSlider.image} 
+                                        key={memes[firstIndex]._id} 
+                                        onDoubleClick={() => setIsClicked(!isClicked)} >
 
-                                        <div className={isClicked ? imageSlider.bigPicture : imageSlider.image} 
-                                            key={memes[firstIndex]._id} 
-                                            onDoubleClick={() => setIsClicked(!isClicked)} >
-
-                                            <CanvasMeme meme={memes[firstIndex]} />
-                                            { author && !isClicked ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[firstIndex]._id)} /> : "" }
-                                            { author && !isClicked ? <Link to={`/editor/${meme._id}`}><RiEditFill className={imageSlider.editIcon}/></Link> : "" } 
-                                            <div className={imageSlider.shareIcons}>
-                                            <ShareButtons selectedMeme={memes[firstIndex]._id} /> 
-                                        </div>
-
-                                        </div>
-
-                                        <div className={isClicked ? imageSlider.bigPicture : imageSlider.image} 
-                                            key={memes[secondIndex]._id} 
-                                            onDoubleClick={() => setIsClicked(!isClicked)} >
-
-                                            <CanvasMeme meme={memes[secondIndex]} />
-                                            { author ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[secondIndex]._id)}/> : "" }
-                                            { author ? <Link to={`/editor/${meme._id}`}><RiEditFill className={imageSlider.editIcon}/></Link> : "" } 
-                                            <div className={imageSlider.shareIcons}>
-                                            <ShareButtons selectedMeme={memes[secondIndex]._id} /> 
-                                        </div>
-
-                                        </div>
-
-                                        <div className={isClicked ? imageSlider.bigPicture : imageSlider.image} 
-                                            key={memes[thirdIndex]._id} 
-                                            onDoubleClick={() => setIsClicked(!isClicked)} >
-
-                                            <CanvasMeme meme={memes[thirdIndex]} />
-                                            { author ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[thirdIndex]._id)} /> : "" }
-                                            { author ? <Link to={`/editor/${meme._id}`}><RiEditFill className={imageSlider.editIcon}/></Link> : "" } 
-                                            <div className={imageSlider.shareIcons}>
-                                            <ShareButtons selectedMeme={memes[thirdIndex]._id} /> 
-
-                                        </div>
-                                        </div> 
-
+                                        <CanvasMeme meme={memes[firstIndex]} />
+                                        { author && !isClicked ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[firstIndex]._id)} /> : "" }
+                                        { author && !isClicked ? <Link to={`/editor/${meme._id}`}><RiEditFill className={imageSlider.editIcon}/></Link> : "" } 
+                                        <div className={imageSlider.shareIcons}><ShareButtons selectedMeme={memes[firstIndex]._id} /></div>
                                     </div>
-                                )
-                            } else return ""
-                        })}
 
-                    </div>
+                                    <div className={isClicked ? imageSlider.bigPicture : imageSlider.image} 
+                                        key={memes[secondIndex]._id} 
+                                        onDoubleClick={() => setIsClicked(!isClicked)} >
+
+                                        <CanvasMeme meme={memes[secondIndex]} />
+                                        { author ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[secondIndex]._id)}/> : "" }
+                                        { author ? <Link to={`/editor/${meme._id}`}><RiEditFill className={imageSlider.editIcon}/></Link> : "" } 
+                                        <div className={imageSlider.shareIcons}><ShareButtons selectedMeme={memes[secondIndex]._id} /></div>
+                                    </div>
+
+                                    <div className={isClicked ? imageSlider.bigPicture : imageSlider.image} 
+                                        key={memes[thirdIndex]._id} 
+                                        onDoubleClick={() => setIsClicked(!isClicked)} >
+
+                                        <CanvasMeme meme={memes[thirdIndex]} />
+                                        { author ? <BsFillTrashFill className={imageSlider.trashIcon} onClick={() => deleteMeme(memes[thirdIndex]._id)} /> : "" }
+                                        { author ? <Link to={`/editor/${meme._id}`}><RiEditFill className={imageSlider.editIcon}/></Link> : "" } 
+                                        <div className={imageSlider.shareIcons}>
+                                        <ShareButtons selectedMeme={memes[thirdIndex]._id} /></div>
+                                    </div> 
+                                </div>
+                            )
+                        } else return ""
+                    })}
                 </div>
+            </div>
         )
     }
 

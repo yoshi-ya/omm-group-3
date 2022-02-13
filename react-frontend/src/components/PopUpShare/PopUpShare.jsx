@@ -29,6 +29,7 @@ const PopUpShare = (props) => {
                         copyLink()
                     }}>{url}</button>
                 </div>
+                <span>Or share directly</span>
                 <ShareButtons/>
             </div>
         </div>);
