@@ -61,6 +61,7 @@ const Overview = (props) => {
         return <div className={styles.container}>
 
             {props.memesList.map((meme, i) => <div className={styles.item} key={i}>
+                <div className={styles.createdByBox}>{meme.name}</div>
                 <div onClick={() => {
                     props.memeNumber.current = i;
                     props.active(true)
@@ -68,7 +69,6 @@ const Overview = (props) => {
                     <CanvasMeme meme={meme}/>
                 </div>
                 <div className={styles.createdByBox}>Created by: {meme.author}</div>
-                <div className={styles.createdByBox}>Name: {meme.name}</div>
                 <div className={styles.iconBox}>
                     <div className={styles.iconBox}>
                         <span>{meme.votes.length}</span>
