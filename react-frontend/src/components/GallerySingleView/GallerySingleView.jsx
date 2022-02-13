@@ -106,7 +106,6 @@ const GallerySingleView = (props) => {
                              onClick={() => setCurrentMemeIndex(previousIndex)}/>
                         <div id="next" className={styles.sliderButtonRight}
                              onClick={() => {
-                                 console.log("1")
                                  setCurrentMemeIndex(nextIndex)
                              }}/>
                     </div>
