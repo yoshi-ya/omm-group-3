@@ -41,7 +41,7 @@ now the app should be running on `http://localhost:3000`
 
 ## API documentation
 
-As long as the express-server is running on port 5001, the REST-API provides endpoints to create and retrieve Memes.
+As long as both, the express-server and React are running, the REST-API provides endpoints to create and retrieve Memes.
 
 ### `/createMeme`
 
@@ -113,4 +113,72 @@ request body:
         "http://localhost:3000/view/62090d6747cddc6644354e53"
     ]
 }
+```
+
+### `/retrieveMemes`
+
+|description|method|response|
+|---|---|---|
+|Retrieve memes and optionally filter according to constraints.|GET|List Meme Objects|
+
+#### optional request parameters
+
+In case no query parameters are provided, all memes are retrieved.
+
+|parameter|description|
+|---|---|
+|name|Name of a specific Meme to be fetched. If the parameter is provided and the Meme is found, a single Meme is returned.|
+|limit|Upper bound for the number of Memes to be fetched.|
+|sort|Sorts the retrieved Memes according to **newest** or **oldest** Date. Newest by default.|
+
+#### sample call
+
+method: GET
+
+query parameters:
+
+* limit: 2
+* sort: oldest
+
+request URL: http://localhost:5001/retrieveMemes?limit=2&sort=oldest
+
+#### sample response object
+
+```json
+[
+  {
+    "url": "http://localhost:3000/view/<Meme-ID>",
+    "author": "some email",
+    "date": "2022-02-08T17:02:57.485Z",
+    "votes": 4,
+    "texts": [
+      {
+        "text": "hello world",
+        "x": 200,
+        "y": 30,
+        "_id": "some Meme ID"
+      }
+    ]
+  },
+  {
+    "url": "http://localhost:3000/view/<Meme-ID>",
+    "author": "some email",
+    "date": "2022-02-09T20:18:22.036Z",
+    "votes": 12,
+    "texts": [
+      {
+        "text": "lol",
+        "x": 200,
+        "y": 30,
+        "_id": "some Meme ID"
+      },
+      {
+        "text": "another meme",
+        "x": 200,
+        "y": 200,
+        "_id": "some Meme ID"
+      }
+    ]
+  }
+]
 ```
