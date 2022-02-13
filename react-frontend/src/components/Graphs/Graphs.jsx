@@ -86,7 +86,7 @@ return(
                 {
                   id: 2,
                   label: '# of comments',
-                  data: [3, 2, 0, 1, 2, 1, 0, 0, 2],
+                  data: [3, 2, 0, 1, 2, 1, 0, 0, 2,1,0,2],
                   backgroundColor: 'red'
                 },
               ],
