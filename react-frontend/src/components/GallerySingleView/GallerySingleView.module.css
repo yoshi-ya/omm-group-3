@@ -127,6 +127,7 @@
 
 .closeView:hover::before,
 .closeView:hover::after {
-  background-color: orangered;
+  background-color: rgba(47, 160, 210, 1);
   transition: background-color ease-in-out 0.2s;
 }
+
