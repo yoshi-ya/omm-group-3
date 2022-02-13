@@ -33,18 +33,24 @@ const Graphs = (props) => {
     const [comments, setComments] = useState([])
     const [memes, setMemes] = useState([]);
     const [numOfComments, setNumOfComments] = useState([])
+    const [memeIDs, setMemeIDs] = useState([]);
     const memeNames = props.memesList.map(meme => meme.name);
-   // const memeIDs = props.memesList.map(meme => meme.id);
     const votes = props.memesList.map(meme => meme.votes);
     const numOfVotes = votes.map(votes => votes.length);
 
+
+    useEffect(() =>{
+        if(props && props.memesList && memeIDs === []){
+        setMemeIDs(props.memesList.map(meme => meme._id))
+        }
+    }   
+    ,[])
 
     useEffect(() => {
             fetchComments()
                 .then(data => {
                     setComments(data.data)
                     setMemes(props.memesList)
-                    //readCommentsForMeme();
                 })
                 .catch(error => console.log(error))
     }, [props.visible])
@@ -52,20 +58,16 @@ const Graphs = (props) => {
     const fetchComments = async () => {
         return await axios.get(`http://localhost:5001/allCommentsFromAll`)
     }
-
-   /* const fetchCommentsWithID = async (id) => {
-        return await axios.get(`http://localhost:5001/allComments?meme=${id}`)
-    }
     
     const readCommentsForMeme = () =>{
-        for(let i = 0; i< memeIDs.length; i++){
-            fetchCommentsWithID(memeIDs[i])
-                .then(data =>{
-                    setNumOfComments(data.data.length);
-                    console.log(numOfComments)
-                })
-        }
-    }*/
+        console.log(memes)
+        if(memes !== []){
+        for(let i = 0; i< memes.length; i++){
+            numOfComments.push(comments.filter(comment => comment.meme === memes[i]._id).length)
+        }}
+    }
+    readCommentsForMeme();
+
 
 return(
     <div className={styles.graph}> 
@@ -84,7 +86,7 @@ return(
                 {
                   id: 2,
                   label: '# of comments',
-                  data: [3, 2, 0, 1, 2, 1, 0, 0, 2, 4, 1, 0, 2],
+                  data: numOfComments,
                   backgroundColor: '#844fff'
                 },
               ],
