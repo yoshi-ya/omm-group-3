@@ -38,13 +38,19 @@ const Graphs = (props) => {
     const [comments, setComments] = useState([])
     const [memes, setMemes] = useState([]);
     const [numOfComments, setNumOfComments] = useState([])
+    const [memeIDs, setMemeIDs] = useState([]);
     const memeNames = props.memesList.map(meme => meme.name);
     const votes = props.memesList.map(meme => meme.votes);
     const numOfVotes = votes.map(votes => votes.length);
-    const userComments = comments.map(comments => comments.author)
-    const memeIds = props.memesList.map(meme => meme._id);
-    const memeComments = [];
 
+
+    useEffect(() =>{
+        if(props && props.memesList && memeIDs === []){
+        setMemeIDs(props.memesList.map(meme => meme._id))
+        }
+    }
+    ,[])
+    
     /**
      * fetch the current comments from all memes on component load
      */
@@ -64,6 +70,16 @@ const Graphs = (props) => {
     const fetchComments = async () => {
         return await axios.get(`http://localhost:5001/allCommentsFromAll`)
     }
+
+    const readCommentsForMeme = () =>{
+        console.log(memes)
+        if(memes !== []){
+        for(let i = 0; i< memes.length; i++){
+            numOfComments.push(comments.filter(comment => comment.meme === memes[i]._id).length)
+        }}
+    }
+    readCommentsForMeme();
+
 
 /**
  * draw the graph with current votes of every meme and the (hardcoded) comments
@@ -85,7 +101,7 @@ return(
                 {
                   id: 2,
                   label: '# of comments',
-                  data: [3, 2, 0, 1, 2, 1, 0, 0, 2, 4, 1, 0, 2],
+                  data: numOfComments,
                   backgroundColor: '#844fff'
                 },
               ],
@@ -96,7 +112,7 @@ return(
  }}
 
 
-    
+
 /></div>
     )
 }
