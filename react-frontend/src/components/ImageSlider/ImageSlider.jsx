@@ -64,7 +64,7 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, author}) => {
     if (memes.length > 3) {
         return (<div className={!isClicked ? "" : imageSlider.darkOverlay}>
                 <div className={imageSlider.slider}>
-                    <FaArrowAltCircleLeft className={imageSlider.leftArrow} onClick={prevSlide}/>
+                    {isClicked ? "" :<FaArrowAltCircleLeft className={imageSlider.leftArrow} onClick={prevSlide}/>}
                     {memes.map((meme, i) => {
                         // For slider functionality: determine the indecies of the 3 visible images
                         let firstIndex = slideIndex;
@@ -134,7 +134,7 @@ const ImageSlider = ({memes, sliderText, sliderButton, deleteMeme, author}) => {
                                 </div>)
                         } else return ""
                     })}
-                    <FaArrowAltCircleRight className={imageSlider.rightArrow} onClick={nextSlide}/>
+                    {isClicked ? "" : <FaArrowAltCircleRight className={imageSlider.rightArrow} onClick={nextSlide}/>}
                 </div>
             </div>)
     }
