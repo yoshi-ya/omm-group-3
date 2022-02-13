@@ -72,7 +72,7 @@
 
 .closeButton:hover::before, .closeButton:hover::after {
     background-color: rgba(47, 160, 210, 1);
-    transition: background-color ease-in-out .2s;
+    transition: background-color ease-in-out .1s;
 }
 
 .copyButton {
