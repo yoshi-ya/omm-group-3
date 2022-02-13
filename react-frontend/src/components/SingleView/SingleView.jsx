@@ -26,8 +26,7 @@ const SingleView = () => {
         return <div className={styles.meme}>
             <img src={meme.url} alt="meme"/>
         </div>
-    }
-    else {
+    } else {
         return <div className={styles.meme}>
             <CanvasMeme meme={meme}/>
         </div>

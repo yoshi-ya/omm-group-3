@@ -1,11 +1,11 @@
 import React from 'react';
-import {Route, Routes, BrowserRouter as Router, Link} from "react-router-dom";
 import Gallery from "../Gallery/Gallery";
 import styles from "./Header.module.css"
-import AuthenticationButton from "../AuthenticationButton/AuthenticationButton";
 import Editor from "../Editor/Editor";
 import Profile from "../Profile/Profile";
 import SingleView from "../SingleView/SingleView";
+import {Route, Routes, BrowserRouter as Router, Link} from "react-router-dom";
+import AuthenticationButton from "../AuthenticationButton/AuthenticationButton";
 
 
 const Header = () => {
