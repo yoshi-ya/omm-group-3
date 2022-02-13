@@ -43,11 +43,16 @@ module.exports = app => {
      * URL-parameter comment: the id of the comment to be deleted
      */
     app.delete("/deleteComment", cors(), (req, res) => {
+        let dbFilter = {}
+        if (req.body.meme) dbFilter.meme = req.body.meme
+        if (req.body.author) dbFilter.author = req.body.author
+        if (req.body.comment) dbFilter.content = req.body.comment
         Comment
-            .findOne({content: req.query.comment, meme: req.query.meme, author: req.query.author})
-            .deleteOne()
+            .findOneAndDelete(dbFilter)
             .then(result => {
-                res.send(result)
+                if (result) {
+                    res.send(result)
+                }
             })
             .catch(err => console.log(err))
     })
