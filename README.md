@@ -127,9 +127,9 @@ In case no query parameters are provided, all memes are retrieved.
 
 |parameter|description|
 |---|---|
-|name|Name of a specific Meme to be fetched. If the parameter is provided and the Meme is found, a single Meme is returned.|
-|limit|Upper bound for the number of Memes to be fetched.|
-|sort|Sorts the retrieved Memes according to **newest** or **oldest** Date. Newest by default.|
+|**name**|Name of a specific Meme to be fetched. If the parameter is provided and the Meme is found, a single Meme is returned.|
+|**limit**|Upper bound for the number of Memes to be fetched.|
+|**sort**|Sorts the retrieved Memes according to _newest_ or _oldest_ Date. Newest by default.|
 
 #### sample call
 
