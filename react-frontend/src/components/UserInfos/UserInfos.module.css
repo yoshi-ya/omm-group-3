@@ -33,15 +33,19 @@
     background-color:whitesmoke;
     margin: 8px;
     border-radius: 15px;
-    height: 49%;
+    min-height: 400px; 
+    height: 100%;
     width: 100%; /* Don't delete - it's a parent of other elements that need a set width */
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     padding-bottom: 20px;
     box-sizing: border-box;
     position: relative;
 }
 .card h3 {  
+    position: absolute;
+    top: 0; left: 0;
     margin: 15px 20px 30px 20px;
     font-size: 1.6em;
 }
@@ -56,27 +60,30 @@
 
 /*--- Welcome text in card ---*/
 .welcome {
+    margin-top: 20px;
     text-align: center;
 }
 
 /* User infos on the left side */
 .imageArea {
     background-color: #343434;
+    min-height: 100px;
     height: 300px;
     background-size: cover;
     border-radius: 15px 15px 0 0;
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: auto;
     text-align: center;
 }
 
 /*--- Profile picture (background) ---*/
 .profilePicture {
+    margin: 8px;
     background-color: #000;
     background-size: cover;
     background-position: center;
-    width: 200px;
-    height: 200px;
+    width: 15%;
+    min-width: 80px;
     border-radius: 50%;
     position: absolute;
     top: 45%;
